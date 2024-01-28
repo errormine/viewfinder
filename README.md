@@ -2,7 +2,7 @@
 Private team repo for ITMT 430 Spring 2024 project
 
 ## Team members:
-Andrei Neacsu
-Dylan Baltrus
-David Singer
-Daniel Lim
+- Andrei Neacsu
+- Dylan Baltrus
+- David Singer
+- Daniel Lim

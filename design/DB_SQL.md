@@ -101,3 +101,21 @@
         FOREIGN KEY (ActorUserID) REFERENCES User(UserID),
         FOREIGN KEY (PostID) REFERENCES Post(PostID)
     );
+
+    -- Create AlbumList table
+    CREATE TABLE AlbumList (
+        AlbumID INT PRIMARY KEY,
+        UserID INT,
+        Title VARCHAR(255),
+        Description TEXT,
+        Timestamp TIMESTAMP,
+        IsShowcasePost BOOLEAN,
+        FOREIGN KEY (UserID) REFERENCES User(UserID)
+    );
+
+    -- Create Album table
+    CREATE TABLE Album (
+        AlbumID INT PRIMARY KEY,
+        PostID INT,
+        FOREIGN KEY (PostID) REFERENCES Post(PostID)
+    );

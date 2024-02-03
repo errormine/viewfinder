@@ -96,9 +96,9 @@
      - TagID (PK)
      - Name
     **Relationships:**
-     - Many-to-Many Relationship: Many tags can be associated with many posts.
+     - Many-to-Many Relationship: Many tags can be associated with many posts/albums.
 
-    **Notification (Entity)**
+  **Notification (Entity)**
     
       **Attributes:**
        - NotificationID (PK)
@@ -111,3 +111,28 @@
        - Many-to-One Relationship: Many notifications can be associated with one user.
        - Many-to-One Relationship: Many notifications can be associated with one post (if applicable).
        - Many-to-One Relationship: Many notifications can be associated with one actor user (e.g., the user who followed, liked, saved, or commented).
+
+  **Album List (Entity)**
+  
+    **Attributes:**
+     - AlbumID (PK)
+     - UserID (FK) - Foreign Key referencing User.UserID (creator of album)
+     - Title
+     - Description
+     - Timestamp
+     - IsShowcasePost (Boolean) - Indicates whether the post is part of the user's showcase.
+    **Relationships:**
+     - Many-to-One Relationship: Many albums can be created by one user.
+     - One-to-Many Relationship: One album can have many likes.
+     - One-to-Many Relationship: One album can have many saves.
+     - One-to-Many Relationship: One album can generate many notifications.
+     - Many-to-Many Relationship: Many albums can be associated with many tags.
+     
+  **Album (Entity)**
+  
+    **Attributes:**
+     - AlbumID (PK)
+     - PostID (FK) - Foreign Key Referencing Post.PostID
+    **Relationships:**
+     - Many-to-One Relationship: Many albums can be created by one user.
+     - One-to-Many Relationship: One album can have many Posts in it.

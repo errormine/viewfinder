@@ -53,6 +53,18 @@
  - Many-to-One with User Table: Each album is created by one user.
  - Many-to-Many with Photo Table: Albums can contain many photos, and photos can belong to many albums. (Note: May need a junction table)
 
+**Album Junction:**
+
+        CREATE TABLE AlbumJunc (
+            AlbumID INT,
+            ImageID INT,
+            FOREIGN KEY (AlbumID) REFERENCES Album(AlbumID),
+            FOREIGN KEY (ImageID) REFERENCES Image(ImageID)
+        );
+
+**Relationships:**
+ - Associate multiple images with an album.
+
 **Comment Table:**
 
     CREATE TABLE Comment (

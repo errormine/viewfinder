@@ -86,12 +86,9 @@
 
 **Follower Table:**
 
-    CREATE TABLE Follower (
-        FollowerID INT AUTO_INCREMENT PRIMARY KEY,
+    CREATE TABLE Followers (
         UserID INT,
         FollowerUserID INT,
-        Timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        UNIQUE(UserID, FollowerUserID),
         FOREIGN KEY (UserID) REFERENCES User(UserID),
         FOREIGN KEY (FollowerUserID) REFERENCES User(UserID)
     );

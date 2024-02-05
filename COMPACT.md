@@ -28,3 +28,4 @@ SIGN BELOW THIS LINE
 Andrei Neacsu - aneacsu@hawk.iit.edu
 Dylan Baltrus - dbaltrus@hawk.iit.edu
 Daniel Lim - dlim7@hawk.iit.edu
+David Singer - dsinger1@hawk.iit.edu

@@ -6,7 +6,7 @@
 # This is the name of the node in the Cloud Cluster where to deploy the virtual instances
 variable "NODENAME" {
   type    = string
-  default = "system42"
+  default = "system41"
 }
 
 variable "USERNAME" {
@@ -23,7 +23,7 @@ variable "PROXMOX_TOKEN" {
 
 variable "URL" {
   type = string
-  default = "https://system42.rice.iit.edu:8006/api2/json"
+  default = "https://system41.rice.iit.edu:8006/api2/json"
   sensitive = true
 }
 

@@ -6,7 +6,7 @@
 # This is the name of the node in the Cloud Cluster where to deploy the virtual instances
 variable "NODENAME" {
   type    = string
-  default = ""
+  default = "system42"
 }
 
 variable "USERNAME" {
@@ -23,8 +23,7 @@ variable "PROXMOX_TOKEN" {
 
 variable "URL" {
   type = string
-  # https://x.x.x.x:8006/api2/json
-  default = ""
+  default = "https://system42.rice.iit.edu:8006/api2/json"
   sensitive = true
 }
 
@@ -51,7 +50,7 @@ variable "NUMBEROFCORES" {
 # This is the name of the Virtual Machine Template you want to create
 variable "VMNAME" {
   type    = string
-  default = "teamXX-vault-server"
+  default = "team02m-vault-server"
 }
 
 variable "SSHPW" {

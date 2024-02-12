@@ -9,19 +9,19 @@ locals {
 }
 
 locals {
-  USERNAME = vault("/secret/data/team00-username-packer-system","USERNAME")
+  USERNAME = vault("/secret/data/team02m-username-packer-system","USERNAME")
 }
 
 locals {
-  PROXMOX_TOKEN = vault("/secret/data/team00-token-packer-system","TOKEN")
+  PROXMOX_TOKEN = vault("/secret/data/team02m-token-packer-system","TOKEN")
 }
 
 locals {
-  URL = vault("/secret/data/team00-url","SYSTEM42")
+  URL = vault("/secret/data/team02m-url","SYSTEM42")
 }
 
 locals {
-  SSHPW = vault("/secret/data/team00-ssh","SSHPASS")
+  SSHPW = vault("/secret/data/team02m-ssh","SSHPASS")
 }
 
 variable "MEMORY" {

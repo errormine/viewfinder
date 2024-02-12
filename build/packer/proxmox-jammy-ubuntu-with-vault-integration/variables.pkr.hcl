@@ -5,7 +5,7 @@
 
 # This is the name of the node in the Cloud Cluster where to deploy the virtual instances
 locals {
-  NODENAME = vault("/secret/data/team00-NODENAME","NODENAME4")
+  NODENAME = vault("/secret/data/team02m-NODENAME","NODENAME4")
 }
 
 locals {

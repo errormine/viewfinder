@@ -55,8 +55,8 @@ resource "proxmox_vm_qemu" "vanilla-server" {
   agent           = 1
 
   ipconfig0 = "ip=dhcp"
-  ipconfig1 = "ip=dhcp"
-  ipconfig2 = "ip=dhcp"
+#  ipconfig1 = "ip=dhcp"
+#  ipconfig2 = "ip=dhcp"
 
   network {
     model  = "virtio"
@@ -64,17 +64,17 @@ resource "proxmox_vm_qemu" "vanilla-server" {
     macaddr = "04:9F:15:00:00:00" 
   }
 
-  network {
-    model  = "virtio"
-    bridge = "vmbr1"
-    macaddr = "04:9F:15:00:00:00" 
-  }
+#  network {
+#    model  = "virtio"
+#    bridge = "vmbr1"
+#    macaddr = "04:9F:15:00:00:00" 
+#  }
 
-  network {
-    model  = "virtio"
-    bridge = "vmbr2"
-    macaddr = "04:9F:15:00:00:00" 
-  }
+#  network {
+#    model  = "virtio"
+#    bridge = "vmbr2"
+#    macaddr = "04:9F:15:00:00:00" 
+#  }
 
   disk {
     type    = "virtio"

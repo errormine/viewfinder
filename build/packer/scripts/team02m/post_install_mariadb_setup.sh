@@ -20,7 +20,7 @@ sudo sed -i 's/^bind-address\s*=.*/bind-address = 0.0.0.0/' /etc/mysql/mariadb.c
 
 # Open firewall
 sudo systemctl start firewalld
-sudo firewall-cmd --zone=public --add-port=3307/tcp --permanent
+sudo firewall-cmd --zone=meta-network --add-port=3307/tcp --permanent
 sudo firewall-cmd --reload
 
 # Restart MariaDB service

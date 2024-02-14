@@ -24,19 +24,19 @@ resource "random_shuffle" "nodename" {
 # https://github.com/hashicorp/terraform/issues/16457
 ##############################################################################
 data "vault_generic_secret" "pm_api_url" {
-  path = "secret/team00-url"
+  path = "secret/team02m-url"
 }
 
 data "vault_generic_secret" "pm_api_token_id" {
-  path = "secret/team00-username-tf-system"
+  path = "secret/team02m-username-tf-system"
 }
 
 data "vault_generic_secret" "pm_api_token_secret" {
-  path = "secret/team00-token-tf-system"
+  path = "secret/team02m-token-tf-system"
 }
 
 data "vault_generic_secret" "target_node" {
-  path = "secret/team00-NODENAME"
+  path = "secret/team02m-NODENAME"
 }
 
 resource "proxmox_vm_qemu" "vanilla-server" {

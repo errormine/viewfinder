@@ -12,7 +12,7 @@ sudo systemctl start mariadb
 # Create tables
 sudo mariadb < /tmp/team02m_db.sql
 
-# Change port number
+# Change port number (Not working?)
 sudo sed -i 's/^port\s*=.*/port = 3307/' /etc/mysql/mariadb.conf.d/50-server.cnf
 
 # Allow external connections

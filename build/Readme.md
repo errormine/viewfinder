@@ -30,7 +30,7 @@ THEN fill out:
 
  ## Database template
 
-[ubuntu-server-mariadb](/build/packer/ubuntu-server-mariadb/) - A template which includes install scripts for creating installing mariadb and populating it with our team's tables.
+[ubuntu-server-mariadb](/build/packer/ubuntu-server-mariadb/) - A template which includes scripts for installing mariadb and populating it with our team's tables.
 
 [post_install_mariadb_setup.sh](/build/packer/scripts/team02m/post_install_mariadb_setup.sh) - The install script which gets mariadb, creates the tables, sets the port, opens firewall, and then runs the secure installation script.
 

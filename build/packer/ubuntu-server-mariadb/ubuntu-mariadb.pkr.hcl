@@ -177,4 +177,8 @@ build {
   # This block you can add your own shell scripts to customize the image you are creating
   ########################################################################################################################
 
+  provisioner "shell" {
+    execute_command = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
+    scripts         = ["../scripts/team02m/post_install_mariadb_setup.sh"]
+  }
 }

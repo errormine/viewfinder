@@ -26,6 +26,9 @@ locals {
 
 locals {
   DBUSER = vault("/secret/data/team02m-db","DBUSER")
+}
+
+locals {
   DBPASS = vault("/secret/data/team02m-db","DBPASS")
 }
 

@@ -24,6 +24,11 @@ locals {
   SSHPW = vault("/secret/data/team02m-ssh","SSHPASS")
 }
 
+locals {
+  DBUSER = vault("/secret/data/team02m-db","DBUSER")
+  DBPASS = vault("/secret/data/team02m-db","DBPASS")
+}
+
 variable "MEMORY" {
   type    = string
   default = "4192"

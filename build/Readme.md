@@ -2,11 +2,13 @@
 
 [proxmox-jammy-vault-template](/build/packer/proxmox-jammy-vault-template/) - Template for creating the image for the vault server. It is pretty much just an empty ubuntu server with some scripts provided by the professor.
 
-[variables.pkr.hcl](/build/packer/proxmox-jammy-vault-template/variables.pkr.hcl) should already filled out with the information for our team.
+[variables.pkr.hcl](/build/packer/proxmox-jammy-vault-template/variables.pkr.hcl) should already be filled out with the information for our team.
 
 [proxmox-jammy-ubuntu-vault-infra](/build/terraform/proxmox-jammy-ubuntu-vault-infra/) - Used for deploying instances from that template. It currently doesn't contain any scripts for actually setting up vault on it. (I will update this when I add them).
 
 An instance of our vault server should already be up and running at https://team-02m-vault-server-vm0.service.consul:8200 (it is only accessible from within the IIT network).
+
+ADD A LIST OF THE SECRETS IN THE VAULT SERVER
 
 ## Infrastructure build templates
 

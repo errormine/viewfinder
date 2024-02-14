@@ -12,7 +12,7 @@ ADD A LIST OF THE SECRETS IN THE VAULT SERVER
 
 ## Infrastructure build templates
 
-[proxmox-jammy-ubuntu-with-vault-integration](/build/packer/proxmox-jammy-ubuntu-with-vault-integration/) - A base template with a vanilla ubuntu server. Any templates for our ifrastructure should be based on this template.
+[proxmox-jammy-ubuntu-with-vault-integration](/build/packer/proxmox-jammy-ubuntu-with-vault-integration/) - A base template with a vanilla ubuntu server. Any templates for our infrastructure should be based on this template.
 
 When creating a new template you should:
  - edit VMNAME in variables.pkr.hcl (on the new template)

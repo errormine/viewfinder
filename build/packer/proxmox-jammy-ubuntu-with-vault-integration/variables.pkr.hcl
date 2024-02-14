@@ -47,7 +47,7 @@ variable "NUMBEROFCORES" {
 # This is the name of the Virtual Machine Template you want to create
 variable "VMNAME" {
   type    = string
-  default = "teamXX-template"
+  default = "team02m-template"
 }
 
 variable "iso_checksum" {

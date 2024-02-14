@@ -55,8 +55,8 @@ resource "proxmox_vm_qemu" "vanilla-server" {
   agent           = 1
 
   ipconfig0 = "ip=dhcp"
-#  ipconfig1 = "ip=dhcp"
-#  ipconfig2 = "ip=dhcp"
+  ipconfig1 = "ip=dhcp"
+  ipconfig2 = "ip=dhcp"
 
   network {
     model  = "virtio"

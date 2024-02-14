@@ -70,7 +70,7 @@ source "proxmox-iso" "proxmox-jammy-ubuntu" {
   ssh_password             = "${local.SSHPW}"
   ssh_username             = "vagrant"
   ssh_timeout              = "28m"
-  template_description     = "A Packer template for Ubuntu Jammy"
+  template_description     = "A Packer template for creating an ubuntu server with mariadb isntalled"
   vm_name                  = "${var.VMNAME}"
 }
 

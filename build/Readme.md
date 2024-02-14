@@ -32,4 +32,8 @@ THEN fill out:
 
  ## Database template
 
-CREATE THIS TEMPLATE AND EXPLAIN THE CHANGES TO SHOW AN EXAMPLE
+[ubuntu-server-mariadb](/build/packer/ubuntu-server-mariadb/) - A template which includes install scripts for creating installing mariadb and populating it with our team's tables.
+
+[post_install_mariadb_setup.sh](/build/packer/scripts/team02m/post_install_mariadb_setup.sh) - The install script which gets mariadb, creates the tables, sets the port, opens firewall, and then runs the secure installation script.
+
+[team02m_db.sql](/build/packer/scripts/) - The SQL script which defines the db schema and is used in the previos script. I am going to figure out how to populate it with test data.

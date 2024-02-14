@@ -25,11 +25,11 @@ locals {
 }
 
 locals {
-  DBUSER = vault("/secret/data/team02m-db","DBUSER")
+  DBUSER = vault("/secret/data/team02m-db-user","DBUSER")
 }
 
 locals {
-  DBPASS = vault("/secret/data/team02m-db","DBPASS")
+  DBPASS = vault("/secret/data/team02m-db-pass","DBPASS")
 }
 
 variable "MEMORY" {

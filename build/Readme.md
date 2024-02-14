@@ -6,8 +6,6 @@
 
 [proxmox-jammy-ubuntu-vault-infra](/build/terraform/proxmox-jammy-ubuntu-vault-infra/) - Used for deploying instances from that template. It currently doesn't contain any scripts for actually setting up vault on it. (I will update this when I add them).
 
-An instance of our vault server should already be up and running at https://team-02m-vault-server-vm0.service.consul:8200 (it is only accessible from within the IIT network).
-
 ADD A LIST OF THE SECRETS IN THE VAULT SERVER
 
 ## Infrastructure build templates

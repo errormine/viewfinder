@@ -1,0 +1,69 @@
+CREATE DATABASE team02m_db;
+USE team02m_db;
+
+CREATE TABLE Users (
+    UserID INT AUTO_INCREMENT PRIMARY KEY,
+    Username VARCHAR(255) NOT NULL UNIQUE,
+    PasswordHash VARCHAR(255) NOT NULL,
+    Email VARCHAR(255) NOT NULL UNIQUE,
+    FirstName VARCHAR(255),
+    LastName VARCHAR(255),
+    DateOfBirth DATE,
+    ProfilePicture VARCHAR(255),
+    Bio TEXT,
+    Website VARCHAR(255),
+    JoinDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Photos (
+    PhotoID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT,
+    Image VARCHAR(255),
+    Description TEXT,
+    Timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+
+CREATE TABLE Albums (
+    AlbumID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT,
+    Name VARCHAR(255) NOT NULL,
+    Description TEXT,
+    CreatedDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+
+CREATE TABLE AlbumJunc (
+    AlbumID INT,
+    ImageID INT,
+    FOREIGN KEY (AlbumID) REFERENCES Albums(AlbumID),
+    FOREIGN KEY (ImageID) REFERENCES Photos(PhotoID)
+);
+
+CREATE TABLE Comments (
+    CommentID INT AUTO_INCREMENT PRIMARY KEY,
+    PhotoID INT,
+    UserID INT,
+    Content TEXT,
+    Timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ParentCommentID INT NULL,
+    FOREIGN KEY (PhotoID) REFERENCES Photos(PhotoID),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (ParentCommentID) REFERENCES Comments(CommentID)
+);
+
+CREATE TABLE Followers (
+    UserID INT,
+    FollowerUserID INT,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (FollowerUserID) REFERENCES Users(UserID)
+);
+
+CREATE TABLE Favorites (
+    UserID INT,
+    PhotoID INT,
+    Timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (UserID, PhotoID),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (PhotoID) REFERENCES Photos(PhotoID)
+);

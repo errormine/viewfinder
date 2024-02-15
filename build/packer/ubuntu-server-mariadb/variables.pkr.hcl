@@ -25,6 +25,10 @@ locals {
 }
 
 locals {
+  DBPORT = vault("/secret/data/team02m-db-port","DBPORT")
+}
+
+locals {
   DBUSER = vault("/secret/data/team02m-db-user","DBUSER")
 }
 

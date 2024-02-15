@@ -4,7 +4,7 @@
 
 When creating a new template you should:
  - edit VMNAME in variables.pkr.hcl (on the new template)
- - add any necessary scripts in [scripts/proxmox](/build/packer/scripts/proxmox/)
+ - add any necessary scripts in [scripts/team02m](/build/packer/scripts/team02m/)
 
 [proxmox-jammy-ubuntu-infra](/build/terraform/proxmox-jammy-ubuntu-infra/) - The terraform scripts corresponding to the default ubuntu server image. This should already have the basic information required for deploying instances from that image.
 

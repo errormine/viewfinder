@@ -86,4 +86,16 @@ Vault secrets used during database creation:
 
 ## ExpressJS nginx template
 
-TO BE MADE.
+Vault approle setup:
+ - nodejs role with policy "webapp"
+ - only has read permission on /secret/data/*
+ - role id and secret id are required to get a token
+
+To read role id:
+
+`vault read auth/approle/role/nodejs/role-id`
+
+To generate new secret id:
+
+`vault write -f auth/approle/role/nodejs/secret-id`
+

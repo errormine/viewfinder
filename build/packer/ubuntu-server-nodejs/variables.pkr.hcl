@@ -25,11 +25,11 @@ locals {
 }
 
 locals {
-  ROLEID = vault("auth/approle/role/expressjs/role-id","ROLEID")
+  ROLEID = vault("auth/approle/role/nodejs/role-id","ROLEID")
 }
 
 locals {
-  SECRETID = vault("auth/approle/role/expressjs/secret-id","SECRETID")
+  SECRETID = vault("auth/approle/role/nodejs/secret-id","SECRETID")
 }
 
 variable "MEMORY" {

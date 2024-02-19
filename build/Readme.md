@@ -99,3 +99,4 @@ To generate new secret id:
 
 `vault write -f auth/approle/role/nodejs/secret-id`
 
+## THIS IS UNFINISHED!!!!! I'm not sure how to read the role id and secret id from packer so someone will need to figure this out in a nother sprint.

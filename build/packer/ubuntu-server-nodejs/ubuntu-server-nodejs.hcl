@@ -177,8 +177,15 @@ build {
   # This block you can add your own shell scripts to customize the image you are creating
   ########################################################################################################################
 
+  # This should be a key which is added as a deploy key in the github repository
+  provisioner "file" {
+    source      = "./ssh_deploy_key"
+    destination = "/tmp/ssh_deploy_key"
+  }
+
   provisioner "shell" {
     execute_command = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
+    environment_vars = ["ROLEID=${var.ROLEID}", "SECRETID=${var.SECRETID}"]
     scripts         = ["../scripts/team02m/post_install_nodejs_setup.sh"]
   }
 }

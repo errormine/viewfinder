@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Clone the repository
+GIT_SSH_COMMAND="ssh -i /tmp/ssh_deploy_key"
 git clone git@github.com:illinoistech-itm/team02m-2024.git
 
 # Install Node.js

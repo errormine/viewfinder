@@ -26,6 +26,49 @@ THEN fill out:
 
 We have a vault server already running and it should be used in each sprint! There shouldn't be any time when you need to deploy this again.
 
+### VAULT SETUP
+
+Most things are mounted at `secret/` meaning most things will be located at `secret/data/*`.
+
+Basic items (ALL MOUNTED AT `secret/data/`):
+ - team02m-ssh, SSHPASS
+ - team02m-NODENAME, NODENAME3 NODENAME4
+ - team02m-username-packer-system, USERNAME
+ - team02m-token-packer-system, TOKEN
+ - team02m-username-tf-system, USERNAME
+ - team02m-token-tf-system, TOKEN
+ - team02m-url SYSTEM41 SYSTEM42
+
+Secrets for our database:
+ - team02m-db-port, DBPORT
+ - team02m-db-user, DBUSER
+ - team02m-db-pass, DBPASS
+
+Secrets to be used by our app:
+ - team02m-google-client-id, CLIENTID
+ - team02m-google-secret-id, SECRETID
+
+Policies:
+
+ssh-secret-policy:
+
+```
+path "secret/data/*" { 
+  capabilities = ["read","create", "update","delete"] 
+} 
+
+path "auth/token/create" { 
+   capabilities = ["create", "read", "update", "list"] 
+}
+```
+
+webapp:
+```
+path "secret/data/*" {
+    capabilities = [ "read" ]
+}
+```
+
 ## Database template
 
 [ubuntu-server-mariadb](/build/packer/ubuntu-server-mariadb/) - A template which includes scripts for installing mariadb and populating it with our team's tables.

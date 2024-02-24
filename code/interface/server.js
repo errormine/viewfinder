@@ -1,6 +1,5 @@
-import { handler } from './build/handler.js';
-import express from 'express';
-
+const handler = require('./build/handler.js');
+const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
 require('./auth');
@@ -43,7 +42,7 @@ app.get('/logout', (req, res) => {
 app.get('/auth/google/failure', (req, res) => {
     res.send('Failed to authenticate..');
 });
-  
+
 // let SvelteKit handle everything else, including serving prerendered pages and static assets
 app.use(handler);
 

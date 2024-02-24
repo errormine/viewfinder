@@ -14,10 +14,6 @@ app.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('/', (req, res) => {
-    res.send('<a href="/auth/google">Authenticate with Google</a>');
-});
-
 app.get('/auth/google',
     passport.authenticate('google', { scope: [ 'email', 'profile' ] }
 ));
@@ -47,5 +43,5 @@ app.get('/auth/google/failure', (req, res) => {
 app.use(handler);
 
 app.listen(process.env.PORT, () => {
-	console.log('listening on port: ' + process.env.PORT);
+	console.log(`listening on http://localhost:${process.env.PORT}`);
 });

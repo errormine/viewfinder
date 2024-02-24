@@ -1,7 +1,6 @@
 import { handler } from './build/handler.js';
 import express from 'express';
 
-const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
 require('./auth');
@@ -45,8 +44,6 @@ app.get('/auth/google/failure', (req, res) => {
     res.send('Failed to authenticate..');
 });
   
-app.listen(process.env.PORT, () => console.log(`listening on ${process.env.PORT}`));
-
 // let SvelteKit handle everything else, including serving prerendered pages and static assets
 app.use(handler);
 

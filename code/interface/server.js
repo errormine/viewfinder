@@ -43,5 +43,5 @@ app.get('/auth/google/failure', (req, res) => {
 app.use(handler);
 
 app.listen(process.env.PORT, () => {
-	console.log(`listening on http://localhost:${process.env.PORT}`);
+	console.log(`listening on http://${process.env.HOST}:${process.env.PORT}`);
 });

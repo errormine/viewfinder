@@ -71,7 +71,7 @@ source "proxmox-iso" "ubuntu-vanilla" {
   ssh_username             = "vagrant"
   ssh_timeout              = "28m"
   template_description     = "A Packer template for creating an empty ubuntu server"
-  vm_name                  = "${var.VMNAME}"
+  vm_name                  = "${var.VANILLA_VMNAME}"
 }
 
 source "proxmox-iso" "mariadb-server" {
@@ -128,8 +128,8 @@ source "proxmox-iso" "mariadb-server" {
   ssh_password             = "${local.SSHPW}"
   ssh_username             = "vagrant"
   ssh_timeout              = "28m"
-  template_description     = "A Packer template for creating an empty ubuntu server"
-  vm_name                  = "${var.VMNAME}"
+  template_description     = "A Packer template for creating an ubuntu server with MariaDB installed"
+  vm_name                  = "${var.MARIADB_VMNAME}"
 }
 
 source "proxmox-iso" "nodejs-server" {
@@ -186,8 +186,8 @@ source "proxmox-iso" "nodejs-server" {
   ssh_password             = "${local.SSHPW}"
   ssh_username             = "vagrant"
   ssh_timeout              = "28m"
-  template_description     = "A Packer template for creating an empty ubuntu server"
-  vm_name                  = "${var.VMNAME}"
+  template_description     = "A Packer template for creating an ubuntu server with NodeJS installed"
+  vm_name                  = "${var.NODEJS_VMNAME}"
 }
 
 build {

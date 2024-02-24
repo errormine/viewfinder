@@ -22,7 +22,7 @@ desc         = "MariaDB server"            # What is the purpose of the TF templ
 # Name the template your created via Packer for Terraform to use to deploy
 # instances from
 ###############################################################################
-template_to_clone = "team02m-mariadb-template" # The name of the template to clone
+template_to_clone = "team02m-vannilla-template" # The name of the template to clone
 ###############################################################################
 # Customize instance hardware settings
 ###############################################################################

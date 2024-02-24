@@ -24,6 +24,7 @@ locals {
   SSHPW = vault("/secret/data/team02m-ssh","SSHPASS")
 }
 
+# For the database
 locals {
   DBPORT = vault("/secret/data/team02m-db-port","DBPORT")
 }
@@ -34,6 +35,15 @@ locals {
 
 locals {
   DBPASS = vault("/secret/data/team02m-db-pass","DBPASS")
+}
+
+# For the NodeJS app
+locals {
+  ROLEID = vault("auth/approle/role/nodejs/role-id","ROLEID")
+}
+
+locals {
+  SECRETID = vault("auth/approle/role/nodejs/secret-id","SECRETID")
 }
 
 variable "MEMORY" {
@@ -59,17 +69,17 @@ variable "NUMBEROFCORES" {
 # This is the name of the Virtual Machine Template you want to create
 variable "VMNAME" {
   type    = string
-  default = "team02m-mariadb-template"
+  default = "team02m-ubuntu-server-template"
 }
 
 variable "iso_checksum" {
   type = string
-  default =  "file:http://mirrors.edge.kernel.org/ubuntu-releases/22.04.3/SHA256SUMS"
+  default =  "file:http://mirrors.edge.kernel.org/ubuntu-releases/22.04.4/SHA256SUMS"
 }
 
 # https://developer.hashicorp.com/terraform/language/values/variables#declaring-an-input-variable
 variable "iso_urls" {
   type    = list(string)
-  default = ["https://mirrors.edge.kernel.org/ubuntu-releases/22.04.3/ubuntu-22.04.3-live-server-amd64.iso","http://www.releases.ubuntu.com/jammy/ubuntu-22.04.3-live-server-amd64.iso"]
+  default = ["https://mirrors.edge.kernel.org/ubuntu-releases/22.04.4/ubuntu-22.04.4-live-server-amd64.iso","http://www.releases.ubuntu.com/jammy/ubuntu-22.04.4-live-server-amd64.iso"]
 }
   

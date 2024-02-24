@@ -16,7 +16,7 @@ packer {
 # source. Read the documentation for source blocks here:
 # https://www.packer.io/docs/from-1.5/blocks/source
 # https://github.com/burkeazbill/ubuntu-22-04-packer-fusion-workstation/blob/master/ubuntu-2204-daily.pkr.hcl
-source "proxmox-iso" "proxmox-jammy-ubuntu" {
+source "proxmox-iso" "ubuntu-vanilla" {
   boot_command = [
     "e<wait>",
     "<down><down><down>",
@@ -70,12 +70,128 @@ source "proxmox-iso" "proxmox-jammy-ubuntu" {
   ssh_password             = "${local.SSHPW}"
   ssh_username             = "vagrant"
   ssh_timeout              = "28m"
-  template_description     = "A Packer template for Ubuntu Jammy"
+  template_description     = "A Packer template for creating an empty ubuntu server"
+  vm_name                  = "${var.VMNAME}"
+}
+
+source "proxmox-iso" "mariadb-server" {
+  boot_command = [
+    "e<wait>",
+    "<down><down><down>",
+    "<end><bs><bs><bs><bs><wait>",
+    "autoinstall ds=nocloud-net\\;s=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ ---<wait>",
+    "<f10><wait>"
+  ]
+  boot_wait = "5s"
+  cores     = "${var.NUMBEROFCORES}"
+  node      = "${local.NODENAME}"
+  username  = "${local.USERNAME}"
+  token     = "${local.PROXMOX_TOKEN}"
+  cpu_type  = "host"
+  disks {
+    disk_size    = "${var.DISKSIZE}"
+    storage_pool = "${var.STORAGEPOOL}"
+    # storage_pool_type is deprecated and should be omitted, it will be removed in a later version of the proxmox plugin
+    # storage_pool_type = "lvm"
+    type = "virtio"
+    io_thread = true
+  }
+  http_directory   = "subiquity/http"
+  http_port_max    = 9200
+  http_port_min    = 9001
+  iso_checksum     = "${var.iso_checksum}"
+  iso_urls         = "${var.iso_urls}"
+  iso_storage_pool = "local"
+  memory           = "${var.MEMORY}"
+
+  network_adapters {
+    bridge = "vmbr0"
+    model  = "virtio"
+  }
+  network_adapters {
+    bridge = "vmbr1"
+    model  = "virtio"
+  }
+  network_adapters {
+    bridge = "vmbr2"
+    model  = "virtio"
+  }
+
+  os                       = "l26"
+  proxmox_url              = "${local.URL}"
+  insecure_skip_tls_verify = true
+  unmount_iso              = true
+  qemu_agent               = true
+  scsi_controller          = "virtio-scsi-single"       
+  cloud_init               = true
+  cloud_init_storage_pool  = "${var.STORAGEPOOL}"
+  ssh_password             = "${local.SSHPW}"
+  ssh_username             = "vagrant"
+  ssh_timeout              = "28m"
+  template_description     = "A Packer template for creating an empty ubuntu server"
+  vm_name                  = "${var.VMNAME}"
+}
+
+source "proxmox-iso" "nodejs-server" {
+  boot_command = [
+    "e<wait>",
+    "<down><down><down>",
+    "<end><bs><bs><bs><bs><wait>",
+    "autoinstall ds=nocloud-net\\;s=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ ---<wait>",
+    "<f10><wait>"
+  ]
+  boot_wait = "5s"
+  cores     = "${var.NUMBEROFCORES}"
+  node      = "${local.NODENAME}"
+  username  = "${local.USERNAME}"
+  token     = "${local.PROXMOX_TOKEN}"
+  cpu_type  = "host"
+  disks {
+    disk_size    = "${var.DISKSIZE}"
+    storage_pool = "${var.STORAGEPOOL}"
+    # storage_pool_type is deprecated and should be omitted, it will be removed in a later version of the proxmox plugin
+    # storage_pool_type = "lvm"
+    type = "virtio"
+    io_thread = true
+  }
+  http_directory   = "subiquity/http"
+  http_port_max    = 9200
+  http_port_min    = 9001
+  iso_checksum     = "${var.iso_checksum}"
+  iso_urls         = "${var.iso_urls}"
+  iso_storage_pool = "local"
+  memory           = "${var.MEMORY}"
+
+  network_adapters {
+    bridge = "vmbr0"
+    model  = "virtio"
+  }
+  network_adapters {
+    bridge = "vmbr1"
+    model  = "virtio"
+  }
+  network_adapters {
+    bridge = "vmbr2"
+    model  = "virtio"
+  }
+
+  os                       = "l26"
+  proxmox_url              = "${local.URL}"
+  insecure_skip_tls_verify = true
+  unmount_iso              = true
+  qemu_agent               = true
+  scsi_controller          = "virtio-scsi-single"       
+  cloud_init               = true
+  cloud_init_storage_pool  = "${var.STORAGEPOOL}"
+  ssh_password             = "${local.SSHPW}"
+  ssh_username             = "vagrant"
+  ssh_timeout              = "28m"
+  template_description     = "A Packer template for creating an empty ubuntu server"
   vm_name                  = "${var.VMNAME}"
 }
 
 build {
-  sources = ["source.proxmox-iso.proxmox-jammy-ubuntu"]
+  sources = ["source.proxmox-iso.ubuntu-vanilla", "source.proxmox-iso.mariadb-server", "source.proxmox-iso.nodejs-server"]
 
   ########################################################################################################################
   # Using the file provisioner to SCP this file to the instance 
@@ -173,19 +289,37 @@ build {
   }
 
   ########################################################################################################################
-  # Uncomment this block to add your own custom bash install scripts
-  # This block you can add your own shell scripts to customize the image you are creating
+  # Script to install MariaDB
+  ########################################################################################################################
+
+  provisioner "file" {
+    only        = ["source.proxmox-iso.mariadb-server"]
+    source      = "../scripts/team02m/team02m_db.sql"
+    destination = "/tmp/team02m_db.sql"
+  }
+
+  provisioner "shell" {
+    only             = ["source.proxmox-iso.mariadb-server"]
+    execute_command  = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
+    environment_vars = ["DBUSER=${local.DBUSER}", "DBPASS=${local.DBPASS}", "DBPORT=${local.DBPORT}"]
+    scripts          = ["../scripts/team02m/post_install_mariadb_setup.sh"]
+  }
+
+  ########################################################################################################################
+  # Script to install NodeJS
   ########################################################################################################################
 
   # This should be a key which is added as a deploy key in the github repository
   provisioner "file" {
+    only        = ["source.proxmox-iso.nodejs-server"]
     source      = "./ssh_deploy_key"
     destination = "/tmp/ssh_deploy_key"
   }
 
   provisioner "shell" {
-    execute_command = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
+    only             = ["source.proxmox-iso.nodejs-server"]
+    execute_command  = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
     environment_vars = ["ROLEID=${var.ROLEID}", "SECRETID=${var.SECRETID}"]
-    scripts         = ["../scripts/team02m/post_install_nodejs_setup.sh"]
+    scripts          = ["../scripts/team02m/post_install_nodejs_setup.sh"]
   }
 }

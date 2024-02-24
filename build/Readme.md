@@ -59,6 +59,14 @@ path "secret/data/*" {
 
 path "auth/token/create" { 
    capabilities = ["create", "read", "update", "list"] 
+} 
+
+path "auth/approle/role/nodejs/role-id" {
+   capabilities = ["read"]
+}
+
+path "auth/approle/role/nodejs/secret-id" {
+    capabilities = ["update"]
 }
 ```
 

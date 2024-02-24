@@ -1,8 +1,8 @@
 import { handler } from './build/handler.js';
-const express = require('express');
-const session = require('express-session');
-const passport = require('passport');
-require('./auth.cjs');
+import express from 'express';
+import session from 'express-session';
+import passport from 'passport';
+import * as auth from './auth.cjs';
 
 const app = express();
 

@@ -43,7 +43,7 @@ locals {
 }
 
 locals {
-  SECRETID = vault("/auth/approle/role/nodejs/secret-id","SECRETID")
+  SECRETID = vault("/auth/approle/role/nodejs/secret-id","secret_id")
 }
 
 variable "MEMORY" {

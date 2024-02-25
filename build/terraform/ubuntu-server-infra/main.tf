@@ -57,7 +57,7 @@ resource "vault_approle_auth_backend_role_secret_id" "id" {
   wrapping_ttl = "10m"
 }
 
-resource "proxmox_vm_qemu" "vanilla-server" {
+resource "proxmox_vm_qemu" "vanilla_server" {
 #  count           = var.numberofvms
   name            = "${var.unique_id}-vm${count.index}.service.consul"
   desc            = "Vanilla Ubuntu 20.04"
@@ -135,7 +135,7 @@ resource "proxmox_vm_qemu" "vanilla-server" {
   }
 }
 
-resource "proxmox_vm_qemu" "mariadb-server" {
+resource "proxmox_vm_qemu" "db_server" {
 #  count           = var.numberofvms
   name            = "${var.unique_id}-vm${count.index}.service.consul"
   desc            = "Ubuntu 20.04 with MariaDB installed and configured"
@@ -213,7 +213,7 @@ resource "proxmox_vm_qemu" "mariadb-server" {
   }
 }
 
-resource "proxmox_vm_qemu" "web-server" {
+resource "proxmox_vm_qemu" "web_server" {
 #  count           = var.numberofvms
   name            = "${var.unique_id}-vm${count.index}.service.consul"
   desc            = "Ubuntu 20.04 with SvelteKit installed and built"

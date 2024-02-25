@@ -1,5 +1,5 @@
 #https://registry.terraform.io/providers/Telmate/proxmox/latest/docs
-variable "yourinitials" {}
+variable "unique_id" {}
 
 variable "error_level" {
   default = "debug"
@@ -17,7 +17,9 @@ variable "numberofvms" {}
 
 variable "desc" {}
 
-variable "template_to_clone" {}
+variable "default_template" {}
+variable "db_template" {}
+variable "web_template" {}
 
 variable "memory" {}
 

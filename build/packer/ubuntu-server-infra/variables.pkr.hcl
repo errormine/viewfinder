@@ -42,10 +42,6 @@ locals {
   ROLEID = vault("/auth/approle/role/nodejs/role-id","role_id")
 }
 
-locals {
-  SECRETID = vault("/auth/approle/role/nodejs/secret-id","secret_id")
-}
-
 variable "MEMORY" {
   type    = string
   default = "4192"

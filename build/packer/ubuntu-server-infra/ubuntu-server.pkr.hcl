@@ -74,7 +74,7 @@ source "proxmox-iso" "ubuntu-vanilla" {
   vm_name                  = "${var.VANILLA_VMNAME}"
 }
 
-source "proxmox-iso" "mariadb-server" {
+source "proxmox-iso" "db-server" {
   boot_command = [
     "e<wait>",
     "<down><down><down>",
@@ -132,7 +132,7 @@ source "proxmox-iso" "mariadb-server" {
   vm_name                  = "${var.MARIADB_VMNAME}"
 }
 
-source "proxmox-iso" "nodejs-server" {
+source "proxmox-iso" "web-server" {
   boot_command = [
     "e<wait>",
     "<down><down><down>",
@@ -186,12 +186,12 @@ source "proxmox-iso" "nodejs-server" {
   ssh_password             = "${local.SSHPW}"
   ssh_username             = "vagrant"
   ssh_timeout              = "28m"
-  template_description     = "A Packer template for creating an ubuntu server with NodeJS installed"
+  template_description     = "A Packer template for creating an ubuntu server with SvelteKit installed"
   vm_name                  = "${var.NODEJS_VMNAME}"
 }
 
 build {
-  sources = ["source.proxmox-iso.ubuntu-vanilla", "source.proxmox-iso.mariadb-server", "source.proxmox-iso.nodejs-server"]
+  sources = ["source.proxmox-iso.ubuntu-vanilla", "source.proxmox-iso.db-server", "source.proxmox-iso.web-server"]
 
   ########################################################################################################################
   # Using the file provisioner to SCP this file to the instance 
@@ -293,33 +293,33 @@ build {
   ########################################################################################################################
 
   provisioner "file" {
-    only        = ["source.proxmox-iso.mariadb-server"]
+    only        = ["source.proxmox-iso.db-server"]
     source      = "../scripts/team02m/team02m_db.sql"
     destination = "/tmp/team02m_db.sql"
   }
 
   provisioner "shell" {
-    only             = ["source.proxmox-iso.mariadb-server"]
+    only             = ["source.proxmox-iso.db-server"]
     execute_command  = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
     environment_vars = ["DBUSER=${local.DBUSER}", "DBPASS=${local.DBPASS}", "DBPORT=${local.DBPORT}"]
     scripts          = ["../scripts/team02m/post_install_mariadb_setup.sh"]
   }
 
   ########################################################################################################################
-  # Script to install NodeJS
+  # Script to install SvelteKit
   ########################################################################################################################
 
   # This should be a key which is added as a deploy key in the github repository
   provisioner "file" {
-    only        = ["source.proxmox-iso.nodejs-server"]
+    only        = ["source.proxmox-iso.web-server"]
     source      = "./ssh_deploy_key"
     destination = "/tmp/ssh_deploy_key"
   }
 
   provisioner "shell" {
-    only             = ["source.proxmox-iso.nodejs-server"]
+    only             = ["source.proxmox-iso.web-server"]
     execute_command  = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
     environment_vars = ["ROLEID=${var.ROLEID}", "SECRETID=${var.SECRETID}"]
-    scripts          = ["../scripts/team02m/post_install_nodejs_setup.sh"]
+    scripts          = ["../scripts/team02m/post_install_sveltekit_setup.sh"]
   }
 }

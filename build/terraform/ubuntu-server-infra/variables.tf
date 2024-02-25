@@ -13,9 +13,9 @@ variable "pm_timeout" {}
 
 variable "pm_log_file" {}
 
-variable "numberofvms" {}
-
-variable "desc" {}
+# Also commented out in terraform.tfvars, not sure how this should be handled with multiple resources
+#variable "numberofvms" {}
+#variable "desc" {}
 
 variable "default_template" {}
 variable "db_template" {}

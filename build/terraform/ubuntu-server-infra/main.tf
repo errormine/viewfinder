@@ -39,6 +39,24 @@ data "vault_generic_secret" "target_node" {
   path = "secret/team02m-NODENAME"
 }
 
+# Retrieve secret_id from vault to be used in our web server provisioner
+# https://registry.terraform.io/providers/hashicorp/vault/latest/docs/resources/approle_auth_backend_role_secret_id
+resource "vault_auth_backend" "approle" {
+  type = "approle"
+}
+
+resource "vault_approle_auth_backend_role" "web-server" {
+  backend = vault_auth_backend.approle.path
+  role_name    = "nodejs"
+  token_policies = ["webapp"]
+}
+
+resource "vault_approle_auth_backend_role_secret_id" "id" {
+  backend = vault_auth_backend.approle.path
+  role_name = vault_approle_auth_backend_role.web-server.role_name
+  wrapping_ttl = "10m"
+}
+
 resource "proxmox_vm_qemu" "vanilla-server" {
 #  count           = var.numberofvms
   name            = "${var.unique_id}-vm${count.index}.service.consul"

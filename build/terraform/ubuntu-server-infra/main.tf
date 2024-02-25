@@ -218,7 +218,7 @@ resource "proxmox_vm_qemu" "web_server" {
   name            = "${var.unique_id}-vm${count.index}.service.consul"
   desc            = "Ubuntu 20.04 with SvelteKit installed and built"
   target_node     = "${data.vault_generic_secret.target_node.data[random_shuffle.nodename.result[0]]}"
-  clone           = var.template_to_clone
+  clone           = var.web_template
   os_type         = "cloud-init"
   memory          = var.memory
   cores           = var.cores
@@ -291,7 +291,9 @@ resource "proxmox_vm_qemu" "web_server" {
   }
 }
 
+/*
 output "proxmox_ip_address_default" {
   description = "Current Public IP"
-  value = proxmox_vm_qemu.vanilla-server.*.default_ipv4_address
+  value = proxmox_vm_qemu.vanilla_server.*.default_ipv4_address
 }
+*/

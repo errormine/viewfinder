@@ -1,5 +1,9 @@
 #https://registry.terraform.io/providers/Telmate/proxmox/latest/docs
-variable "unique_id" {}
+variable "vanilla_id" {
+  default = "team02m-ubuntu-server"
+}
+variable "db_id" {}
+variable "web_id" {}
 
 variable "error_level" {
   default = "debug"
@@ -16,6 +20,9 @@ variable "pm_log_file" {}
 # Also commented out in terraform.tfvars, not sure how this should be handled with multiple resources
 #variable "numberofvms" {}
 #variable "desc" {}
+variable "web_server_count" {
+  default = 1
+}
 
 variable "default_template" {}
 variable "db_template" {}

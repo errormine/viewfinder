@@ -10,5 +10,3 @@ sudo systemctl stop consul.service
 sudo mv -v /home/vagrant/system.hcl /etc/consul.d/
 sudo mv -v /home/vagrant/node-exporter-consul-service.json /etc/consul.d/
 sudo systemctl enable consul.service
-
-sleep 90

@@ -17,3 +17,4 @@ while [ ! -e /etc/consul.d/consul.hcl ]
     echo "The file /etc/consul.d/consul.hcl doesn't exist... sleeping for 30 seconds..."
     sleep 30
 done
+echo "The file /etc/consul.d/consul.hcl exists..."

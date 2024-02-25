@@ -129,7 +129,7 @@ source "proxmox-iso" "db-server" {
   ssh_username             = "vagrant"
   ssh_timeout              = "28m"
   template_description     = "A Packer template for creating an ubuntu server with MariaDB installed"
-  vm_name                  = "${var.MARIADB_VMNAME}"
+  vm_name                  = "${var.DB_VMNAME}"
 }
 
 source "proxmox-iso" "web-server" {
@@ -187,7 +187,7 @@ source "proxmox-iso" "web-server" {
   ssh_username             = "vagrant"
   ssh_timeout              = "28m"
   template_description     = "A Packer template for creating an ubuntu server with SvelteKit installed"
-  vm_name                  = "${var.NODEJS_VMNAME}"
+  vm_name                  = "${var.WEB_VMNAME}"
 }
 
 build {

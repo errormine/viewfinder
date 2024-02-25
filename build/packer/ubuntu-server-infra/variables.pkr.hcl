@@ -65,17 +65,17 @@ variable "NUMBEROFCORES" {
 # This is the name of the Virtual Machine Template you want to create
 variable "VANILLA_VMNAME" {
   type    = string
-  default = "team02m-ubuntu-server-template"
+  default = "team02m-vanilla-template"
 }
 
-variable "MARIADB_VMNAME" {
+variable "DB_VMNAME" {
   type    = string
-  default = "team02m-mariadb-template"
+  default = "team02m-db-template"
 }
 
-variable "NODEJS_VMNAME" {
+variable "WEB_VMNAME" {
   type    = string
-  default = "team02m-nodejs-template"
+  default = "team02m-web-template"
 }
 
 variable "iso_checksum" {

@@ -3,6 +3,8 @@ import express from 'express';
 import session from 'express-session';
 import passport from 'passport';
 import * as auth from './auth.cjs';
+import dotenv from "dotenv";
+dotenv.config({ silent: process.env.NODE_ENV === 'production' });
 
 const app = express();
 
@@ -19,7 +21,7 @@ app.get('/auth/google',
 ));
 
 app.get('/auth/google/callback',
-    passport.authenticate( 'google', {
+    passport.authenticate( 'google', {  
         successRedirect: '/protected',
         failureRedirect: '/auth/google/failure'
     })

@@ -8,3 +8,4 @@ export default {
 		adapter: adapter()
 	}
 };
+

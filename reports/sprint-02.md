@@ -26,7 +26,7 @@ We plan to create a "social media" website designed for photographers to showcas
 * Demo 2
     * All members local development version of the project
 * UI/UX 
-    * Show inner workings of UI
+    * Cover the progress made for the User Interface
 * Conclusion
     * What changed from Sprint-01 to Sprint-02
 
@@ -40,26 +40,23 @@ Demonstration of project management tool and explanation of the 25 build point i
 
 
 ### 25 Points Distribution
-* 5: UI/UX Design -David & Andrei
-* 2: Vanilla Build Template -Dylan
-* 2: Vault Server Template -Dylan
-* 2: Database Template -Dylan
-* 2: NodeJS Template -Dylan
+* 3: UI/UX Landing Page/Login Page -David & Andrei
+* 3: UI/UX Home Page/Feed Page -David & Andrei
+* 3: Vault Server Template -Andrei
+* 5: Database & Webserver Templates -Andrei
 * 4: Google OAuth -Dylan
-* 3: Combine Environments -Dylan & David
-* 3: 
+* 2: Combine Environments -Dylan & David
+* 3: NodeJS Setup -Dylan
 * 2: Create Sprint-02 Report -Daniel
 
 
 ### Task Completion
-* 5: UI/UX Design -David & Andrei
-* 3: Vanilla Build Template -Dylan & Andrei
-* 3: Vault Server Template -Dylan & Andrei
-* 3: Database Template -Dylan & Andrei
-* 3: NodeJS Template -Dylan & Andrei
-* 5: Google OAuth -Dylan 
-* 3: Combine Environments -Dylan & David
-* 3: 
+* 3: UI/UX Landing Page/Login Page -David
+* 3: UI/UX Home Page/Feed Page -David
+* 3: Vault Server Template -Andrei
+* 5: Database & Webserver Templates -Andrei
+* 4: Google OAuth -Dylan 
+* 3: Custom SvelteKit Adapter -Dylan
 * 2: Create Sprint-02 Report -Daniel
 
 ## Demo
@@ -69,18 +66,22 @@ Demonstration of the Skeleton site with Login working
 Demonstration of all team-members running the local development version of the project
 
 ## UI/UX 
-UI/UX walk through explaining what was accomplished and what portions of the UI/UX are outstanding
 
-We used Svelte to...
+* [Our Intial Login Page Design](https://github.com/daniellimiit/team02m-2024/blob/main/design/login.png)
+* [Our Intial Feed Page Design](https://github.com/daniellimiit/team02m-2024/blob/main/design/feed.png)
+
+* [Current Site](http://system75.rice.iit.edu:5000/)
+
+
+David was able to create this layout for our two current pages, we will be able to use the layout and format of these two pages to help shape the rest of the pages in the future.
 
 ## Conclusion
-Clear transition to a conclusion and small summary of presentation
-(Sprint-01 to Sprint-02 Changes)
-
-We went from no website to a website?
 
 * Project management tool: *GitHub Projects*
-* Login and Sign up Pages
+* Login and Home Pages
 * Database: MariaDB
 * UI/UX: Svelte/Sveltekit
 
+Overview of all the changes from Sprint-01 to Sprint-02
+
+The basic foundation of our website has been built. We have the layout for how our home page should look as well as our log in page which works with Google OAuth.

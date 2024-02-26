@@ -5,7 +5,7 @@
     // Function to handle the login logic
     function handleLogin() {
       // Implement login logic here
-      window.location.href='http://localhost:5000/auth/google/';
+      window.location.href='/auth/google/';
       console.log('Login with:', { email, password });
     }
   </script>

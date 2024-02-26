@@ -14,3 +14,6 @@ crash.log
 
 # For built boxes
 *.box
+
+# For nodejs template
+/packer/scripts/ubuntu-server-nodejs/ssh_deploy_key

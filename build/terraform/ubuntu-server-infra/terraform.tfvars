@@ -15,14 +15,18 @@ pm_log_file   = "terraform-plugin-proxmox.log" # (Optional; defaults to terrafor
 # This is a variable to append to your cloud instances so they have a unique
 # FQDN -- this is needed for the gossip based DNS to work
 ###############################################################################
-yourinitials = "team02m-mariadb" # initials to add to make unique systems
-numberofvms  = 1             # quantity of that template to launch
-desc         = "MariaDB server"            # What is the purpose of the TF template
+vanilla_id = "team02m-vanilla" # A unique identifier for your instances (originally called yourinitals)
+db_id = "team02m-db"
+web_id = "team02m-web"
+web_server_count  = 1
+#desc         = "MariaDB server"            # What is the purpose of the TF template
 ###############################################################################
 # Name the template your created via Packer for Terraform to use to deploy
 # instances from
 ###############################################################################
-template_to_clone = "team02m-mariadb-template" # The name of the template to clone
+default_template = "team02m-vanilla-template" # The name of the template to clone
+db_template = "team02m-mariadb-template" # The name of the template to clone
+web_template = "team02m-nodejs-template" # The name of the template to clone
 ###############################################################################
 # Customize instance hardware settings
 ###############################################################################

@@ -39,12 +39,12 @@ data "vault_generic_secret" "target_node" {
   path = "secret/team02m-NODENAME"
 }
 
-resource "proxmox_vm_qemu" "vanilla-server" {
-  count           = var.numberofvms
-  name            = "${var.yourinitials}-vm${count.index}.service.consul"
-  desc            = var.desc
+resource "proxmox_vm_qemu" "vanilla_server" {
+  count           = 1
+  name            = "${var.vanilla_id}-vm${count.index}.service.consul"
+  desc            = "Vanilla Ubuntu 20.04"
   target_node     = "${data.vault_generic_secret.target_node.data[random_shuffle.nodename.result[0]]}"
-  clone           = var.template_to_clone
+  clone           = var.default_template
   os_type         = "cloud-init"
   memory          = var.memory
   cores           = var.cores
@@ -86,18 +86,18 @@ resource "proxmox_vm_qemu" "vanilla-server" {
     # This inline provisioner is needed to accomplish the final fit and finish of your deployed
     # instance and condigure the system to register the FQDN with the Consul DNS system
     inline = [
-      "sudo hostnamectl set-hostname ${var.yourinitials}-vm${count.index}",
+      "sudo hostnamectl set-hostname ${var.vanilla_id}-vm${count.index}",
       "sudo sed -i 's/changeme/${random_id.id.dec}${count.index}/' /etc/consul.d/system.hcl",
-      "sudo sed -i 's/replace-name/${var.yourinitials}-vm${count.index}/' /etc/consul.d/system.hcl",
-      "sudo sed -i 's/ubuntu-server/${var.yourinitials}-vm${count.index}/' /etc/hosts",
-      "sudo sed -i 's/FQDN/${var.yourinitials}-vm${count.index}.service.consul/' /etc/update-motd.d/999-consul-dns-message",
+      "sudo sed -i 's/replace-name/${var.vanilla_id}-vm${count.index}/' /etc/consul.d/system.hcl",
+      "sudo sed -i 's/ubuntu-server/${var.vanilla_id}-vm${count.index}/' /etc/hosts",
+      "sudo sed -i 's/FQDN/${var.vanilla_id}-vm${count.index}.service.consul/' /etc/update-motd.d/999-consul-dns-message",
       "sudo sed -i 's/#datacenter = \"my-dc-1\"/datacenter = \"rice-dc-1\"/' /etc/consul.d/consul.hcl",
       "echo 'retry_join = [\"${var.consulip-240-prod-system28}\",\"${var.consulip-240-student-system41}\",\"${var.consulip-242-room}\"]' | sudo tee -a /etc/consul.d/consul.hcl",
       "sudo systemctl daemon-reload",
       "sudo systemctl restart consul.service",
       "sudo rm /opt/consul/node-id",
       "sudo systemctl restart consul.service",
-      "sudo sed -i 's/0.0.0.0/${var.yourinitials}-vm${count.index}.service.consul/' /etc/systemd/system/node-exporter.service",
+      "sudo sed -i 's/0.0.0.0/${var.vanilla_id}-vm${count.index}.service.consul/' /etc/systemd/system/node-exporter.service",
       "sudo systemctl daemon-reload",
       "sudo systemctl enable node-exporter.service",
       "sudo systemctl start node-exporter.service",
@@ -117,7 +117,9 @@ resource "proxmox_vm_qemu" "vanilla-server" {
   }
 }
 
+/*
 output "proxmox_ip_address_default" {
-  description = "Current Pulbic IP"
-  value = proxmox_vm_qemu.vanilla-server.*.default_ipv4_address
+  description = "Current Public IP"
+  value = proxmox_vm_qemu.vanilla_server.*.default_ipv4_address
 }
+*/

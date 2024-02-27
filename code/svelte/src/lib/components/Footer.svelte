@@ -23,6 +23,9 @@
         padding: 20px;
         text-align: center;
         width: 100vw;
+        position: relative;
+        bottom: 0;
+        height: var(--footer-height);
     }
 
     footer ul {

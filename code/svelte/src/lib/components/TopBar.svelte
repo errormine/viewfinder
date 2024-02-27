@@ -28,6 +28,8 @@
         position: fixed;
         top: 0;
         width: 100vw;
+        backdrop-filter: blur(8px);
+        z-index: 999;
     }
 
     header h1 {

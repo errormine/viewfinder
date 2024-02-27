@@ -6,8 +6,8 @@
 
 * {box-sizing: border-box;}
 
-/* COLOR VARIABLES */
 :root {
+    /* COLOR VARIABLES */
     --color-primary: #825ABD;
     --color-primary-dark: #664892;
     --color-primary-gradient: linear-gradient(var(--color-primary), var(--color-primary-dark));
@@ -17,6 +17,9 @@
     --color-grey: #C5C5C5;
 
     --color-black-gradient: linear-gradient(#363636, black);
+
+    /* SIZE VARIABLES */
+    --footer-height: 6rem;
 }
 
 html {
@@ -31,6 +34,10 @@ html {
 
 html, body {
     height: 100%;
+}
+
+main {
+    height: calc(100% - var(--footer-height));
 }
 
 h1, h2, h3,

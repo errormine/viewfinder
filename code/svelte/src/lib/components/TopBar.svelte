@@ -1,12 +1,19 @@
 <script>
+    import LoginDialog from '$lib/forms/Login.svelte';
     import SearchBar from '$lib/components/SearchBar.svelte'
     import Button from '$lib/components/Button.svelte'
+
+    let openLoginDialog = function() {
+        const dialog = document.querySelector('.login-dialog')
+        dialog.showModal()
+    }
 </script>
 
+<LoginDialog />
 <header class="top-bar">
     <h1>Website</h1>
     <SearchBar />
-    <Button href="/auth/google">Log In</Button>
+    <Button href="/login" onclick={openLoginDialog}>Log In</Button>
 </header>
 
 <style>

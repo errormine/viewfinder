@@ -1,5 +1,1 @@
-<script>
-    import TopBar from '$lib/components/TopBar.svelte';
-</script>
-
-<TopBar />
+THIS IS THE LANDING PAGE

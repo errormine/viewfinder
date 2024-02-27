@@ -1,2 +1,6 @@
+<script>
+    import Button from '$lib/components/Button.svelte'
+</script>
+
 <h1>test</h1>
-<a href="/login">Log in</a>
+<Button href="/auth/google">Log In</Button>

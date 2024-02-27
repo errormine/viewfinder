@@ -6,6 +6,13 @@
 
 * {box-sizing: border-box;}
 
+/* COLOR VARIABLES */
+:root {
+    --color-primary: #825ABD;
+    --color-primary-dark: #664892;
+    --color-primary-gradient: linear-gradient(var(--color-primary), var(--color-primary-dark));
+}
+
 html {
     font-family: "Source Sans 3", sans-serif;
     font-optical-sizing: auto;

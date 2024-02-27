@@ -1,6 +1,5 @@
 <script>
-    import Button from '$lib/components/Button.svelte'
+    import TopBar from '$lib/components/TopBar.svelte';
 </script>
 
-<h1>test</h1>
-<Button href="/auth/google">Log In</Button>
+<TopBar />

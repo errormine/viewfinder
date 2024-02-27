@@ -11,6 +11,8 @@
     --color-primary: #825ABD;
     --color-primary-dark: #664892;
     --color-primary-gradient: linear-gradient(var(--color-primary), var(--color-primary-dark));
+
+    --color-white-gradient: linear-gradient(white, #EDEDED);
 }
 
 html {

@@ -13,5 +13,29 @@
             <a href="/terms-and-conditions">Terms</a>
         </li>
     </ul>
-    <p>&copy; Website Team</p>
+    <p class="font-weight-light">&copy; Website Team</p>
 </footer>
+
+<style>
+    footer {
+        background: var(--color-black-gradient);
+        color: var(--color-grey);
+        padding: 20px;
+        text-align: center;
+        width: 100vw;
+    }
+
+    footer ul {
+        margin-bottom: 1rem;
+    }
+
+    footer ul li {
+        display: inline;
+        margin: 0 10px;
+    }
+
+    footer a {
+        color: white;
+        text-decoration: none;
+    }
+</style>

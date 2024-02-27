@@ -10,14 +10,14 @@
 </script>
 
 <LoginDialog />
-<header class="top-bar">
+<header>
     <h1>Website</h1>
     <SearchBar />
     <Button href="/login" onclick={openLoginDialog}>Log In</Button>
 </header>
 
 <style>
-    .top-bar {
+    header {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -25,9 +25,12 @@
         box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
         background: var(--color-white-gradient);
         height: 4rem;
+        position: fixed;
+        top: 0;
+        width: 100vw;
     }
 
-    .top-bar h1 {
+    header h1 {
         margin: 0;
     }
 </style>

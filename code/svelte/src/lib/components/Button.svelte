@@ -1,10 +1,17 @@
 <script>
     export let href = '/';
+    export let onclick = null;
 </script>
 
-<a {href} class="button">
-    <slot>Button</slot>
-</a>
+{#if onclick}
+    <a class="button" {href} on:click|preventDefault={onclick}>
+        <slot>Button</slot>
+    </a>
+{:else}
+    <a class="button" {href}>
+        <slot>Button</slot>
+    </a>
+{/if}
 
 <style>
     .button {

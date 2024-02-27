@@ -37,7 +37,7 @@ html, body {
 }
 
 main {
-    height: calc(100% - var(--footer-height));
+    min-height: calc(100% - var(--footer-height));
 }
 
 h1, h2, h3,

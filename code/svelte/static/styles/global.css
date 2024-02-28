@@ -17,6 +17,7 @@
     --color-grey: #C5C5C5;
 
     --color-black-gradient: linear-gradient(#363636, black);
+    --transparent-black-gradient: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
 
     /* SIZE VARIABLES */
     --footer-height: 6rem;
@@ -66,4 +67,5 @@ small { font-size: 0.833rem; }
 
 /* FONT WEIGHTS */
 .font-weight-light { font-weight: 300; }
-.font-weight-semi-bold { font-weight: 500; }
+.font-weight-semi-bold { font-weight: 600; }
+.font-weight-bold { font-weight: 700; }

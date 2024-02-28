@@ -25,15 +25,6 @@
 <slot />
 
 <style>
-    .full-width {
-        display: grid;
-        grid-template-columns: [full-width-start] 1fr [content-start] minmax(0, 50rem) [content-end] 1fr [full-width-end];
-    }
-
-    .full-width > * {
-        grid-column: content;
-    }
-
     /* USER PROFILE HEADER */
     .hero {
         color: white;

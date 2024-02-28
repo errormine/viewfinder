@@ -1,9 +1,9 @@
-<section class="about">
+<main id="about" class="content-grid">
     <p>Here is the user bio I guess</p>
-</section>
+</main>
 
 <style>
-    .about {
+    #about {
         grid-column: content;
     }
 </style>

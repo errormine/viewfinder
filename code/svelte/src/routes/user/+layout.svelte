@@ -14,15 +14,15 @@
         </ul>
     </section>
 </header>
+<nav class='profile-navigation full-width'>
+    <ul>
+        <li class="active"><a href="/user/[username]" >About</a></li>
+        <li><a href="/user/[username]/photos">Photos</a></li>
+        <li><a href="/user/[username]/albums">Albums</a></li>
+        <li><a href="/user/[username]/favorites">Favorites</a></li>
+    </ul>
+</nav>
 <main class="content-grid">
-    <nav class='profile-navigation full-width'>
-        <ul>
-            <li><a href="/user/[username]">About</a></li>
-            <li><a href="/user/[username]/photos">Photos</a></li>
-            <li><a href="/user/[username]/albums">Albums</a></li>
-            <li><a href="/user/[username]/favorites">Favorites</a></li>
-        </ul>
-    </nav>
     <slot />
 </main>
 
@@ -41,6 +41,7 @@
         grid-column: full-width;
     }
 
+    /* USER PROFILE HEADER */
     .hero {
         color: white;
         background: var(--transparent-black-gradient), url(https://picsum.photos/1920/1080) no-repeat center;
@@ -100,12 +101,37 @@
         font-weight: 600;
     }
 
+    /* PROFILE NAVIGATION */
     .profile-navigation {
-        height: 3rem;
+        background: var(--color-light-gray);
+        font-size: 1.6rem;
+        height: fit-content;
     }
 
+    .profile-navigation ul {
+        display: flex;
+        flex-direction: row;
+    }
+    
     .profile-navigation ul li {
-        display: inline;
-        margin-right: 1rem;
+        display: block;
+        padding: 0 1.5rem;
+        height: 100%;
+    }
+    
+    .profile-navigation li.active {
+        background: white;
+        border-radius: 0.5rem 0.5rem 0 0;
+    }
+    
+    .profile-navigation a {
+        display: block;
+        text-decoration: none;
+        color: var(--color-dark-gray);
+        margin: 0.5rem 0;
+    }
+
+    .profile-navigation li.active a {
+        color: black;
     }
 </style>

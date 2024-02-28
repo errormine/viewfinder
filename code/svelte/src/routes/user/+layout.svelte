@@ -93,7 +93,7 @@
         gap: 0.25rem;
         flex-direction: column;
         text-align: right;
-        font-weight: 300;
+        text-shadow: black 1px 0px 4px;
     }
 
     .user-stats span {

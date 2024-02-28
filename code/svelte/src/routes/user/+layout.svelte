@@ -22,23 +22,16 @@
         <li><a href="/user/[username]/favorites">Favorites</a></li>
     </ul>
 </nav>
-<main class="content-grid">
-    <slot />
-</main>
+<slot />
 
 <style>
-    :global(main), .content-grid, .full-width {
+    .full-width {
         display: grid;
         grid-template-columns: [full-width-start] 1fr [content-start] minmax(0, 50rem) [content-end] 1fr [full-width-end];
     }
 
-    .content-grid > *,
     .full-width > * {
         grid-column: content;
-    }
-
-    .content-grid > .full-width {
-        grid-column: full-width;
     }
 
     /* USER PROFILE HEADER */

@@ -23,7 +23,7 @@
         align-items: center;
         padding: 1rem;
         box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-        background: var(--color-white-gradient);
+        background: var(--transparent-white-gradient);
         height: 4rem;
         position: fixed;
         top: 0;

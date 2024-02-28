@@ -8,9 +8,9 @@
             </figcaption>
         </figure>
         <ul class='user-stats'>
-            <li><span class='font-weight-semi-bold'>1.5K</span> Photos</li>
-            <li><span class='font-weight-semi-bold'>60.5K</span> Followers</li>
-            <li><span class='font-weight-semi-bold'>30</span> Following</li>
+            <li><span>1.5K</span> Photos</li>
+            <li><span>60.5K</span> Followers</li>
+            <li><span>30</span> Following</li>
         </ul>
     </section>
 </header>
@@ -93,6 +93,11 @@
         gap: 0.25rem;
         flex-direction: column;
         text-align: right;
+        font-weight: 300;
+    }
+
+    .user-stats span {
+        font-weight: 600;
     }
 
     .profile-navigation {

@@ -14,7 +14,7 @@ export async function testConnection() {
     return conn.query("SELECT 1 as val")
         .then(rows => {
             console.log(rows);
-            return "Connected!"; 
+            return "Connected!";
         })
         .catch(err => {
             return err;
@@ -36,7 +36,7 @@ async function performQuery(query, param) {
             });
     } catch (err) {
         console.log(err);
-        return "Error retrieving data.";
+        return null;
     } finally {
         if (conn) conn.end();
     }
@@ -48,8 +48,7 @@ async function getSingleRow(query, param) {
             return rows[0];
         })
         .catch(err => {
-            console.log(err);
-            return null;
+            return err;
         });
 }
 
@@ -59,8 +58,7 @@ async function getSingleValue(query, param) {
             return Object.values(res)[0];
         })
         .catch(err => {
-            console.log(err);
-            return null;
+            return err;
         });
 }
 

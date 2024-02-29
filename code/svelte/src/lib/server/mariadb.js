@@ -26,6 +26,7 @@ async function performQuery(query, param) {
 
     return conn.query(query, param)
         .then(rows => {
+            conn.end();
             return rows;
         })
         .catch(err => {
@@ -36,6 +37,7 @@ async function performQuery(query, param) {
 async function getSingleRow(query, param) {
     return performQuery(query, param)
         .then(rows => {
+            console.log(rows);
             return rows[0];
         });
 }
@@ -50,22 +52,29 @@ async function getSingleValue(query, param) {
         });
 }
 
+
+// User Profile ABOUT
 export async function getUserId(username) {
-    return getSingleValue("SELECT UserId FROM Users WHERE Username = ?", [username]);
+    return getSingleValue("SELECT UserID FROM Users WHERE Username = ?", [username]);
 }
 
 export async function getDisplayName(userId) {
-    return getSingleValue("SELECT DisplayName FROM Users WHERE UserId = ?", [userId]);
+    return getSingleValue("SELECT DisplayName FROM Users WHERE UserID = ?", [userId]);
 }
 
 export async function getPhotosCount(userId) {
-    return 0;
+    return getSingleValue("SELECT COUNT(*) FROM Photos WHERE UserID = ?", [userId]);
 }
 
 export async function getFollowersCount(userId) {
-    return 0;
+    return getSingleValue("SELECT COUNT(*) FROM Follows WHERE UserID = ?", [userId]);
 }
 
 export async function getFollowingCount(userId) {
-    return 0;
+    return getSingleValue("SELECT COUNT(*) FROM Follows WHERE FollowerID = ?", [userId]);
+}
+
+// User Profile PHOTOS
+export async function getPhotos(userId) {
+    return performQuery("SELECT * FROM Photos WHERE UserID = ?", [userId]);
 }

@@ -1,6 +1,12 @@
 <script>
+    import { page } from '$app/stores';
     /** @type {import('./$types').LayoutData} */
-	export let data;
+    export let data;
+
+    export let aboutHref = `/user/${ data.username }`;
+    export let photosHref = `/user/${ data.username }/photos`;
+    export let albumsHref = `/user/${ data.username }/albums`;
+    export let favoritesHref = `/user/${ data.username }/favorites`;
 </script>
 
 <header class='hero full-width'>
@@ -21,10 +27,18 @@
 </header>
 <nav class='profile-navigation full-width'>
     <ul>
-        <li class="active"><a href="/user/{ data.username }" >About</a></li>
-        <li><a href="/user/{ data.username }/photos">Photos</a></li>
-        <li><a href="/user/{ data.username }/albums">Albums</a></li>
-        <li><a href="/user/{ data.username }/favorites">Favorites</a></li>
+        <li class:active={ $page.url.pathname === aboutHref }>
+            <a href={ aboutHref } >About</a>
+        </li>
+        <li class:active={ $page.url.pathname.includes(photosHref) }>
+            <a href={ photosHref }>Photos</a>
+        </li>
+        <li class:active={ $page.url.pathname.includes(albumsHref) }>
+            <a href={ albumsHref }>Albums</a>
+        </li>
+        <li class:active={ $page.url.pathname.includes(favoritesHref) }>
+            <a href={ favoritesHref }>Favorites</a>
+        </li>
     </ul>
 </nav>
 <slot />

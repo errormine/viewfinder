@@ -51,11 +51,11 @@ CREATE TABLE Comments (
     FOREIGN KEY (ParentCommentID) REFERENCES Comments(CommentID)
 );
 
-CREATE TABLE Followers (
+CREATE TABLE Follows (
     UserID INT,
-    FollowerUserID INT,
+    FollowerID INT,
     FOREIGN KEY (UserID) REFERENCES Users(UserID),
-    FOREIGN KEY (FollowerUserID) REFERENCES Users(UserID)
+    FOREIGN KEY (FollowerID) REFERENCES Users(UserID)
 );
 
 CREATE TABLE Favorites (

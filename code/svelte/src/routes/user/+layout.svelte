@@ -151,5 +151,8 @@
     main .contents {
         background: white;
         padding: 1.5rem 4rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
     }
 </style>

@@ -5,10 +5,13 @@
     console.log(data.photos);
 </script>
 
-<h2>Photo Gallery</h2>
-
-{#each data.photos as photo}
-    <a href={ photo.Image }>
-        <img src={ photo.Image } alt="" />
-    </a>
-{/each}
+<section id="photo-gallery">
+    <header>
+        <h3>Photo Gallery</h3>
+    </header>
+    {#each data.photos as photo}
+        <a href={ photo.Image }>
+            <img src={ photo.Image } alt="" />
+        </a>
+    {/each}
+</section>

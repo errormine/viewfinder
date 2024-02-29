@@ -1,0 +1,23 @@
+.contents > section {
+    margin-bottom: 1.5rem;
+}
+
+section > header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+section > header > h3 {
+    margin: 0;
+}
+
+section > header > a {
+    font-size: 1.25rem;
+    text-decoration: none;
+}
+
+section > header > a:hover {
+    text-decoration: underline;
+}

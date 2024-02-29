@@ -11,6 +11,6 @@
             <h2>Join Website</h2>
         </header>
         <p>Create an account to post photos, comment, and save photos from others.</p>
-        <Button href="/auth/google" class="login-button">Log in with Google</Button>
+        <Button href="/auth/google">Log in with Google</Button>
     </section>
 </dialog>

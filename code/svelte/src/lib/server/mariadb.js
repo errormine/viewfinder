@@ -52,7 +52,6 @@ async function getSingleValue(query, param) {
         });
 }
 
-
 // User Profile ABOUT
 export async function getUserId(username) {
     return getSingleValue("SELECT UserID FROM Users WHERE Username = ?", [username]);
@@ -76,5 +75,16 @@ export async function getFollowingCount(userId) {
 
 // User Profile PHOTOS
 export async function getPhotos(userId) {
+    // TODO: Pagination
     return performQuery("SELECT * FROM Photos WHERE UserID = ?", [userId]);
+}
+
+// User Profile ALBUMS
+export async function getAlbums(userId) {
+    return performQuery("SELECT * FROM Albums WHERE UserID = ?", [userId]);
+}
+
+// User Profile FAVORITES
+export async function getFavorites(userId) {
+    return performQuery("SELECT * FROM Photos WHERE PhotoID IN (SELECT PhotoID FROM Favorites WHERE UserID = ?)", [userId]);
 }

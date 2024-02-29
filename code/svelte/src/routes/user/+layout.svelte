@@ -41,7 +41,11 @@
         </li>
     </ul>
 </nav>
-<slot />
+<main class="content-grid">
+    <section class="contents">
+        <slot />
+    </section>
+</main>
 
 <style>
     /* USER PROFILE HEADER */
@@ -136,5 +140,16 @@
 
     .profile-navigation li.active a {
         color: black;
+    }
+
+    /* CONTENTS */
+    main {
+        background: var(--color-off-white);
+        grid-column: content;
+    }
+
+    main .contents {
+        background: white;
+        padding: 1.5rem 4rem;
     }
 </style>

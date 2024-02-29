@@ -3,28 +3,28 @@
     export let href = '';
 </script>
 
-<article class="bubble">
+<section class="bubble">
     <p>{label}</p>
     <a {href}>{href.replace("mailto:", "")}</a>
-</article>
+</section>
 
 <style>
-    article {
+    .bubble {
         background: var(--color-gray-gradient);
         border-radius: 0.5rem;
         padding: 0.8rem;
     }
 
-    article > * {
+    .bubble > * {
         display: inline-block;
     }
 
-    article > p {
+    .bubble > p {
         margin: 0;
         margin-right: 1rem;
     }
 
-    article > a {
+    .bubble > a {
         color: var(--color-primary);
     }
 </style>

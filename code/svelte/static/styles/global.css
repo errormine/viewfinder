@@ -72,6 +72,15 @@ p {
 
 small { font-size: 0.833rem; }
 
+a {
+    color: var(--color-primary);
+    transition: color 200ms;
+}
+
+a:hover { 
+    color: var(--color-primary-dark); 
+}
+
 /* FONT WEIGHTS */
 .font-weight-light { font-weight: 300; }
 .font-weight-semi-bold { font-weight: 600; }

@@ -22,23 +22,34 @@ export async function testConnection() {
 }
 
 async function performQuery(query, param) {
-    let conn = await pool.getConnection();
+    let conn;
 
-    return conn.query(query, param)
-        .then(rows => {
-            conn.end();
-            return rows;
-        })
-        .catch(err => {
-            return err;
-        });
+    try {
+        conn = await pool.getConnection();
+
+        return conn.query(query, param)
+            .then(rows => {
+                return rows;
+            })
+            .catch(err => {
+                return err;
+            });
+    } catch (err) {
+        console.log(err);
+        return "Error retrieving data.";
+    } finally {
+        if (conn) conn.end();
+    }
 }
 
 async function getSingleRow(query, param) {
     return performQuery(query, param)
         .then(rows => {
-            console.log(rows);
             return rows[0];
+        })
+        .catch(err => {
+            console.log(err);
+            return null;
         });
 }
 
@@ -48,6 +59,7 @@ async function getSingleValue(query, param) {
             return Object.values(res)[0];
         })
         .catch(err => {
+            console.log(err);
             return null;
         });
 }
@@ -87,4 +99,39 @@ export async function getAlbums(userId) {
 // User Profile FAVORITES
 export async function getFavorites(userId) {
     return performQuery("SELECT * FROM Photos WHERE PhotoID IN (SELECT PhotoID FROM Favorites WHERE UserID = ?)", [userId]);
+}
+
+// User Interactions
+export async function followUser(userId, followerId) {
+    return performQuery("INSERT INTO Follows (UserID, FollowerID) VALUES (?, ?)", [userId, followerId]);
+}
+
+export async function unfollowUser(userId, followerId) {
+    return performQuery("DELETE FROM Follows WHERE UserID = ? AND FollowerID = ?", [userId, followerId]);
+}
+
+export async function isFollowing(userId, followerId) {
+    return getSingleValue("SELECT COUNT(*) FROM Follows WHERE UserID = ? AND FollowerID = ?", [userId, followerId]);
+}
+
+// Photo interactions
+export async function favoritePhoto(userId, photoId) {
+    return performQuery("INSERT INTO Favorites (UserID, PhotoID) VALUES (?, ?)", [userId, photoId]);
+}
+
+export async function unfavoritePhoto(userId, photoId) {
+    return performQuery("DELETE FROM Favorites WHERE UserID = ? AND PhotoID = ?", [userId, photoId]);
+}
+
+export async function isFavorite(userId, photoId) {
+    return getSingleValue("SELECT COUNT(*) FROM Favorites WHERE UserID = ? AND PhotoID = ?", [userId, photoId]);
+}
+
+// Photo upload
+export async function uploadPhoto(userId, photo) {
+    return performQuery("INSERT INTO Photos (UserID, Title, Description, Path) VALUES (?, ?, ?, ?)", [userId, photo.title, photo.description, photo.path]);
+}
+
+export async function deletePhoto(photoId) {
+    return performQuery("DELETE FROM Photos WHERE PhotoID = ?", [photoId]);
 }

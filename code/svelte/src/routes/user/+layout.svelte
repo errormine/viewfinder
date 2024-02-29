@@ -3,10 +3,10 @@
     /** @type {import('./$types').LayoutData} */
     export let data;
 
-    export let aboutHref = `/user/${ data.username }`;
-    export let photosHref = `/user/${ data.username }/photos`;
-    export let albumsHref = `/user/${ data.username }/albums`;
-    export let favoritesHref = `/user/${ data.username }/favorites`;
+    export let baseHref = `/user/${ data.username }`;
+    export let photosHref = `${baseHref}/photos`;
+    export let albumsHref = `${baseHref}/albums`;
+    export let favoritesHref = `${baseHref}/favorites`;
 </script>
 
 <header class='hero full-width'>
@@ -27,8 +27,8 @@
 </header>
 <nav class='profile-navigation full-width'>
     <ul>
-        <li class:active={ $page.url.pathname === aboutHref }>
-            <a href={ aboutHref } >About</a>
+        <li class:active={ $page.url.pathname === baseHref }>
+            <a href={ baseHref } >About</a>
         </li>
         <li class:active={ $page.url.pathname.includes(photosHref) }>
             <a href={ photosHref }>Photos</a>
@@ -151,8 +151,5 @@
     main .contents {
         background: white;
         padding: 1.5rem 4rem;
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
     }
 </style>

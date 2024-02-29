@@ -1,9 +1,14 @@
+<script>
+    /** @type {import('./$types').LayoutData} */
+	export let data;
+</script>
+
 <header class='hero full-width'>
     <section class='user-info'>
         <figure class='user-portrait'>
             <img src="https://picsum.photos/200" alt="">
             <figcaption>
-                <h2 class='user-display-name'>British Library</h2>
+                <h2 class='user-display-name'>{ data.displayName }</h2>
                 <p class="user-handle font-weight-light">@thebritishlibrary</p>
             </figcaption>
         </figure>

@@ -5,6 +5,10 @@ export async function load({ params }) {
 	let userId = await db.getUserId(params.username);
 
 	return {
-		displayName: await db.getDisplayName(userId)
+		username: params.username,
+		displayName: await db.getDisplayName(userId),
+		photosCount: await db.getPhotosCount(userId),
+		followersCount: await db.getFollowersCount(userId),
+		followingCount: await db.getFollowingCount(userId)
 	};
 }

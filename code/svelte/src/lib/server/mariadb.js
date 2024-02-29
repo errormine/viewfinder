@@ -55,5 +55,17 @@ export async function getUserId(username) {
 }
 
 export async function getDisplayName(userId) {
-    return getSingleValue("SELECT DisplayName FROM Users WHERE UserId = ?", [userId])
+    return getSingleValue("SELECT DisplayName FROM Users WHERE UserId = ?", [userId]);
+}
+
+export async function getPhotosCount(userId) {
+    return 0;
+}
+
+export async function getFollowersCount(userId) {
+    return 0;
+}
+
+export async function getFollowingCount(userId) {
+    return 0;
 }

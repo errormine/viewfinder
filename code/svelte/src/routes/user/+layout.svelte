@@ -9,22 +9,22 @@
             <img src="https://picsum.photos/200" alt="">
             <figcaption>
                 <h2 class='user-display-name'>{ data.displayName }</h2>
-                <p class="user-handle font-weight-light">@thebritishlibrary</p>
+                <p class="user-handle font-weight-light">@{ data.username }</p>
             </figcaption>
         </figure>
         <ul class='user-stats'>
-            <li><span>1.5K</span> Photos</li>
-            <li><span>60.5K</span> Followers</li>
-            <li><span>30</span> Following</li>
+            <li><span>{ data.photosCount }</span> Photos</li>
+            <li><span>{ data.followersCount }</span> Followers</li>
+            <li><span>{ data.followingCount }</span> Following</li>
         </ul>
     </section>
 </header>
 <nav class='profile-navigation full-width'>
     <ul>
-        <li class="active"><a href="/user/[username]" >About</a></li>
-        <li><a href="/user/[username]/photos">Photos</a></li>
-        <li><a href="/user/[username]/albums">Albums</a></li>
-        <li><a href="/user/[username]/favorites">Favorites</a></li>
+        <li class="active"><a href="/user/{ data.username }" >About</a></li>
+        <li><a href="/user/{ data.username }/photos">Photos</a></li>
+        <li><a href="/user/{ data.username }/albums">Albums</a></li>
+        <li><a href="/user/{ data.username }/favorites">Favorites</a></li>
     </ul>
 </nav>
 <slot />

@@ -91,6 +91,21 @@ img {
     shape-margin: 1rem;
 }
 
+svg {
+    display: block;
+}
+
+textarea {
+    font-family: inherit;
+    font-size: inherit;
+    display: block;
+    width: 100%;
+    border: 1px solid var(--color-dark-gray);
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    resize: none;
+}
+
 /* FONT WEIGHTS */
 .font-weight-light { font-weight: 300; }
 .font-weight-semi-bold { font-weight: 600; }
@@ -109,4 +124,8 @@ img {
 
 .round-corners {
     border-radius: 0.5rem;
+}
+
+.hidden {
+    display: none;
 }

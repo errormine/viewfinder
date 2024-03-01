@@ -8,9 +8,7 @@
 <dialog class="login-dialog" bind:this={dialog}>
     <section class="login-wrapper">
         <button class="close-button" on:click={dialog.close()}>X</button>
-        <header>
-            <h2>Join Website</h2>
-        </header>
+        <h2>Join Website</h2>
         <p>Create an account to post photos, comment, and save photos from others.</p>
         <Button href="/auth/google">Log in with Google</Button>
     </section>
@@ -18,7 +16,7 @@
 <header>
     <h1>Website</h1>
     <SearchBar />
-    <Button href="/login" on:click={dialog.showModal()}>Log In</Button>
+    <Button on:click={dialog.showModal()}>Log In</Button>
 </header>
 
 <style>

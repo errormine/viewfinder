@@ -81,6 +81,16 @@ a:hover {
     color: var(--color-primary-dark); 
 }
 
+img {
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+    font-style: italic;
+    background-repeat: no-repeat;
+    background-size: cover;
+    shape-margin: 1rem;
+}
+
 /* FONT WEIGHTS */
 .font-weight-light { font-weight: 300; }
 .font-weight-semi-bold { font-weight: 600; }
@@ -95,4 +105,8 @@ a:hover {
 .content-grid > *,
 .full-width > * {
     grid-column: content;
+}
+
+.round-corners {
+    border-radius: 0.5rem;
 }

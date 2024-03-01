@@ -3,6 +3,8 @@
 
     /** @type {import('./$types').LayoutData} */
     export let data;
+
+    console.log(data.photos);
 </script>
 
 <section id="profile-bubbles">
@@ -23,7 +25,13 @@
         <h3>Recent Photos</h3>
         <a href="/user/{ data.username }/photos">View more</a>
     </header>
-    <p>Here are the user's recent photos</p>
+    <ul class="photos-row">
+        {#each data.photos as photo}
+            <li>
+                <img class="round-corners" src="{ photo.Image }" alt="">
+            </li>
+        {/each}
+    </ul>
 </section>
 
 <style>
@@ -32,6 +40,12 @@
     #profile-bubbles {
         display: grid;
         grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    .photos-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         gap: 1rem;
     }
 </style>

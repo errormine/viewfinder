@@ -89,6 +89,10 @@ export async function getPhotos(userId) {
     return performQuery("SELECT * FROM Photos WHERE UserID = ?", [userId]);
 }
 
+export async function getRecentPhotos(userId, amount = 4) {
+    return performQuery("SELECT * FROM Photos WHERE UserID = ? ORDER BY Timestamp DESC LIMIT ?", [userId, amount]);
+}
+
 // User Profile ALBUMS
 export async function getAlbums(userId) {
     return performQuery("SELECT * FROM Albums WHERE UserID = ?", [userId]);

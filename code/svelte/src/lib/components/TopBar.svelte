@@ -18,7 +18,7 @@
 <header>
     <h1>Website</h1>
     <SearchBar />
-    <Button href="/login" onclick={dialog.showModal()}>Log In</Button>
+    <Button href="/login" on:click={dialog.showModal()}>Log In</Button>
 </header>
 
 <style>

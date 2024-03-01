@@ -6,6 +6,7 @@ export async function load({ params }) {
 
 	return {
 		username: params.username,
+		userId: userId,
 		displayName: await db.getDisplayName(userId),
 		photosCount: await db.getPhotosCount(userId),
 		followersCount: await db.getFollowersCount(userId),

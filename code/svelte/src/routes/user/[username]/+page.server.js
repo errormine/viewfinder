@@ -6,6 +6,7 @@ export async function load({ params }) {
 
     return {
         username: params.username,
+        bio: (await db.getBio(userId)).replace(/<[^>]*>/g, ''),
         photos: await db.getRecentPhotos(userId)
     };
 };

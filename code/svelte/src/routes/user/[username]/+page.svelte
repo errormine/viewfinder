@@ -1,10 +1,9 @@
 <script>
+    import SvelteMarkdown from "svelte-markdown";
     import ProfileBubble from "$lib/components/ProfileBubble.svelte";
 
     /** @type {import('./$types').LayoutData} */
     export let data;
-
-    console.log(data.photos);
 </script>
 
 <section id="profile-bubbles">
@@ -12,7 +11,10 @@
     <ProfileBubble label="Contact" href="mailto:contact@example.com" />
 </section>
 <section id="user-bio">
-    <p>Here is the user bio I guess</p>
+    <header>
+        <h3>About</h3>
+    </header>
+    <SvelteMarkdown source={data.bio} />
 </section>
 <section id="user-showcase" >
     <header>

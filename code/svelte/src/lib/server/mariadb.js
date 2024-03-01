@@ -83,6 +83,10 @@ export async function getFollowingCount(userId) {
     return getSingleValue("SELECT COUNT(*) FROM Follows WHERE FollowerID = ?", [userId]);
 }
 
+export async function getBio(userId) {
+    return getSingleValue("SELECT Bio FROM Users WHERE UserID = ?", [userId]);
+}
+
 // User Profile PHOTOS
 export async function getPhotos(userId) {
     // TODO: Pagination

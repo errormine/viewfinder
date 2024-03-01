@@ -1,12 +1,13 @@
 <script>
     export let title = '';
+    export let buttonShape = 'squircle';
     export let showBG = false;
 </script>
 
 <!-- You have to forward on:click here or the button won't work! -->
 <!-- https://svelte.dev/tutorial/dom-event-forwarding -->
 
-<button on:click {title} class="round-corners" class:show-bg={showBG}>
+<button on:click {title} class={buttonShape} class:show-bg={showBG}>
     <slot />
 </button>
 
@@ -14,12 +15,16 @@
     button {
         display: block;
         cursor: pointer;
-        padding: 0.5rem;
         transition: 200ms;
         background-color: transparent;
         border: 1px solid transparent;
-        height: 2rem;
         width: 2rem;
+        height: 2rem;
+        padding: 0;
+    }
+
+    .squircle {
+        border-radius: 0.5rem;
     }
 
     .show-bg,

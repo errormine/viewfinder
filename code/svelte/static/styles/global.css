@@ -126,6 +126,10 @@ textarea {
     border-radius: 0.5rem;
 }
 
+.octicon {
+    margin: 0 auto;
+}
+
 .hidden {
     display: none;
 }

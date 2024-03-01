@@ -1,10 +1,16 @@
 <script>
-    export let href = '/';
+    export let href;
 </script>
 
-<a class="button" {href}>
-    <slot>Button</slot>
-</a>
+{#if href}
+    <a class="button" href={href}>
+        <slot>Button</slot>
+    </a>
+{:else}
+    <button class="button" on:click>
+        <slot>Button</slot>
+    </button>
+{/if}
 
 <style>
     .button {
@@ -19,5 +25,11 @@
         height: 32px;
         text-decoration: none;
         font-weight: 500;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .button:hover {
+        background: var(--color-primary-dark);
     }
 </style>

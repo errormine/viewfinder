@@ -48,7 +48,7 @@ async function getSingleRow(query, param) {
         })
         .catch(err => {
             console.log("QUERY FAILED: " + query);
-            return "";
+            return err;
         });
 }
 
@@ -59,7 +59,7 @@ async function getSingleValue(query, param) {
         })
         .catch(err => {
             console.log("QUERY FAILED: " + query);
-            return null;
+            return err;
         });
 }
 

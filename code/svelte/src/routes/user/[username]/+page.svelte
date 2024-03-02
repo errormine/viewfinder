@@ -7,6 +7,7 @@
     import ActionBar from "$lib/components/ActionBar.svelte";
     import Button from "$lib/components/Button.svelte";
     import IconButton from "$lib/components/IconButton.svelte";
+    import PhotoFigure from "$lib/components/PhotoFigure.svelte";
 
     /** @type {import('./$types').LayoutData} */
     export let data;
@@ -81,7 +82,7 @@
     <ul class="photos-row">
         {#each data.photos as photo}
             <li>
-                <img class="round-corners" src="{ photo.Image }" alt="">
+                <PhotoFigure src={photo.Image} />
             </li>
         {/each}
     </ul>

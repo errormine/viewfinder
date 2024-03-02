@@ -1,8 +1,8 @@
 <script>
+    import PhotoFigure from "$lib/components/PhotoFigure.svelte";
+
     /** @type {import('./$types').PageData} */
     export let data;
-
-    console.log(data.photos);
 </script>
 
 <section id="photo-gallery">
@@ -10,8 +10,6 @@
         <h3>Photo Gallery</h3>
     </header>
     {#each data.photos as photo}
-        <a href={ photo.Image }>
-            <img src={ photo.Image } alt="" />
-        </a>
+        <PhotoFigure src={photo.Image} />
     {/each}
 </section>

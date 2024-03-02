@@ -1,10 +1,12 @@
 <script>
-    import SvelteMarkdown from "svelte-markdown";
+    import DOMPurify from "isomorphic-dompurify";
+    import * as gemtext from "dioscuri";
+    import { Pencil16, X16 } from "svelte-octicons";
+
     import ProfileBubble from "$lib/components/ProfileBubble.svelte";
     import ActionBar from "$lib/components/ActionBar.svelte";
     import Button from "$lib/components/Button.svelte";
     import IconButton from "$lib/components/IconButton.svelte";
-    import { Pencil16, X16 } from "svelte-octicons";
 
     /** @type {import('./$types').LayoutData} */
     export let data;
@@ -44,7 +46,7 @@
         <ActionBar>
             {#if editingBio}
                 <Button on:click={handleSaveBio}>Save</Button>
-                <IconButton title="Cancel" on:click={() => editingBio = false } showBG=true>
+                <IconButton title="Cancel" on:click={() => editingBio = false } showBG>
                     <X16 />
                 </IconButton>
             {:else}
@@ -57,7 +59,7 @@
     {#if editingBio}
         <textarea bind:this={bioInput} id="bio-input" rows="5" class="rounded-corners">{data.bio}</textarea>
     {:else}
-        <SvelteMarkdown source={data.bio} />
+        {@html DOMPurify.sanitize(gemtext.buffer(data.bio)) }
     {/if}
 </section>
 <section id="user-showcase" >

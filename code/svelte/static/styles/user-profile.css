@@ -21,3 +21,7 @@ section > header > a {
 section > header > a:hover {
     text-decoration: underline;
 }
+
+#user-bio > div {
+    margin-bottom: 1rem;
+}

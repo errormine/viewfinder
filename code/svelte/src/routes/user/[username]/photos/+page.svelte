@@ -1,5 +1,5 @@
 <script>
-    import PhotoFigure from "$lib/components/PhotoFigure.svelte";
+    import PhotoGrid from '$lib/components/PhotoGrid.svelte';
 
     /** @type {import('./$types').PageData} */
     export let data;
@@ -9,7 +9,5 @@
     <header>
         <h3>Photo Gallery</h3>
     </header>
-    {#each data.photos as photo}
-        <PhotoFigure src={photo.Image} />
-    {/each}
+    <PhotoGrid photos={data.photos} />
 </section>

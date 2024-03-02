@@ -120,18 +120,6 @@ svg {
     grid-column: full-width;
 }
 
-.round-corners {
-    border-radius: 0.5rem;
-}
-
-.octicon {
-    margin: 0 auto;
-}
-
-.hidden {
-    display: none;
-}
-
 /* FORM ELEMENTS */
 textarea {
     font-family: inherit;
@@ -144,10 +132,24 @@ textarea {
     border-radius: 0.5rem;
     padding: 0.5rem;
     resize: none;
+    margin-bottom: 1rem;
 }
 
 /* ACCESSIBILITY */
 *:focus-visible {
     outline: 2px solid var(--color-primary);
     outline-offset: 1px;
+}
+
+/* MISC CLASSES */
+.round-corners {
+    border-radius: 0.5rem;
+}
+
+.octicon {
+    margin: 0 auto;
+}
+
+.hidden {
+    display: none;
 }

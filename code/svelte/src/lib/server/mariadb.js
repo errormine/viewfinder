@@ -6,18 +6,23 @@ const pool = mariadb.createPool({
     database: "team02m_db"
 });
 
-console.log(`DB_HOST: ${import.meta.env.VITE_DB_HOST}, DB_USER: ${import.meta.env.VITE_DB_USER}`);
-
 export async function testConnection() {
+    if (process.env.NODE_ENV === 'development' && import.meta.env.VITE_NO_DB === 'true') {
+        console.log("Skipping database connection test...")
+        return false;
+    }
+
     let conn = await pool.getConnection();
 
     return conn.query("SELECT 1 as val")
         .then(rows => {
-            console.log(rows);
-            return "Connected!";
+            console.log("DB Connection test successful!");
+            console.log(`DB_HOST: ${import.meta.env.VITE_DB_HOST}, DB_USER: ${import.meta.env.VITE_DB_USER}`);
+            return true;
         })
         .catch(err => {
-            return err;
+            console.log(err);
+            return false;
         });
 }
 

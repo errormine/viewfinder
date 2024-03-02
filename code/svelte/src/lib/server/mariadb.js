@@ -87,6 +87,10 @@ export async function getBio(userId) {
     return getSingleValue("SELECT Bio FROM Users WHERE UserID = ?", [userId]);
 }
 
+export async function updateBio(userId, bio) {
+    return performQuery("UPDATE Users SET Bio = ? WHERE UserID = ?", [bio, userId]);
+}
+
 // User Profile PHOTOS
 export async function getPhotos(userId) {
     // TODO: Pagination

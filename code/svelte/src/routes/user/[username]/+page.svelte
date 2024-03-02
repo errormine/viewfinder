@@ -1,9 +1,37 @@
 <script>
     import SvelteMarkdown from "svelte-markdown";
     import ProfileBubble from "$lib/components/ProfileBubble.svelte";
+    import ActionBar from "$lib/components/ActionBar.svelte";
+    import Button from "$lib/components/Button.svelte";
+    import IconButton from "$lib/components/IconButton.svelte";
+    import { Pencil16, X16 } from "svelte-octicons";
 
     /** @type {import('./$types').LayoutData} */
     export let data;
+
+    let bioInput;
+    let editingBio = false;
+    let showcaseContents;
+
+    function handleSaveBio() {
+        editingBio = false;
+        data.bio = bioInput.value;
+
+        fetch('/edit/user', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ bio: bioInput.value })
+        })
+        .then(response => {
+            console.log(response);
+        })
+        .catch(error => {
+            console.error(error);
+            data.bio = 'Error saving bio.';
+        });
+    }
 </script>
 
 <section id="profile-bubbles">
@@ -13,14 +41,35 @@
 <section id="user-bio">
     <header>
         <h3>About</h3>
+        <ActionBar>
+            {#if editingBio}
+                <Button on:click={handleSaveBio}>Save</Button>
+                <IconButton title="Cancel" on:click={() => editingBio = false } showBG=true>
+                    <X16 />
+                </IconButton>
+            {:else}
+                <IconButton title="Edit Bio" on:click={() => editingBio = true }>
+                    <Pencil16 />
+                </IconButton>
+            {/if}
+        </ActionBar>
     </header>
-    <SvelteMarkdown source={data.bio} />
+    {#if editingBio}
+        <textarea bind:this={bioInput} id="bio-input" rows="5" class="rounded-corners">{data.bio}</textarea>
+    {:else}
+        <SvelteMarkdown source={data.bio} />
+    {/if}
 </section>
 <section id="user-showcase" >
     <header>
         <h3>Showcase</h3>
+        <IconButton title="Edit Showcase">
+            <Pencil16 />
+        </IconButton>
     </header>
-    <p>Here is the user showcase</p>
+    <article bind:this={showcaseContents}>
+        <p>Here is the user showcase</p>
+    </article>
 </section>
 <section id="user-recent-photos">
     <header>

@@ -28,6 +28,9 @@
 
     /* SIZE VARIABLES */
     --footer-height: 6rem;
+
+    /* BORDERS AND SHADOWS */
+    --inner-shadow: inset 0px 1px 4px rgba(0, 0, 0, 0.25);
 }
 
 html {
@@ -133,3 +136,18 @@ textarea {
 .hidden {
     display: none;
 }
+
+/* FORM ELEMENTS */
+textarea {
+    font-family: inherit;
+    font-size: inherit;
+    display: block;
+    width: 100%;
+    box-shadow: var(--inner-shadow);
+    background-color: var(--color-off-white);
+    border: 1px solid var(--color-gray);
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    resize: none;
+}
+

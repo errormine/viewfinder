@@ -6,7 +6,12 @@
 </main>
 
 <style>
-    :global(main) {
+    :global(body) {
+        margin: 0;
+        padding: 0;
+    }
+
+    main {
         background: url(https://picsum.photos/1920/1080) no-repeat center;
         background-size: cover;
         position: relative;

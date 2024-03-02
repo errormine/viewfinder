@@ -48,6 +48,10 @@
 </main>
 
 <style>
+    :global(body) {
+        padding: 0;
+    }
+
     /* USER PROFILE HEADER */
     .hero {
         color: white;

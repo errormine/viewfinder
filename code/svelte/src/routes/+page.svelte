@@ -1,7 +1,7 @@
 <main>
     <section>
         <h2><a href="/">Featured Photo</a></h2>
-        <p>by <a href="/">John Doe</a></p>
+        <p>by <a href="/user/john_doe">John Doe</a></p>
     </section>
 </main>
 

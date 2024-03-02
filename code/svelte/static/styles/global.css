@@ -49,6 +49,7 @@ html, body {
 
 main {
     min-height: calc(100% - var(--footer-height));
+    padding-top: 4rem;
 }
 
 h1, h2, h3,

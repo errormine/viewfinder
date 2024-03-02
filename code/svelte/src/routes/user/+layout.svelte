@@ -41,11 +41,9 @@
         </li>
     </ul>
 </nav>
-<main class="content-grid">
-    <section class="contents">
-        <slot />
-    </section>
-</main>
+<section class="content-grid">
+    <slot />
+</section>
 
 <style>
     /* USER PROFILE HEADER */
@@ -143,12 +141,7 @@
     }
 
     /* CONTENTS */
-    main {
-        background: var(--color-off-white);
-        grid-column: content;
-    }
-
-    main .contents {
+    .content-grid {
         background: white;
         padding: 1.5rem 4rem;
     }

@@ -4,5 +4,7 @@
 </script>
 
 <TopBar />
-<slot />
+<main>
+    <slot />
+</main>
 <Footer />

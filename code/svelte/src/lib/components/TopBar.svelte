@@ -14,7 +14,7 @@
     </section>
 </dialog>
 <header>
-    <h1>Website</h1>
+    <h1><a href="/">Website</a></h1>
     <SearchBar />
     <Button on:click={dialog.showModal()}>Log In</Button>
 </header>
@@ -37,5 +37,11 @@
 
     header h1 {
         margin: 0;
+    }
+
+    header h1 a {
+        display: block;
+        text-decoration: none;
+        color: black;
     }
 </style>

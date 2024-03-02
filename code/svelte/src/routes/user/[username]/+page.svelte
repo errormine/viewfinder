@@ -46,11 +46,11 @@
         <ActionBar>
             {#if editingBio}
                 <Button on:click={handleSaveBio}>Save</Button>
-                <IconButton title="Cancel" on:click={() => editingBio = false } showBG>
+                <IconButton title="Cancel" on:click={() => editingBio = false }>
                     <X16 />
                 </IconButton>
             {:else}
-                <IconButton title="Edit Bio" on:click={() => editingBio = true }>
+                <IconButton title="Edit Bio" on:click={() => editingBio = true } noBG>
                     <Pencil16 />
                 </IconButton>
             {/if}
@@ -65,7 +65,7 @@
 <section id="user-showcase" >
     <header>
         <h3>Showcase</h3>
-        <IconButton title="Edit Showcase">
+        <IconButton title="Edit Showcase" noBG>
             <Pencil16 />
         </IconButton>
     </header>

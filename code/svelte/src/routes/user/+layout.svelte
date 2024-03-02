@@ -9,41 +9,43 @@
     export let favoritesHref = `${baseHref}/favorites`;
 </script>
 
-<header class='hero full-width'>
-    <section class='user-info'>
-        <figure class='user-portrait'>
-            <img src="https://picsum.photos/200" alt="">
-            <figcaption>
-                <h2 class='user-display-name'>{ data.displayName }</h2>
-                <p class="user-handle font-weight-light">@{ data.username }</p>
-            </figcaption>
-        </figure>
-        <ul class='user-stats'>
-            <li><span>{ data.photosCount }</span> Photos</li>
-            <li><span>{ data.followersCount }</span> Followers</li>
-            <li><span>{ data.followingCount }</span> Following</li>
+<main class="content-grid">
+    <header class='hero full-width'>
+        <section class='user-info'>
+            <figure class='user-portrait'>
+                <img src="https://picsum.photos/200" alt="">
+                <figcaption>
+                    <h2 class='user-display-name'>{ data.displayName }</h2>
+                    <p class="user-handle font-weight-light">@{ data.username }</p>
+                </figcaption>
+            </figure>
+            <ul class='user-stats'>
+                <li><span>{ data.photosCount }</span> Photos</li>
+                <li><span>{ data.followersCount }</span> Followers</li>
+                <li><span>{ data.followingCount }</span> Following</li>
+            </ul>
+        </section>
+    </header>
+    <nav class='profile-navigation full-width'>
+        <ul>
+            <li class:active={ $page.url.pathname === baseHref }>
+                <a href={ baseHref } >About</a>
+            </li>
+            <li class:active={ $page.url.pathname.includes(photosHref) }>
+                <a href={ photosHref }>Photos</a>
+            </li>
+            <li class:active={ $page.url.pathname.includes(albumsHref) }>
+                <a href={ albumsHref }>Albums</a>
+            </li>
+            <li class:active={ $page.url.pathname.includes(favoritesHref) }>
+                <a href={ favoritesHref }>Favorites</a>
+            </li>
         </ul>
+    </nav>
+    <section class="page-contents">
+        <slot />
     </section>
-</header>
-<nav class='profile-navigation full-width'>
-    <ul>
-        <li class:active={ $page.url.pathname === baseHref }>
-            <a href={ baseHref } >About</a>
-        </li>
-        <li class:active={ $page.url.pathname.includes(photosHref) }>
-            <a href={ photosHref }>Photos</a>
-        </li>
-        <li class:active={ $page.url.pathname.includes(albumsHref) }>
-            <a href={ albumsHref }>Albums</a>
-        </li>
-        <li class:active={ $page.url.pathname.includes(favoritesHref) }>
-            <a href={ favoritesHref }>Favorites</a>
-        </li>
-    </ul>
-</nav>
-<section class="content-grid">
-    <slot />
-</section>
+</main>
 
 <style>
     /* USER PROFILE HEADER */
@@ -140,9 +142,8 @@
         color: black;
     }
 
-    /* CONTENTS */
-    .content-grid {
-        background: white;
+    .page-contents {
         padding: 1.5rem 4rem;
+        background: white;
     }
 </style>

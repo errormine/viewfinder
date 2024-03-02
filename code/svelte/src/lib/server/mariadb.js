@@ -1,4 +1,6 @@
 import mariadb from 'mariadb';
+
+
 const pool = mariadb.createPool({
     host: import.meta.env.VITE_DB_HOST,
     user: import.meta.env.VITE_DB_USER,
@@ -6,9 +8,28 @@ const pool = mariadb.createPool({
     database: "team02m_db"
 });
 
+export let DEV_MODE = process.env.NODE_ENV === 'development' && import.meta.env.VITE_NO_DB === 'true';
+export let placeholders = {
+    displayName: "Placeholder User",
+    username: "placeholder",
+    userId: 1,
+    bio: "This is a test user. They do not exist.",
+    recentPhotos: [
+        {
+            PhotoID: 1,
+            Image: "https://picsum.photos/300/200",
+            Description: "This is a test photo."
+        },
+        {
+            PhotoID: 2,
+            Image: "https://picsum.photos/300/200",
+            Description: "This is a test photo."
+        }
+    ],
+}
+
 export async function testConnection() {
-    if (process.env.NODE_ENV === 'development' && import.meta.env.VITE_NO_DB === 'true') {
-        console.log("Skipping database connection test...")
+    if (DEV_MODE) {
         return false;
     }
 
@@ -70,26 +91,32 @@ async function getSingleValue(query, param) {
 
 // User Profile ABOUT
 export async function getUserId(username) {
+    if (DEV_MODE) return placeholders.userId;
     return getSingleValue("SELECT UserID FROM Users WHERE Username = ?", [username]);
 }
 
 export async function getDisplayName(userId) {
+    if (DEV_MODE) return placeholders.displayName;
     return getSingleValue("SELECT DisplayName FROM Users WHERE UserID = ?", [userId]);
 }
 
 export async function getPhotosCount(userId) {
+    if (DEV_MODE) return placeholders.recentPhotos.length;
     return getSingleValue("SELECT COUNT(*) FROM Photos WHERE UserID = ?", [userId]);
 }
 
 export async function getFollowersCount(userId) {
+    if (DEV_MODE) return 0;
     return getSingleValue("SELECT COUNT(*) FROM Follows WHERE UserID = ?", [userId]);
 }
 
 export async function getFollowingCount(userId) {
+    if (DEV_MODE) return 0;
     return getSingleValue("SELECT COUNT(*) FROM Follows WHERE FollowerID = ?", [userId]);
 }
 
 export async function getBio(userId) {
+    if (DEV_MODE) return placeholders.bio;
     return getSingleValue("SELECT Bio FROM Users WHERE UserID = ?", [userId]);
 }
 
@@ -99,11 +126,13 @@ export async function updateBio(userId, bio) {
 
 // User Profile PHOTOS
 export async function getPhotos(userId) {
+    if (DEV_MODE) return placeholders.recentPhotos;
     // TODO: Pagination
     return performQuery("SELECT * FROM Photos WHERE UserID = ?", [userId]);
 }
 
 export async function getRecentPhotos(userId, amount = 4) {
+    if (DEV_MODE) return placeholders.recentPhotos;
     return performQuery("SELECT * FROM Photos WHERE UserID = ? ORDER BY Timestamp DESC LIMIT ?", [userId, amount]);
 }
 

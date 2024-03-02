@@ -80,7 +80,7 @@
         <a href="/user/{ data.username }/photos">View more</a>
     </header>
     <ul class="photos-row">
-        {#each data.photos as photo}
+        {#each data.recentPhotos as photo}
             <li>
                 <PhotoFigure src={photo.Image} />
             </li>

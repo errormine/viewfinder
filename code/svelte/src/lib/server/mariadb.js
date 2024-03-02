@@ -35,8 +35,7 @@ async function performQuery(query, param) {
                 return err;
             });
     } catch (err) {
-        console.log(err);
-        return null;
+        return err;
     } finally {
         if (conn) conn.end();
     }
@@ -48,7 +47,8 @@ async function getSingleRow(query, param) {
             return rows[0];
         })
         .catch(err => {
-            return err;
+            console.log("QUERY FAILED: " + query);
+            return "";
         });
 }
 
@@ -58,7 +58,8 @@ async function getSingleValue(query, param) {
             return Object.values(res)[0];
         })
         .catch(err => {
-            return err;
+            console.log("QUERY FAILED: " + query);
+            return null;
         });
 }
 

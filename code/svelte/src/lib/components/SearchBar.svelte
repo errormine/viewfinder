@@ -2,29 +2,10 @@
 <script>
     import { Search16 } from 'svelte-octicons';
 
-    let placeholders = [
-        'landscape',
-        'portrait',
-        'nature',
-        'architecture',
-        'street',
-        'wildlife',
-        'macro',
-        'sports',
-        'fashion',
-        'food',
-        'travel',
-        'event',
-        'product',
-        'black and white',
-        'abstract',
-        'still life',
-        'night',
-        'long exposure',
-        'underwater',
-        'aerial'
-    ];
-    let placeholder = 'Search for ' + placeholders[Math.floor(Math.random() * placeholders.length)];
+    let searches = ['landscape', 'portrait', 'nature', 'architecture', 'street', 'wildlife', 'macro', 'sports', 'fashion', 'food', 'black and white', 'abstract', 'still life', 'long exposure', 'aerial', 'cityscape', 'sunrise', 'sunset', 'beach', 'mountain', 'forest', 'waterfall', 'desert', 'sky', 'clouds', 'flowers', 'birds', 'insects', 'pets', 'cars', 'bikes', 'boats', 'planes', 'trains'];
+
+    let randomPlaceholders = searches.sort(() => Math.random() - 0.5).slice(0, 3);
+    let placeholder = `Search for ${randomPlaceholders[0]}, ${randomPlaceholders[1]}, ${randomPlaceholders[2]}`;
 </script>
 
 <search>

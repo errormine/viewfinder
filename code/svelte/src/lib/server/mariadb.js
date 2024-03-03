@@ -13,7 +13,11 @@ export let placeholders = {
     displayName: "Placeholder User",
     username: "placeholder",
     userId: 1,
+    website: "https://example.com",
+    contact: "contact@example.com",
     bio: "This is a test user. They do not exist.",
+    location: "Chicago, IL",
+    joinDate: "2021-01-01",
     recentPhotos: [
         {
             PhotoID: 1,
@@ -206,6 +210,26 @@ export async function getFollowersCount(userId) {
 export async function getFollowingCount(userId) {
     if (DEV_MODE) return 0;
     return getSingleValue("SELECT COUNT(*) FROM Follows WHERE FollowerID = ?", [userId]);
+}
+
+export async function getWebsite(userId) {
+    if (DEV_MODE) return placeholders.website;
+    return getSingleValue("SELECT Website FROM Users WHERE UserID = ?", [userId]);
+}
+
+export async function getContact(userId) {
+    if (DEV_MODE) return placeholders.contact;
+    return getSingleValue("SELECT Contact FROM Users WHERE UserID = ?", [userId]);
+}
+
+export async function getLocation(userId) {
+    if (DEV_MODE) return placeholders.location;
+    return getSingleValue("SELECT Location FROM Users WHERE UserID = ?", [userId]);
+}
+
+export async function getJoinDate(userId) {
+    if (DEV_MODE) return placeholders.joinDate;
+    return getSingleValue("SELECT JoinDate FROM Users WHERE UserID = ?", [userId]);
 }
 
 export async function getBio(userId) {

@@ -38,8 +38,18 @@
 </script>
 
 <section id="profile-bubbles">
-    <ProfileBubble label="Website" href="https://example.com" />
-    <ProfileBubble label="Contact" href="mailto:contact@example.com" />
+    {#if data.website }
+        <ProfileBubble label="Website" href={data.website} />
+    {/if}
+    {#if data.contact }
+        <ProfileBubble label="Contact" href={"mailto:"+data.contact} />
+    {/if}
+    {#if data.location }
+        <ProfileBubble label="Location" text={data.location}/>
+    {/if}
+    {#if data.joinDate }
+        <ProfileBubble label="Joined" text={new Date(data.joinDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}/>
+    {/if}
 </section>
 <section id="user-bio">
     <header>
@@ -92,10 +102,15 @@
     @import url('/styles/user-profile.css');
 
     #profile-bubbles {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
+        display: flex;
+        flex-wrap: wrap;
         gap: 1rem;
         margin-bottom: 1rem;
+        justify-content: space-evenly;
+    }
+
+    :global(#profile-bubbles > *) {
+        flex-grow: 1;
     }
 
     .photos-row {

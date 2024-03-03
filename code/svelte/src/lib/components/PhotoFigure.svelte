@@ -4,7 +4,7 @@
     export let photo;
 </script>
 
-<a href="/user/john_doe/photos/1098234" class="round-corners">
+<a href="photos/{photo.PhotoID}" class="round-corners">
     <figure>
         <img src={photo.Image} alt={photo.Alt || "No alt text provided."} />
         <figcaption>

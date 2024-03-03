@@ -3,6 +3,7 @@
     import { Heart16, HeartFill16 } from 'svelte-octicons';
 
     export let photo;
+    export let fit;
 
     let liked = false;
 
@@ -14,7 +15,7 @@
 
 <figure>
     <a href="/photo/{photo.PhotoID}" class="round-corners">
-        <img src={photo.Image} alt={photo.Alt || "No description provided."} />
+        <img class={"fit-"+fit} src={photo.Image} alt={photo.Alt || "No description provided."} />
     </a>
     <figcaption class="round-corners">
         <span>{photo.Title}</span>
@@ -34,7 +35,7 @@
     figure {
         color: white;
         width: 100%;
-        height: fit-content;
+        height: 100%;
         position: relative;
     }
 
@@ -49,6 +50,7 @@
 
     a {
         display: block;
+        height: 100%;
         color: white;
         text-decoration: none;
         overflow: hidden;
@@ -75,5 +77,13 @@
 
     figcaption span {
         padding: 0.5rem;
+    }
+
+    img {
+        height: 100%;
+    }
+    
+    .fit-cover {
+        object-fit: cover;
     }
 </style>

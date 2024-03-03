@@ -82,7 +82,7 @@
     <ul class="photos-row">
         {#each data.recentPhotos as photo}
             <li>
-                <PhotoFigure {photo} />
+                <PhotoFigure {photo} fit={'cover'}/>
             </li>
         {/each}
     </ul>
@@ -99,8 +99,9 @@
     }
 
     .photos-row {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 1rem;
+        display: flex; 
+        justify-content: space-evenly;
+        align-items: stretch;
+        gap: 0.5rem;
     }
 </style>

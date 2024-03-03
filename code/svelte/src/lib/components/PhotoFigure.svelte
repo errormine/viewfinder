@@ -1,29 +1,38 @@
 <script>
-    import { Heart16 } from 'svelte-octicons';
+    import IconButton from '$lib/components/IconButton.svelte';
+    import { Heart16, HeartFill16 } from 'svelte-octicons';
 
     export let photo;
+
+    let liked = false;
+
+    function handleLike() {
+        liked = !liked;
+        console.log('Like button clicked!');
+    }
 </script>
 
-<a href="photos/{photo.PhotoID}" class="round-corners">
-    <figure>
+<figure>
+    <a href="photos/{photo.PhotoID}" class="round-corners">
         <img src={photo.Image} alt={photo.Alt || "No alt text provided."} />
-        <figcaption>
-            <section>
-                <p>{photo.Title}</p>
+    </a>
+    <figcaption class="round-corners">
+        <span>{photo.Title}</span>
+        <section class="actions">
+            <IconButton on:click={handleLike} disableBackground hoverable={false}>
+                {#if liked}
+                <HeartFill16 fill='white' />
+                {:else}
                 <Heart16 fill='white' />
-            </section>
-        </figcaption>
-    </figure>
-</a>
+                {/if}
+            </IconButton>
+        </section>
+    </figcaption>
+</figure>
 
 <style>
-    a {
-        display: block;
-        width: 100%;
-        overflow: hidden;
-    }
-
     figure {
+        color: white;
         width: 100%;
         position: relative;
     }
@@ -32,19 +41,38 @@
         cursor: pointer;
     }
 
+    figure:hover figcaption,
+    figure:focus-within figcaption {
+        opacity: 1;
+    }
+
+    a {
+        display: block;
+        color: white;
+        text-decoration: none;
+        overflow: hidden;
+    }
+
     figcaption {
         display: block;
         width: 100%;
         height: 100%;
         background: var(--transparent-black-gradient);
-        color: white;
         position: absolute;
         bottom: 0;
         opacity: 0;
         transition: opacity 200ms;
     }
 
-    figure:hover figcaption {
-        opacity: 1;
+    figcaption {
+        position: absolute;
+        bottom: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+    }
+
+    figcaption span {
+        padding: 0.5rem;
     }
 </style>

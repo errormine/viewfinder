@@ -1,19 +1,10 @@
 <script>
+    import Masonry from "svelte-bricks";
     import PhotoFigure from "$lib/components/PhotoFigure.svelte";
 
     export let photos;
 </script>
 
-<section class="photo-grid">
-    {#each photos as photo}
-        <PhotoFigure {photo} />
-    {/each}
-</section>
-
-<style>
-    .photo-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 0.5rem;
-    }
-</style>
+<Masonry items={photos} let:item idKey="PhotoID" minColWidth={200} maxColWidth={"1fr"} gap={8}>
+    <PhotoFigure photo={item} />
+</Masonry>

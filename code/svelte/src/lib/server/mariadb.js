@@ -17,14 +17,82 @@ export let placeholders = {
     recentPhotos: [
         {
             PhotoID: 1,
-            Title: "Test Photo 1",
-            Image: "https://picsum.photos/300/200",
+            Title: "Test Photo 1 really long n a m e a a a  aaa!!!",
+            Image: "https://picsum.photos/200/300",
             Description: "This is a test photo."
         },
         {
             PhotoID: 2,
             Title: "Test Photo 2",
             Image: "https://picsum.photos/300/200",
+            Description: "This is a test photo."
+        },
+        {
+            PhotoID: 3,
+            Title: "Test Photo 3",
+            Image: "https://picsum.photos/300/300",
+            Description: "This is a test photo."
+        },
+        {
+            PhotoID: 4,
+            Title: "Test Photo 4",
+            Image: "https://picsum.photos/250/300",
+            Description: "This is a test photo."
+        }
+    ],
+    photos: [
+        {
+            PhotoID: 1,
+            Title: "Test Photo 1 really long n a m e a a a  aaa!!!",
+            Image: "https://picsum.photos/200/300",
+            Description: "This is a test photo."
+        },
+        {
+            PhotoID: 2,
+            Title: "Test Photo 2",
+            Image: "https://picsum.photos/300/200",
+            Description: "This is a test photo."
+        },
+        {
+            PhotoID: 3,
+            Title: "Test Photo 3",
+            Image: "https://picsum.photos/300/300",
+            Description: "This is a test photo."
+        },
+        {
+            PhotoID: 4,
+            Title: "Test Photo 4",
+            Image: "https://picsum.photos/250/300",
+            Description: "This is a test photo."
+        },
+        {
+            PhotoID: 5,
+            Title: "Test Photo 5",
+            Image: "https://picsum.photos/400/200",
+            Description: "This is a test photo."
+        },
+        {
+            PhotoID: 6,
+            Title: "Test Photo 6",
+            Image: "https://picsum.photos/500/400",
+            Description: "This is a test photo."
+        },
+        {
+            PhotoID: 7,
+            Title: "Test Photo 7",
+            Image: "https://picsum.photos/300/300",
+            Description: "This is a test photo."
+        },
+        {
+            PhotoID: 8,
+            Title: "Test Photo 8",
+            Image: "https://picsum.photos/400/500",
+            Description: "This is a test photo."
+        },
+        {
+            PhotoID: 9,
+            Title: "Test Photo 9",
+            Image: "https://picsum.photos/200/300",
             Description: "This is a test photo."
         }
     ],
@@ -38,7 +106,7 @@ export let placeholders = {
         },
         {
             AlbumID: 2,
-            Name: "I am obnoxious and gave my album a really long name to see how it looks in the UI.",
+            Name: "I gave my album a long name to see how it looks in the UI.",
             Description: "This is a test album 2.",
             Thumbnail: "https://picsum.photos/300/200",
             Count: 2
@@ -126,7 +194,7 @@ export async function getDisplayName(userId) {
 }
 
 export async function getPhotosCount(userId) {
-    if (DEV_MODE) return placeholders.recentPhotos.length;
+    if (DEV_MODE) return placeholders.photos.length;
     return getSingleValue("SELECT COUNT(*) FROM Photos WHERE UserID = ?", [userId]);
 }
 
@@ -151,7 +219,7 @@ export async function updateBio(userId, bio) {
 
 // User Profile PHOTOS
 export async function getPhotos(userId) {
-    if (DEV_MODE) return placeholders.recentPhotos;
+    if (DEV_MODE) return placeholders.photos;
     // TODO: Pagination
     return performQuery("SELECT * FROM Photos WHERE UserID = ?", [userId]);
 }

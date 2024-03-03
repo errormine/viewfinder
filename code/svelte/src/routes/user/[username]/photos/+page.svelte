@@ -14,7 +14,11 @@
             <SortDesc16 />
         </IconButton>
     </header>
-    <PhotoGrid photos={data.photos} />
+    {#if data.photos.length > 0}
+        <PhotoGrid photos={data.photos} />
+    {:else}
+        <p>No photos found.</p>
+    {/if}
 </section>
 
 <style>

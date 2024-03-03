@@ -14,7 +14,7 @@
 
 <figure>
     <a href="photos/{photo.PhotoID}" class="round-corners">
-        <img src={photo.Image} alt={photo.Alt || "No alt text provided."} />
+        <img src={photo.Image} alt={photo.Alt || "No description provided."} />
     </a>
     <figcaption class="round-corners">
         <span>{photo.Title}</span>
@@ -34,6 +34,7 @@
     figure {
         color: white;
         width: 100%;
+        height: fit-content;
         position: relative;
     }
 
@@ -56,7 +57,7 @@
     figcaption {
         display: block;
         width: 100%;
-        height: 100%;
+        height: 50%;
         background: var(--transparent-black-gradient);
         position: absolute;
         bottom: 0;

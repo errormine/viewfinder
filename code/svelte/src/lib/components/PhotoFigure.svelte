@@ -4,8 +4,8 @@
     export let photo;
 </script>
 
-<a href="/user/john_doe/photos/1098234">
-    <figure class="round-corners">
+<a href="/user/john_doe/photos/1098234" class="round-corners">
+    <figure>
         <img src={photo.Image} alt={photo.Alt || "No alt text provided."} />
         <figcaption>
             <section>
@@ -20,11 +20,11 @@
     a {
         display: block;
         width: 100%;
+        overflow: hidden;
     }
 
     figure {
         width: 100%;
-        overflow: hidden;
         position: relative;
     }
 

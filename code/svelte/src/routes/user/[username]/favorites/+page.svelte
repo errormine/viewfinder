@@ -14,8 +14,8 @@
             <SortDesc16 />
         </IconButton>
     </header>
-    {#if data.photos.length > 0}
-        <PhotoGrid photos={data.photos} />
+    {#if data.favorites.length > 0}
+        <PhotoGrid photos={data.favorites} />
     {:else}
         <p>No photos found.</p>
     {/if}

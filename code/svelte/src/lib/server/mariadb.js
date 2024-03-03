@@ -261,6 +261,7 @@ export async function getAlbums(userId) {
 
 // User Profile FAVORITES
 export async function getFavorites(userId) {
+    if (DEV_MODE) return placeholders.photos;
     return performQuery("SELECT * FROM Photos WHERE PhotoID IN (SELECT PhotoID FROM Favorites WHERE UserID = ?)", [userId]);
 }
 

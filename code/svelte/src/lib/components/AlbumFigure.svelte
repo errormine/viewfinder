@@ -2,19 +2,32 @@
     export let album;
 </script>
 
-<figure class="round-corners">
-    <img src={album.Thumbnail} alt="" />
-    <figcaption>
-        <a href="/" class="font-weight-semi-bold" title={album.Name}>{album.Name}</a>
-        <small>{album.Count} Photos</small>
-    </figcaption>
-</figure>
+<a href="/" class="round-corners">
+    <figure>
+        <img src={album.Thumbnail} alt="" />
+        <figcaption>
+            <span class="font-weight-semi-bold" title={album.Name}>{album.Name}</span>
+            <small>{album.Count} Photos</small>
+        </figcaption>
+    </figure>
+</a>
 
 <style>
     @import url('/styles/user-profile.css');
 
-    figure {
+    a {
+        text-decoration: none;
+        color: black;
         overflow: hidden;
+    }
+    
+    figure {
+        aspect-ratio: 1 / 1;
+    }
+
+    figure img {
+        height: calc(100% - 3rem);
+        object-fit: cover;
     }
     
     figcaption {
@@ -23,10 +36,8 @@
         height: 3rem;
     }
     
-    figcaption a {
+    figcaption span {
         display: block;
-        text-decoration: none;
-        color: black;
         font-size: 1.2rem;
         overflow: hidden;
         text-overflow: ellipsis;

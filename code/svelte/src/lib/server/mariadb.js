@@ -33,7 +33,7 @@ export let placeholders = {
             AlbumID: 1,
             Name: "Test Album 1",
             Description: "This is a test album 1.",
-            Thumbnail: "https://picsum.photos/300/200",
+            Thumbnail: "https://picsum.photos/500/200",
             Count: 2
         },
         {
@@ -41,6 +41,13 @@ export let placeholders = {
             Name: "I am obnoxious and gave my album a really long name to see how it looks in the UI.",
             Description: "This is a test album 2.",
             Thumbnail: "https://picsum.photos/300/200",
+            Count: 2
+        },
+        {
+            AlbumID: 3,
+            Name: "Test Album 3",
+            Description: "This is a test album 3.",
+            Thumbnail: "https://picsum.photos/200/300",
             Count: 2
         }
     ]

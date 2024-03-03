@@ -82,7 +82,7 @@
     <ul class="photos-row">
         {#each data.recentPhotos as photo}
             <li>
-                <PhotoFigure src={photo.Image} />
+                <PhotoFigure {photo} />
             </li>
         {/each}
     </ul>

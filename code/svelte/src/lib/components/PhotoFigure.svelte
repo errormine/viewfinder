@@ -1,17 +1,15 @@
 <script>
     import { Heart16 } from 'svelte-octicons';
 
-    export let src;
-    export let alt = '';
-    export let caption = '';
+    export let photo;
 </script>
 
 <a href="/user/john_doe/photos/1098234">
     <figure class="round-corners">
-        <img src={src} alt={alt} />
+        <img src={photo.Image} alt={photo.Alt || "No alt text provided."} />
         <figcaption>
             <section>
-                <p>{caption}</p>
+                <p>{photo.Title}</p>
                 <Heart16 fill='white' />
             </section>
         </figcaption>

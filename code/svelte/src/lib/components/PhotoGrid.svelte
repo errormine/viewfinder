@@ -6,7 +6,7 @@
 
 <section class="photo-grid">
     {#each photos as photo}
-        <PhotoFigure src={photo.Image} />
+        <PhotoFigure {photo} />
     {/each}
 </section>
 

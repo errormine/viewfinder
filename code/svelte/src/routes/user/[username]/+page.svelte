@@ -68,7 +68,7 @@
         </ActionBar>
     </header>
     {#if editingBio}
-        <textarea bind:this={bioInput} id="bio-input" rows="5" class="rounded-corners">{data.bio}</textarea>
+        <textarea bind:this={bioInput} id="bio-input" rows="5" class="round-corners inset-bg">{data.bio}</textarea>
     {:else}
         {@html DOMPurify.sanitize(gemtext.buffer(data.bio)) }
     {/if}

@@ -10,7 +10,7 @@
 <section id="photo-gallery">
     <header>
         <h3>Photo Gallery</h3>
-        <IconButton title="Sort: Newest" noBG>
+        <IconButton title="Sort: Newest" disableBackground>
             <SortDesc16 />
         </IconButton>
     </header>

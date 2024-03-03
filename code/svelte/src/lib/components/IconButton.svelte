@@ -1,13 +1,14 @@
 <script>
     export let title = '';
     export let buttonShape = 'squircle';
-    export let noBG = false;
+    export let hoverable = true;
+    export let disableBackground = false;
 </script>
 
 <!-- You have to forward on:click here or the button won't work! -->
 <!-- https://svelte.dev/tutorial/dom-event-forwarding -->
 
-<button on:click {title} class={buttonShape} class:no-bg={noBG}>
+<button on:click {title} class="{buttonShape}" class:hoverable={hoverable} class:no-bg={disableBackground}>
     <slot />
 </button>
 
@@ -23,12 +24,12 @@
         padding: 0;
     }
 
-    button:hover,
-    button:focus {
+    button.hoverable:hover,
+    button.hoverable:focus {
         background-color: var(--color-light-gray);
     }
 
-    button:active {
+    button.hoverable:active {
         background-color: var(--color-gray);
     }
 

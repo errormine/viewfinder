@@ -51,7 +51,7 @@
                     <X16 />
                 </IconButton>
             {:else}
-                <IconButton title="Edit Bio" on:click={() => editingBio = true } noBG>
+                <IconButton title="Edit Bio" on:click={() => editingBio = true } disableBackground>
                     <Pencil16 />
                 </IconButton>
             {/if}
@@ -66,7 +66,7 @@
 <section id="user-showcase" >
     <header>
         <h3>Showcase</h3>
-        <IconButton title="Edit Showcase" noBG>
+        <IconButton title="Edit Showcase" disableBackground>
             <Pencil16 />
         </IconButton>
     </header>

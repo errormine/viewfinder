@@ -2,7 +2,7 @@
     export let album;
 </script>
 
-<a href="albums/{album.AlbumID}" class="round-corners">
+<a href="/album/{album.AlbumID}" class="round-corners">
     <figure>
         <img src={album.Thumbnail} alt="" />
         <figcaption>

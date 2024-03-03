@@ -13,7 +13,7 @@
 </script>
 
 <figure>
-    <a href="photos/{photo.PhotoID}" class="round-corners">
+    <a href="/photo/{photo.PhotoID}" class="round-corners">
         <img src={photo.Image} alt={photo.Alt || "No description provided."} />
     </a>
     <figcaption class="round-corners">

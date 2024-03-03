@@ -17,15 +17,33 @@ export let placeholders = {
     recentPhotos: [
         {
             PhotoID: 1,
+            Title: "Test Photo 1",
             Image: "https://picsum.photos/300/200",
             Description: "This is a test photo."
         },
         {
             PhotoID: 2,
+            Title: "Test Photo 2",
             Image: "https://picsum.photos/300/200",
             Description: "This is a test photo."
         }
     ],
+    albums: [
+        {
+            AlbumID: 1,
+            Name: "Test Album 1",
+            Description: "This is a test album 1.",
+            Thumbnail: "https://picsum.photos/300/200",
+            Count: 2
+        },
+        {
+            AlbumID: 2,
+            Name: "I am obnoxious and gave my album a really long name to see how it looks in the UI.",
+            Description: "This is a test album 2.",
+            Thumbnail: "https://picsum.photos/300/200",
+            Count: 2
+        }
+    ]
 }
 
 export async function testConnection() {
@@ -138,6 +156,7 @@ export async function getRecentPhotos(userId, amount = 4) {
 
 // User Profile ALBUMS
 export async function getAlbums(userId) {
+    if (DEV_MODE) return placeholders.albums;
     return performQuery("SELECT * FROM Albums WHERE UserID = ?", [userId]);
 }
 

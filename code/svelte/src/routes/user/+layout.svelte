@@ -9,6 +9,11 @@
     export let favoritesHref = `${baseHref}/favorites`;
 </script>
 
+
+<svelte:head>
+    <link rel="stylesheet" href="/styles/user-profile.css">
+</svelte:head>
+
 <main class="content-grid">
     <header class='hero full-width'>
         <section class='user-info'>
@@ -48,12 +53,6 @@
 </main>
 
 <style>
-    @import url('/styles/user-profile.css');
-
-    :global(body) {
-        padding: 0;
-    }
-
     /* USER PROFILE HEADER */
     .hero {
         color: white;

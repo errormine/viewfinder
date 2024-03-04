@@ -19,7 +19,7 @@
 <style>
     footer {
         background: var(--color-black-gradient);
-        color: var(--color-grey);
+        color: var(--color-gray);
         padding: 20px;
         text-align: center;
         width: 100vw;

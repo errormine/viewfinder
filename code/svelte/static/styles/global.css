@@ -12,14 +12,26 @@
     --color-primary-dark: #664892;
     --color-primary-gradient: linear-gradient(var(--color-primary), var(--color-primary-dark));
 
-    --color-white-gradient: linear-gradient(white, #EDEDED);
+    --color-white-gradient: linear-gradient(white, rgb(237, 237, 237));
+    --transparent-white-gradient: linear-gradient(rgba(255, 255, 255, 0.8), rgba(237, 237, 237, 0.8));
+    --color-off-white: #F5F5F5;
 
-    --color-grey: #C5C5C5;
+    --color-light-gray: #EDEDED;
+    --color-gray: #C5C5C5;
+    --color-darkish-gray: #DFDFDF;
+    --color-dark-gray: #7A7A7A;
+
+    --color-gray-gradient: linear-gradient(var(--color-off-white), var(--color-darkish-gray));
 
     --color-black-gradient: linear-gradient(#363636, black);
+    --transparent-black-gradient: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
 
     /* SIZE VARIABLES */
+    --top-bar-height: 4rem;
     --footer-height: 6rem;
+
+    /* BORDERS AND SHADOWS */
+    --inner-shadow: inset 0px 1px 4px rgba(0, 0, 0, 0.25);
 }
 
 html {
@@ -36,8 +48,9 @@ html, body {
     height: 100%;
 }
 
-main {
-    min-height: calc(100% - var(--footer-height));
+body {
+    padding-top: var(--top-bar-height);
+    background-color: var(--color-off-white)
 }
 
 h1, h2, h3,
@@ -47,14 +60,14 @@ h4, h5, h6 {
 }
 
 h1 { 
-    font-size: 2.4rem; 
+    font-size: 2rem; 
     font-weight: 700;
 }
 
-h2 { font-size: 2rem; }
-h3 { font-size: 1.8rem; }
-h4 { font-size: 1.6rem; }
-h5 { font-size: 1.4rem; }
+h2 { font-size: 1.625rem; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.4rem; }
+h5 { font-size: 1.3rem; }
 h6 { font-size: 1.2rem; }
 
 p {
@@ -64,6 +77,86 @@ p {
 
 small { font-size: 0.833rem; }
 
+a {
+    color: var(--color-primary);
+    transition: color 200ms;
+}
+
+a:hover { 
+    color: var(--color-primary-dark); 
+}
+
+img {
+    width: 100%;
+    height: auto;
+    vertical-align: middle;
+    font-style: italic;
+    background-repeat: no-repeat;
+    background-size: cover;
+    shape-margin: 1rem;
+}
+
+svg {
+    display: block;
+}
+
 /* FONT WEIGHTS */
 .font-weight-light { font-weight: 300; }
-.font-weight-semi-bold { font-weight: 500; }
+.font-weight-semi-bold { font-weight: 600; }
+.font-weight-bold { font-weight: 700; }
+
+/* COMMON LAYOUTS */
+.content-grid, .full-width {
+    display: grid;
+    grid-template-columns: [full-width-start] 1fr [content-start] minmax(0, 50rem) [content-end] 1fr [full-width-end];
+}
+
+.content-grid > *,
+.full-width > * {
+    grid-column: content;
+}
+
+.content-grid > .full-width {
+    grid-column: full-width;
+}
+
+/* FORM ELEMENTS */
+.inset-bg {
+    box-shadow: var(--inner-shadow);
+    background-color: var(--color-light-gray);
+}
+
+textarea {
+    font-family: inherit;
+    font-size: inherit;
+    display: block;
+    width: 100%;
+    border: 1px solid var(--color-gray);
+    padding: 0.5rem;
+    resize: none;
+    margin-bottom: 1rem;
+}
+
+input[type="text"], input[type="email"], input[type="password"] {
+    font-family: inherit;
+    font-size: inherit;
+}
+
+/* ACCESSIBILITY */
+*:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 1px;
+}
+
+/* MISC CLASSES */
+.round-corners {
+    border-radius: 0.5rem;
+}
+
+.octicon {
+    margin: 0 auto;
+}
+
+.hidden {
+    display: none;
+}

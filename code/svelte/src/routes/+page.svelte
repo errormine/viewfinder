@@ -1,10 +1,17 @@
-<section>
-    <h2><a href="/">Featured Photo</a></h2>
-    <p>by <a href="/">John Doe</a></p>
-</section>
+<main>
+    <section>
+        <h2><a href="/">Featured Photo</a></h2>
+        <p>by <a href="/user/john_doe">John Doe</a></p>
+    </section>
+</main>
 
 <style>
-    :global(main) {
+    :global(body) {
+        margin: 0;
+        padding: 0;
+    }
+
+    main {
         background: url(https://picsum.photos/1920/1080) no-repeat center;
         background-size: cover;
         position: relative;

@@ -1,19 +1,22 @@
 <script>
-    import LoginDialog from '$lib/forms/Login.svelte';
     import SearchBar from '$lib/components/SearchBar.svelte'
     import Button from '$lib/components/Button.svelte'
 
-    let openLoginDialog = function() {
-        const dialog = document.querySelector('.login-dialog')
-        dialog.showModal()
-    }
+    let dialog;
 </script>
 
-<LoginDialog />
+<dialog class="login-dialog" bind:this={dialog}>
+    <section class="login-wrapper">
+        <button class="close-button" on:click={dialog.close()}>X</button>
+        <h2>Join Website</h2>
+        <p>Create an account to post photos, comment, and save photos from others.</p>
+        <Button href="/auth/google">Log in with Google</Button>
+    </section>
+</dialog>
 <header>
-    <h1>Website</h1>
+    <h1><a href="/">Website</a></h1>
     <SearchBar />
-    <Button href="/login" onclick={openLoginDialog}>Log In</Button>
+    <Button on:click={dialog.showModal()}>Log In</Button>
 </header>
 
 <style>
@@ -23,7 +26,7 @@
         align-items: center;
         padding: 1rem;
         box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-        background: var(--color-white-gradient);
+        background: var(--transparent-white-gradient);
         height: 4rem;
         position: fixed;
         top: 0;
@@ -34,5 +37,11 @@
 
     header h1 {
         margin: 0;
+    }
+
+    header h1 a {
+        display: block;
+        text-decoration: none;
+        color: black;
     }
 </style>

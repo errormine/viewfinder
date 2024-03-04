@@ -25,16 +25,21 @@
 		"prettier": "^3.1.1",
 		"prettier-plugin-svelte": "^3.1.2",
 		"svelte": "^4.2.7",
+		"svelte-octicons": "^18.7.1",
 		"vite": "^5.0.3",
 		"vitest": "^1.2.0"
 	},
 	"type": "module",
 	"dependencies": {
+		"dioscuri": "^1.3.0",
 		"dotenv": "^16.4.5",
 		"express": "^4.18.2",
 		"express-session": "^1.18.0",
+		"isomorphic-dompurify": "^2.4.0",
+		"mariadb": "^3.2.3",
 		"node-vault": "^0.10.2",
 		"passport": "^0.7.0",
-		"passport-google-oauth2": "^0.2.0"
+		"passport-google-oauth2": "^0.2.0",
+		"svelte-bricks": "^0.2.1"
 	}
 }

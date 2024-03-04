@@ -108,7 +108,7 @@ svg {
 /* COMMON LAYOUTS */
 .content-grid, .full-width {
     display: grid;
-    grid-template-columns: [full-width-start] 1fr [content-start] minmax(0, 50rem) [content-end] 1fr [full-width-end];
+    grid-template-columns: [full-width-start] 1fr [content-start] minmax(0, 50rem) [content-end aside-right-start] 1fr [full-width-end];
 }
 
 .content-grid > *,
@@ -118,6 +118,11 @@ svg {
 
 .content-grid > .full-width {
     grid-column: full-width;
+}
+
+.content-grid > .aside-right,
+.full-width > .aside-right {
+    grid-column: aside-right;
 }
 
 /* FORM ELEMENTS */

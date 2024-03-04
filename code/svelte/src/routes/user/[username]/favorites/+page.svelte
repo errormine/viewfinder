@@ -20,7 +20,3 @@
         <p>No photos found.</p>
     {/if}
 </section>
-
-<style>
-    @import url('/styles/user-profile.css');
-</style>

@@ -48,6 +48,8 @@
 </main>
 
 <style>
+    @import url('/styles/user-profile.css');
+
     :global(body) {
         padding: 0;
     }

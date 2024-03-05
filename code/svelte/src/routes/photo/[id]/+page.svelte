@@ -1,5 +1,6 @@
 <script>
     import ActionBar from '$lib/components/ActionBar.svelte';
+    import Button from '$lib/components/Button.svelte';
     import IconButton from '$lib/components/IconButton.svelte';
 	import UserPortrait from '$lib/components/UserPortrait.svelte';
     import { Download24, SortDesc16 } from 'svelte-octicons';
@@ -33,7 +34,13 @@
                         <SortDesc16 />
                     </IconButton>
                 </header>
-                <p>No comments yet</p>
+                <section class="comment-box">
+                    <UserPortrait size={32} />
+                    <textarea class="round-corners inset-bg" name="comment-box" id="comment-box" rows="3" placeholder="Add a comment..."></textarea>
+                    <section class="comment-box-bottom">
+                        <Button align={"right"}>Post</Button>
+                    </section>
+                </section>
             </section>
         </section>
         <section class="image-metadata">
@@ -96,5 +103,14 @@
         margin: 1rem 0;
         padding: 1rem;
         background-color: var(--color-light-gray);
+    }
+
+    .comment-box {
+        display: grid;
+        grid-template-columns: 48px 1fr;
+    }
+
+    .comment-box-bottom {
+        grid-column: span 2;
     }
 </style>

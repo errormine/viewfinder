@@ -2,7 +2,7 @@
     import ActionBar from '$lib/components/ActionBar.svelte';
     import IconButton from '$lib/components/IconButton.svelte';
 	import UserPortrait from '$lib/components/UserPortrait.svelte';
-    import { Download24, Heart24 } from 'svelte-octicons';
+    import { Download24, SortDesc16 } from 'svelte-octicons';
 
     /** @type {import('./$types').PageData} */
     export let data;
@@ -25,13 +25,23 @@
                 <UserPortrait size={48} />
                 <h1>{data.photo.Title}</h1>
             </header>
-            <p class="image-description">{data.photo.Description}</p>
+            <p class="image-description round-corners">{data.photo.Description}</p>
+            <section class="image-comments">
+                <header class="flex space-between margin-bottom-1">
+                    <h2 class="margin-0">0 Comments</h2>
+                    <IconButton disableBackground>
+                        <SortDesc16 />
+                    </IconButton>
+                </header>
+                <p>No comments yet</p>
+            </section>
         </section>
         <section class="image-metadata">
             <section class="metadata-metrics">
                 <p>Likes: {data.photo.Likes}</p>
                 <p>Views: {data.photo.Views}</p>
             </section>
+            <section></section>
         </section>
     </section>
 </main>
@@ -83,6 +93,8 @@
     }
 
     .image-description {
-        margin: 1rem 1.5em;
+        margin: 1rem 0;
+        padding: 1rem;
+        background-color: var(--color-light-gray);
     }
 </style>

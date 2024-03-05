@@ -51,7 +51,7 @@
             </section>
             <section class="metadata-albums">
                 <h3>This photo is part of 0 albums</h3>
-                <AlbumGrid albums={data.linkedAlbums}></AlbumGrid>
+                <AlbumGrid albums={data.linkedAlbums} size={'small'} />
             </section>
         </section>
     </section>
@@ -60,7 +60,8 @@
 <style>
     .image-viewer {
         background: var(--color-black-gradient);
-        height: 28rem;
+        min-height: 24rem;
+        max-height: 32rem;
     }
 
     .image-viewer {
@@ -69,6 +70,7 @@
     
     .image-viewer img {
         width: auto;
+        max-width: 100%;
         max-height: 100%;
         margin: auto;
     }
@@ -86,11 +88,8 @@
     .image-info {
         background: white;
         display: grid;
-        grid-template-columns: 67% 1fr;
+        grid-template-columns: 55% 1fr;
         gap: 1rem;
-    }
-
-    .image-details {
         padding: 1rem;
     }
 
@@ -111,7 +110,7 @@
 
     .comment-box {
         display: grid;
-        grid-template-columns: 48px 1fr;
+        grid-template-columns: 3rem 1fr;
     }
 
     .comment-box-bottom {

@@ -13,8 +13,6 @@
 </a>
 
 <style>
-    @import url('/styles/user-profile.css');
-
     a {
         text-decoration: none;
         color: black;

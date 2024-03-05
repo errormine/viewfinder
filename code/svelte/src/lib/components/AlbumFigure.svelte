@@ -1,9 +1,10 @@
 <script>
     export let album;
+    export let style = 'default';
 </script>
 
 <a href="/album/{album.AlbumID}" class="round-corners">
-    <figure>
+    <figure class="{style}">
         <img src={album.Thumbnail} alt="" />
         <figcaption>
             <span class="font-weight-semi-bold" title={album.Name}>{album.Name}</span>
@@ -32,6 +33,7 @@
         background: var(--color-gray-gradient);
         padding: 0.5rem;
         height: 3rem;
+        width: 100%;
     }
     
     figcaption span {
@@ -41,4 +43,30 @@
         text-overflow: ellipsis;
         white-space: nowrap;
     }
-    </style>
+
+    /* IF style = minimal FIGCAPTION WILL SHOW ON HOVER*/
+    .minimal {
+        position: relative;
+    }
+    
+    .minimal img {
+        height: 100%;
+    }
+    
+    .minimal figcaption {
+        background: var(--transparent-black-gradient);
+        color: white;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: auto;
+    }
+    
+    .minimal figcaption span {
+        font-size: 0.8rem;
+    }
+
+    .minimal figcaption small {
+        display: none;
+    }
+</style>

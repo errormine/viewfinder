@@ -6,5 +6,6 @@ export async function load({ params }) {
     
     return {
         photo: await db.getPhoto(id),
+        linkedAlbums: await db.getAlbumsByPhoto(id),
     };
 };

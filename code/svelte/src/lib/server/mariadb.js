@@ -284,6 +284,11 @@ export async function getPhoto(photoId) {
     return getSingleRow("SELECT * FROM Photos WHERE PhotoID = ?", [photoId]);
 }
 
+export async function getAlbumsByPhoto(photoId) {
+    if (DEV_MODE) return placeholders.albums;
+    return performQuery("SELECT * FROM Albums WHERE AlbumID IN (SELECT AlbumID FROM AlbumPhotos WHERE PhotoID = ?)", [photoId]);
+}
+
 // Photo interactions
 export async function favoritePhoto(userId, photoId) {
     return performQuery("INSERT INTO Favorites (UserID, PhotoID) VALUES (?, ?)", [userId, photoId]);

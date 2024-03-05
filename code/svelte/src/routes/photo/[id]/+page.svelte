@@ -3,6 +3,7 @@
     import Button from '$lib/components/Button.svelte';
     import IconButton from '$lib/components/IconButton.svelte';
 	import UserPortrait from '$lib/components/UserPortrait.svelte';
+    import AlbumGrid from '$lib/components/AlbumGrid.svelte';
     import { Download24, SortDesc16 } from 'svelte-octicons';
 
     /** @type {import('./$types').PageData} */
@@ -48,7 +49,10 @@
                 <p>Likes: {data.photo.Likes}</p>
                 <p>Views: {data.photo.Views}</p>
             </section>
-            <section></section>
+            <section class="metadata-albums">
+                <h3>This photo is part of 0 albums</h3>
+                <AlbumGrid albums={data.linkedAlbums}></AlbumGrid>
+            </section>
         </section>
     </section>
 </main>

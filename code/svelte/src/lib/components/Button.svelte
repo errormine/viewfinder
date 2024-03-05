@@ -1,13 +1,14 @@
 <script>
     export let href;
+    export let align;
 </script>
 
 {#if href}
-    <a class="button" href={href}>
+    <a class="button align-{align}" href={href}>
         <slot>Button</slot>
     </a>
 {:else}
-    <button class="button" on:click>
+    <button class="button align-{align}" on:click>
         <slot>Button</slot>
     </button>
 {/if}
@@ -31,5 +32,13 @@
 
     .button:hover {
         background: var(--color-primary-dark);
+    }
+
+    .align-right {
+        float: right;
+    }
+
+    .align-center {
+        margin: auto;
     }
 </style>

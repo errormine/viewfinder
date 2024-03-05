@@ -4,7 +4,7 @@
     import IconButton from '$lib/components/IconButton.svelte';
 	import UserPortrait from '$lib/components/UserPortrait.svelte';
     import AlbumGrid from '$lib/components/AlbumGrid.svelte';
-    import { Download24, SortDesc16 } from 'svelte-octicons';
+    import { Download24, Heart24, SortDesc16 } from 'svelte-octicons';
 
     /** @type {import('./$types').PageData} */
     export let data;
@@ -45,9 +45,19 @@
             </section>
         </section>
         <section class="image-metadata">
-            <section class="metadata-metrics">
-                <p>Likes: {data.photo.Likes}</p>
-                <p>Views: {data.photo.Views}</p>
+            <section class="metadata-metrics flex wrap space-between margin-bottom-1">
+                <section class="round-corners">
+                    <h3>Likes</h3>
+                    <p>0</p>
+                </section>
+                <section class="round-corners">
+                    <h3>Downloads</h3>
+                    <p>0</p>
+                </section>
+                <section class="round-corners">
+                    <h3>Uploaded</h3>
+                    <p>{data.photo.Timestamp}</p>
+                </section>
             </section>
             <section class="metadata-albums">
                 <h3>This photo is part of 0 albums</h3>
@@ -115,5 +125,24 @@
 
     .comment-box-bottom {
         grid-column: span 2;
+    }
+
+    .metadata-metrics {
+        gap: 1rem;
+    }
+    
+    .metadata-metrics > * {
+        padding: 0.5rem;
+        flex-grow: 1;
+    }
+
+    .metadata-metrics * {
+        background-color: var(--color-light-gray);
+        margin: 0;
+    }
+
+    .metadata-metrics h3 {
+        font-size: 1.2rem;
+        margin-bottom: 0.25rem;
     }
 </style>

@@ -59,9 +59,13 @@
                     <p>{data.photo.Timestamp}</p>
                 </section>
             </section>
-            <section class="metadata-albums">
+            <section class="metadata-albums margin-bottom-1">
                 <h3>This photo is part of 0 albums</h3>
                 <AlbumGrid albums={data.linkedAlbums} size={'small'} />
+            </section>
+            <section class="metadata-tags margin-bottom-1">
+                <h3>Tags</h3>
+                <p>No tags</p>
             </section>
         </section>
     </section>

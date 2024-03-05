@@ -125,6 +125,21 @@ svg {
     grid-column: aside-right;
 }
 
+.flex {
+    display: flex;
+    align-items: center;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.flex.space-between {
+    justify-content: space-between;
+}
+
 /* FORM ELEMENTS */
 .inset-bg {
     box-shadow: var(--inner-shadow);
@@ -164,4 +179,12 @@ input[type="text"], input[type="email"], input[type="password"] {
 
 .hidden {
     display: none;
+}
+
+.margin-0 {
+    margin: 0;
+}
+
+.margin-bottom-1 {
+    margin-bottom: 1rem;
 }

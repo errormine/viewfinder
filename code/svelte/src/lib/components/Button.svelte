@@ -20,7 +20,7 @@
         border: 1px solid var(--color-primary-dark);
         display: inline-block;
         text-align: center;
-        padding: 0.5rem;
+        padding: 0.5rem 1rem;
         border-radius: 100px;
         min-width: 5rem;
         height: 32px;

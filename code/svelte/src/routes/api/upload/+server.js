@@ -6,7 +6,7 @@ export async function POST({ request }) {
 
 
     if (photo) {
-        return db.uploadImage(1, photo)
+        return db.uploadPhoto(1, photo)
             .then(res => {
                 console.log(res);
                 return new Response(JSON.stringify({ message: "Image uploaded successfully."}), { status: 200 });

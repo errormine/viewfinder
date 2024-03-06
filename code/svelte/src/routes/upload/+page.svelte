@@ -59,7 +59,20 @@
     // Upload handler
     function handleUpload() {
         for (const img of images) {
-            console.log(img);
+            fetch('/api/upload', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({photo: img})
+            })
+            .then(response => {
+            console.log(response);
+            })
+            .catch(error => {
+                console.error(error);
+                data.bio = 'Error uploading image.';
+            });
         }
     }
 </script>

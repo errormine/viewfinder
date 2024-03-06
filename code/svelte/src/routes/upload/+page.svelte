@@ -1,4 +1,5 @@
 <script>
+    import Button from '$lib/components/Button.svelte';
     import ImagePreview from '$lib/components/ImagePreview.svelte';
 
     /** @type {import('./$types').PageData} */
@@ -54,6 +55,13 @@
             reader.readAsDataURL(file);
         };
     }
+
+    // Upload handler
+    function handleUpload() {
+        for (const img of images) {
+            console.log(img);
+        }
+    }
 </script>
 
 <main>
@@ -66,18 +74,23 @@
             </section>
         </section>
     </section>
-    <aside class="edit-image-details round-corners" class:hidden={!isImageSelected}>
-        <h3>Edit Image</h3>
-        <hr />
-        <form>
-            <label for="title">Title</label>
-            <input type="text" id="title" name="title" placeholder="Enter a title."/>
-            <label for="description">Description</label>
-            <textarea id="description" name="description" placeholder="Enter a description."></textarea>
-            <label for="tags">Tags</label>
-            <input type="text" id="tags" name="tags" />
-        </form>
-    </aside>
+    <section class="options">
+        <aside class="edit-image-details round-corners" class:hidden={!isImageSelected}>
+            <h3>Edit Image</h3>
+            <hr />
+            <form>
+                <label for="title">Title</label>
+                <input type="text" id="title" name="title" placeholder="Enter a title."/>
+                <label for="description">Description</label>
+                <textarea id="description" name="description" placeholder="Enter a description."></textarea>
+                <label for="tags">Tags</label>
+                <input type="text" id="tags" name="tags" />
+            </form>
+        </aside>
+        <section id="upload-actions" class="flex space-between">
+            <Button on:click={handleUpload}>Upload Images</Button>
+        </section>
+    </section>
 </main>
 
 <style>
@@ -124,5 +137,15 @@
         display: flex;
         flex-direction: column;
         padding: 1rem;
+    }
+
+    .options {
+        position: relative;
+    }
+    
+    #upload-actions {
+        width: 100%;
+        position: absolute;
+        bottom: 0;
     }
 </style>

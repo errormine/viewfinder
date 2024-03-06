@@ -1,10 +1,10 @@
 <script>
-    export let href;
-    export let align;
+    export let href = "";
+    export let align = "center";
 </script>
 
-{#if href}
-    <a class="button align-{align}" href={href}>
+{#if href != ""}
+    <a class="button align-{align}" {href}>
         <slot>Button</slot>
     </a>
 {:else}

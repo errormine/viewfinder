@@ -18,7 +18,7 @@
         background: var(--color-primary-gradient);
         color: white;
         border: 1px solid var(--color-primary-dark);
-        display: inline-block;
+        display: block;
         text-align: center;
         padding: 0.5rem 1rem;
         border-radius: 100px;
@@ -39,6 +39,6 @@
     }
 
     .align-center {
-        margin: auto;
+        margin: 0 auto;
     }
 </style>

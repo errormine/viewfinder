@@ -27,7 +27,7 @@
     --transparent-black-gradient: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
 
     /* SIZE VARIABLES */
-    --top-bar-height: 4rem;
+    --header-height: 4rem;
     --footer-height: 6rem;
 
     /* BORDERS AND SHADOWS */
@@ -49,12 +49,12 @@ html, body {
 }
 
 body {
-    padding-top: var(--top-bar-height);
+    padding-top: var(--header-height);
     background-color: var(--color-off-white)
 }
 
 main {
-    min-height: calc(100%);
+    min-height: calc(100% - var(--footer-height));
 }
 
 h1, h2, h3,

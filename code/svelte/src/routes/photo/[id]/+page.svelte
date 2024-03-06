@@ -47,7 +47,7 @@
         <section class="image-metadata">
             <section class="metadata-metrics flex wrap space-between margin-bottom-1">
                 <section class="round-corners">
-                    <h3>Likes</h3>
+                    <h3>Favorites</h3>
                     <p>0</p>
                 </section>
                 <section class="round-corners">

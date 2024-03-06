@@ -16,7 +16,7 @@
 <header>
     <h1><a href="/">Website</a></h1>
     <SearchBar />
-    <Button on:click={dialog.showModal()}>Log In</Button>
+    <Button on:click={dialog.showModal()} align={"right"}>Log In</Button>
 </header>
 
 <style>

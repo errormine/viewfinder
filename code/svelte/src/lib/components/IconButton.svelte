@@ -1,7 +1,8 @@
 <script>
+    export let href = '';
     export let name = '';
     export let title = '';
-    export let buttonShape = 'squircle';
+    export let shape = 'squircle';
     export let hoverable = true;
     export let disableBackground = false;
 </script>
@@ -9,12 +10,18 @@
 <!-- You have to forward on:click here or the button won't work! -->
 <!-- https://svelte.dev/tutorial/dom-event-forwarding -->
 
-<button on:click {name} {title} class="{buttonShape}" class:hoverable={hoverable} class:no-bg={disableBackground}>
-    <slot />
-</button>
+{#if href}
+    <a {href} class="button {shape}" {title} class:hoverable={hoverable} class:no-bg={disableBackground}>
+        <slot />
+    </a>
+{:else}
+    <button on:click {name} {title} class="button {shape}" class:hoverable={hoverable} class:no-bg={disableBackground}>
+        <slot />
+    </button>
+{/if}
 
 <style>
-    button {
+    .button {
         display: block;
         cursor: pointer;
         transition: 200ms;
@@ -23,14 +30,15 @@
         width: 2rem;
         height: 2rem;
         padding: 0;
+        position: relative;
     }
 
-    button.hoverable:hover,
-    button.hoverable:focus {
+    .button.hoverable:hover,
+    .button.hoverable:focus {
         background-color: var(--color-light-gray);
     }
 
-    button.hoverable:active {
+    .button.hoverable:active {
         background-color: var(--color-gray);
     }
 
@@ -44,7 +52,7 @@
     }
 
     .circle {
-        border-radius: 1rem;
+        border-radius: 50%;
     }
 
     /* BACKGROUND */

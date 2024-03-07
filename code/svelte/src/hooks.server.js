@@ -1,14 +1,19 @@
-import { SvelteKitAuth } from '@auth/sveltekit';
-import Google from '@auth/core/providers/google';
-import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from '$env/static/private';
+// https://authjs.dev/reference/sveltekit#handling-authorization
+import { redirect } from '@sveltejs/kit';
+import { sequence } from '@sveltejs/kit/hooks';
+import { handle as handleAuthentication } from './auth';
 
-console.log(GOOGLE_CLIENT_ID);
+/** @type {import('@sveltejs/kit').Handle} */
+async function handleAuthorization({ event, resolve}) {
+    if (event.url.pathname.startsWith('/upload')) {
+        const session = await event.locals.auth();
 
-export const { handle, signIn, signOut } = SvelteKitAuth({
-    providers: [
-        Google({
-            clientId: GOOGLE_CLIENT_ID,
-            clientSecret: GOOGLE_CLIENT_SECRET
-        })
-    ]
-});
+        if (!session) {
+            throw redirect(303, '/');
+        }
+    }
+
+    return resolve(event);
+}
+
+export const handle = sequence(handleAuthentication, handleAuthorization)

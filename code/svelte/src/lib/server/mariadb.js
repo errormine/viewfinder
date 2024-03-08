@@ -1,10 +1,50 @@
 import mariadb from 'mariadb';
+import { DB_HOST, DB_USER, DB_PASS } from '$env/static/private';
 
+console.log(`DB_HOST: ${DB_HOST}, DB_USER: ${DB_USER}`);
+
+const authPool = mariadb.createPool({
+    host: DB_HOST,
+    user: DB_USER,
+    password: DB_PASS,
+    database: "auth"
+});
+
+export async function performAuthQuery(query, param) {
+    let conn;
+
+    try {
+        conn = await authPool.getConnection();
+
+        return conn.query(query, param)
+            .then(rows => {
+                return rows;
+            })
+            .catch(err => {
+                return err;
+            });
+    } catch (err) {
+        return err;
+    } finally {
+        if (conn) conn.end();
+    }
+};
+
+export async function getAuthRow(query, param) {
+    return performAuthQuery(query, param)
+        .then(rows => {
+            return rows[0];
+        })
+        .catch(err => {
+            console.log("QUERY FAILED: " + query);
+            return err;
+        });
+}
 
 const pool = mariadb.createPool({
-    host: import.meta.env.VITE_DB_HOST,
-    user: import.meta.env.VITE_DB_USER,
-    password: import.meta.env.VITE_DB_PASS,
+    host: DB_HOST,
+    user: DB_USER,
+    password: DB_PASS,
     database: "team02m_db"
 });
 

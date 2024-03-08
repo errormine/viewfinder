@@ -3,44 +3,6 @@ import { DB_HOST, DB_USER, DB_PASS } from '$env/static/private';
 
 console.log(`DB_HOST: ${DB_HOST}, DB_USER: ${DB_USER}`);
 
-const authPool = mariadb.createPool({
-    host: DB_HOST,
-    user: DB_USER,
-    password: DB_PASS,
-    database: "auth"
-});
-
-export async function performAuthQuery(query, param) {
-    let conn;
-
-    try {
-        conn = await authPool.getConnection();
-
-        return conn.query(query, param)
-            .then(rows => {
-                return rows;
-            })
-            .catch(err => {
-                return err;
-            });
-    } catch (err) {
-        return err;
-    } finally {
-        if (conn) conn.end();
-    }
-};
-
-export async function getAuthRow(query, param) {
-    return performAuthQuery(query, param)
-        .then(rows => {
-            return rows[0];
-        })
-        .catch(err => {
-            console.log("QUERY FAILED: " + query);
-            return err;
-        });
-}
-
 const pool = mariadb.createPool({
     host: DB_HOST,
     user: DB_USER,
@@ -184,7 +146,7 @@ export async function testConnection() {
         });
 }
 
-async function performQuery(query, param) {
+export async function performQuery(query, param) {
     let conn;
 
     try {
@@ -204,7 +166,7 @@ async function performQuery(query, param) {
     }
 }
 
-async function getSingleRow(query, param) {
+export async function getSingleRow(query, param) {
     return performQuery(query, param)
         .then(rows => {
             return rows[0];
@@ -215,7 +177,7 @@ async function getSingleRow(query, param) {
         });
 }
 
-async function getSingleValue(query, param) {
+export async function getSingleValue(query, param) {
     return getSingleRow(query, param)
         .then(res => {
             return Object.values(res)[0];

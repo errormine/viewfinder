@@ -26,7 +26,7 @@ export async function GET({ event, url, cookies }) {
         const googleUser = await googleUserResponse.json();
         console.log(googleUser);
 
-        const existingUser = await db.getAuthRow("SELECT * FROM user WHERE email = ?", [googleUser.email]);
+        const existingUser = await db.getSingleRow("SELECT * FROM user WHERE email = ?", [googleUser.email]);
         console.log(existingUser);
         
         if (existingUser) {
@@ -39,7 +39,7 @@ export async function GET({ event, url, cookies }) {
         } else {
             const userId = generateId(15);
 
-            const result = await db.performAuthQuery("INSERT INTO user (id, email) VALUES (?, ?)", [
+            const result = await db.performQuery("INSERT INTO user (id, email) VALUES (?, ?)", [
                 userId,
                 googleUser.email
             ]);

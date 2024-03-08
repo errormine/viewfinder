@@ -3,6 +3,20 @@ import { DB_HOST, DB_USER, DB_PASS } from '$env/static/private';
 
 console.log(`DB_HOST: ${DB_HOST}, DB_USER: ${DB_USER}`);
 
+/*
+Make sure the database has correct privileges before connecting.
+This example is not secure, but it's just for testing purposes.
+
+CREATE USER 'your_username'@'host' IDENTIFIED BY 'your_password';
+GRANT ALL PRIVILEGES ON your_database.* TO 'your_username'@'host';
+FLUSH PRIVILEGES;
+
+host = DB_HOST
+your_username = DB_USER
+your_password = DB_PASS
+
+*/
+
 const pool = mariadb.createPool({
     host: DB_HOST,
     user: DB_USER,

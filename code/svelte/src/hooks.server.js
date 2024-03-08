@@ -1,19 +1,36 @@
-// https://authjs.dev/reference/sveltekit#handling-authorization
-import { redirect } from '@sveltejs/kit';
-import { sequence } from '@sveltejs/kit/hooks';
-import { handle as handleAuthentication } from './auth';
+import { lucia } from "$lib/server/auth";
 
 /** @type {import('@sveltejs/kit').Handle} */
-async function handleAuthorization({ event, resolve}) {
-    if (event.url.pathname.startsWith('/upload')) {
-        const session = await event.locals.auth();
+export const handle = async ({ event, resolve }) => {
+	const sessionId = event.cookies.get(lucia.sessionCookieName);
 
-        if (!session) {
-            throw redirect(303, '/');
-        }
-    }
+	if (!sessionId) {
+		event.locals.user = null;
+		event.locals.session = null;
+        return resolve(event);
+	}
 
-    return resolve(event);
-}
+	const { session, user } = await lucia.validateSession(sessionId);
 
-export const handle = sequence(handleAuthentication, handleAuthorization)
+	if (session && session.fresh) {
+		const sessionCookie = lucia.createSessionCookie(session.id);
+		// sveltekit types deviates from the de-facto standard
+		// you can use 'as any' too
+		event.cookies.set(sessionCookie.name, sessionCookie.value, {
+			path: ".",
+			...sessionCookie.attributes
+		});
+	}
+
+	if (!session) {
+		const sessionCookie = lucia.createBlankSessionCookie();
+		event.cookies.set(sessionCookie.name, sessionCookie.value, {
+			path: ".",
+			...sessionCookie.attributes
+		});
+	}
+
+	event.locals.user = user;
+	event.locals.session = session;
+	return resolve(event);
+};

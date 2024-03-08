@@ -1,5 +1,4 @@
 <script>
-    import { signIn, signOut } from '@auth/sveltekit/client';
     import { page } from '$app/stores';
     import { Upload16 } from 'svelte-octicons';
     import SearchBar from '$lib/components/SearchBar.svelte';
@@ -16,21 +15,22 @@
         <button class="close-button" on:click={dialog.close()}>X</button>
         <h2>Join Website</h2>
         <p>Create an account to post photos, comment, and save photos from others.</p>
-        <Button on:click={() => signIn("google")}>Log in with Google</Button>
+        <Button href={"/auth/google"}>Log in with Google</Button>
     </section>
 </dialog>
 <header>
     <h1><a href="/">Website</a></h1>
     <SearchBar />
-    {#if $page.data.session}
+    {#if $page.data.loggedIn}
         <ul>
-            <li><button on:click={() => signOut()}>Sign Out</button></li>
+            <li><button>Sign Out</button></li>
         </ul>
         <ActionBar>
             <IconButton href="/upload" shape={"circle"}>
                 <Upload16 title={"Upload"}/>
             </IconButton>
-            <UserPortrait src={$page.data.session.user.image} size={2} color={"gray"}/>
+            <!-- YOU NEED TO DEFINE getUserAttributes in lucia to access user data -->
+            <UserPortrait src={""} size={2} color={"gray"}/>
         </ActionBar>
     {:else}
         <Button on:click={dialog.showModal()} align={"right"}>Log In</Button>

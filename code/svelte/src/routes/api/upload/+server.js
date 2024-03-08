@@ -4,7 +4,6 @@ import * as db from '$lib/server/mariadb';
 export async function POST({ request }) {
     const { photo } = await request.json();
 
-
     if (photo) {
         return db.uploadPhoto(1, photo)
             .then(res => {

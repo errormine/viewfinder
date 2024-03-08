@@ -1,3 +1,17 @@
+CREATE DATABASE auth;
+USE auth;
+
+CREATE TABLE user (
+    id VARCHAR(255) PRIMARY KEY,
+    google_id VARCHAR(255) NOT NULL UNIQUE
+);
+
+CREATE TABLE user_session (
+    id VARCHAR(255) PRIMARY KEY,
+    expires_at DATETIME NOT NULL,
+    user_id VARCHAR(255) NOT NULL REFERENCES user(id)
+);
+
 CREATE DATABASE team02m_db;
 USE team02m_db;
 
@@ -5,12 +19,13 @@ CREATE TABLE Users (
     UserID INT AUTO_INCREMENT PRIMARY KEY,
     Username VARCHAR(255) NOT NULL UNIQUE,
     Email VARCHAR(255) NOT NULL UNIQUE,
-    FirstName VARCHAR(255),
-    LastName VARCHAR(255),
+    EmailVerified TIMESTAMP,
+    DisplayName VARCHAR(255),
     DateOfBirth DATE,
     ProfilePicture VARCHAR(255),
     Bio TEXT,
     Website VARCHAR(255),
+    Contact VARCHAR(255),
     JoinDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

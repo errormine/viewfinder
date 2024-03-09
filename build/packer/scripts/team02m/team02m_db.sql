@@ -24,7 +24,7 @@ CREATE TABLE Photos (
     PhotoID INT AUTO_INCREMENT PRIMARY KEY,
     UserID VARCHAR(255) REFERENCES user(id),
     Title VARCHAR(255),
-    Image VARCHAR(255),
+    Source VARCHAR(255),
     Description TEXT,
     Timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

@@ -12,7 +12,7 @@
 
 <main class="content-grid">
     <section class="image-viewer full-width">
-        <img src={data.photo.Image} alt="">
+        <img src={data.photo.Source} alt="">
         <section class="aside-right">
             <ActionBar>
                 <IconButton disableBackground hoverable={false}>

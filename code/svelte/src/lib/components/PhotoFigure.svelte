@@ -15,7 +15,7 @@
 
 <figure>
     <a href="/photo/{photo.PhotoID}" class="round-corners">
-        <img class={"fit-"+fit} src={photo.Image} alt={photo.Alt || "No description provided."} />
+        <img class={"fit-"+fit} src={photo.Source} alt={photo.Alt || "No description provided."} />
     </a>
     <figcaption class="round-corners">
         <span>{photo.Title}</span>

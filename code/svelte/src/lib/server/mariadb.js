@@ -38,25 +38,25 @@ export let placeholders = {
         {
             PhotoID: 1,
             Title: "Test Photo 1 really long n a m e a a a  aaa!!!",
-            Image: "https://picsum.photos/200/300",
+            Source: "https://picsum.photos/200/300",
             Description: "This is a test photo."
         },
         {
             PhotoID: 2,
             Title: "Test Photo 2",
-            Image: "https://picsum.photos/300/200",
+            Source: "https://picsum.photos/300/200",
             Description: "This is a test photo."
         },
         {
             PhotoID: 3,
             Title: "Test Photo 3",
-            Image: "https://picsum.photos/300/300",
+            Source: "https://picsum.photos/300/300",
             Description: "This is a test photo."
         },
         {
             PhotoID: 4,
             Title: "Test Photo 4",
-            Image: "https://picsum.photos/250/300",
+            Source: "https://picsum.photos/250/300",
             Description: "This is a test photo."
         }
     ],
@@ -64,55 +64,55 @@ export let placeholders = {
         {
             PhotoID: 1,
             Title: "Test Photo 1 really long n a m e a a a  aaa!!!",
-            Image: "https://picsum.photos/200/300",
+            Source: "https://picsum.photos/200/300",
             Description: "This is a test photo."
         },
         {
             PhotoID: 2,
             Title: "Test Photo 2",
-            Image: "https://picsum.photos/1920/1080",
+            Source: "https://picsum.photos/1920/1080",
             Description: "This is a test photo."
         },
         {
             PhotoID: 3,
             Title: "Test Photo 3",
-            Image: "https://picsum.photos/300/300",
+            Source: "https://picsum.photos/300/300",
             Description: "This is a test photo."
         },
         {
             PhotoID: 4,
             Title: "Test Photo 4",
-            Image: "https://picsum.photos/250/300",
+            Source: "https://picsum.photos/250/300",
             Description: "This is a test photo."
         },
         {
             PhotoID: 5,
             Title: "Test Photo 5",
-            Image: "https://picsum.photos/400/200",
+            Source: "https://picsum.photos/400/200",
             Description: "This is a test photo."
         },
         {
             PhotoID: 6,
             Title: "Test Photo 6",
-            Image: "https://picsum.photos/500/400",
+            Source: "https://picsum.photos/500/400",
             Description: "This is a test photo."
         },
         {
             PhotoID: 7,
             Title: "Test Photo 7",
-            Image: "https://picsum.photos/300/300",
+            Source: "https://picsum.photos/300/300",
             Description: "This is a test photo."
         },
         {
             PhotoID: 8,
             Title: "Test Photo 8",
-            Image: "https://picsum.photos/400/500",
+            Source: "https://picsum.photos/400/500",
             Description: "This is a test photo."
         },
         {
             PhotoID: 9,
             Title: "Test Photo 9",
-            Image: "https://picsum.photos/200/300",
+            Source: "https://picsum.photos/200/300",
             Description: "This is a test photo."
         }
     ],

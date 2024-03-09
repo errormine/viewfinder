@@ -205,12 +205,12 @@ export async function getSingleValue(query, param) {
 // User Profile ABOUT
 export async function getUserId(username) {
     if (DEV_MODE) return placeholders.userId;
-    return getSingleValue("SELECT UserID FROM Users WHERE Username = ?", [username]);
+    return getSingleValue("SELECT id FROM user WHERE Username = ?", [username]);
 }
 
 export async function getDisplayName(userId) {
     if (DEV_MODE) return placeholders.displayName;
-    return getSingleValue("SELECT DisplayName FROM Users WHERE UserID = ?", [userId]);
+    return getSingleValue("SELECT DisplayName FROM user WHERE id = ?", [userId]);
 }
 
 export async function getPhotosCount(userId) {
@@ -230,31 +230,31 @@ export async function getFollowingCount(userId) {
 
 export async function getWebsite(userId) {
     if (DEV_MODE) return placeholders.website;
-    return getSingleValue("SELECT Website FROM Users WHERE UserID = ?", [userId]);
+    return getSingleValue("SELECT Website FROM user WHERE id = ?", [userId]);
 }
 
 export async function getContact(userId) {
     if (DEV_MODE) return placeholders.contact;
-    return getSingleValue("SELECT Contact FROM Users WHERE UserID = ?", [userId]);
+    return getSingleValue("SELECT Contact FROM user WHERE id = ?", [userId]);
 }
 
 export async function getLocation(userId) {
     if (DEV_MODE) return placeholders.location;
-    return getSingleValue("SELECT Location FROM Users WHERE UserID = ?", [userId]);
+    return getSingleValue("SELECT Location FROM user WHERE id = ?", [userId]);
 }
 
 export async function getJoinDate(userId) {
     if (DEV_MODE) return placeholders.joinDate;
-    return getSingleValue("SELECT JoinDate FROM Users WHERE UserID = ?", [userId]);
+    return getSingleValue("SELECT JoinDate FROM user WHERE id = ?", [userId]);
 }
 
 export async function getBio(userId) {
     if (DEV_MODE) return placeholders.bio;
-    return getSingleValue("SELECT Bio FROM Users WHERE UserID = ?", [userId]);
+    return getSingleValue("SELECT Bio FROM user WHERE id = ?", [userId]);
 }
 
 export async function updateBio(userId, bio) {
-    return performQuery("UPDATE Users SET Bio = ? WHERE UserID = ?", [bio, userId]);
+    return performQuery("UPDATE user SET Bio = ? WHERE id = ?", [bio, userId]);
 }
 
 // User Profile PHOTOS
@@ -320,7 +320,7 @@ export async function isFavorite(userId, photoId) {
 
 // Photo upload
 export async function uploadPhoto(userId, photo) {
-    return performQuery("INSERT INTO Photos (UserID, Title, Description, Path) VALUES (?, ?, ?, ?)", [userId, photo.title, photo.description, photo.path]);
+    return performQuery("INSERT INTO Photos (UserID, Title, Description, Source) VALUES (?, ?, ?, ?)", [userId, photo.title, photo.description, photo.source]);
 }
 
 export async function deletePhoto(photoId) {

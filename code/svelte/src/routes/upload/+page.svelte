@@ -14,8 +14,9 @@
         images.push({
             _preview: preview,
             title: title,
-            description: "",
+            description: "This is a description.",
             tags: [],
+            source: "https://picsum.photos/1280/720?random=1"
         });
     }
 

@@ -99,8 +99,6 @@
 </section>
 
 <style>
-    @import url('/styles/user-profile.css');
-
     #profile-bubbles {
         display: flex;
         flex-wrap: wrap;

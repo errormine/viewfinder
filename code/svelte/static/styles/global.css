@@ -27,7 +27,7 @@
     --transparent-black-gradient: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
 
     /* SIZE VARIABLES */
-    --top-bar-height: 4rem;
+    --header-height: 4rem;
     --footer-height: 6rem;
 
     /* BORDERS AND SHADOWS */
@@ -49,8 +49,12 @@ html, body {
 }
 
 body {
-    padding-top: var(--top-bar-height);
+    padding-top: var(--header-height);
     background-color: var(--color-off-white)
+}
+
+main {
+    min-height: calc(100% - var(--footer-height));
 }
 
 h1, h2, h3,
@@ -108,7 +112,7 @@ svg {
 /* COMMON LAYOUTS */
 .content-grid, .full-width {
     display: grid;
-    grid-template-columns: [full-width-start] 1fr [content-start] minmax(0, 50rem) [content-end] 1fr [full-width-end];
+    grid-template-columns: [full-width-start] 1fr [content-start] minmax(0, 56rem) [content-end aside-right-start] 1fr [full-width-end];
 }
 
 .content-grid > *,
@@ -118,6 +122,38 @@ svg {
 
 .content-grid > .full-width {
     grid-column: full-width;
+}
+
+.content-grid > .aside-right,
+.full-width > .aside-right {
+    grid-column: aside-right;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.flex.wrap {
+    flex-wrap: wrap;
+}
+
+.flex.space-between {
+    justify-content: space-between;
+}
+
+.flex.space-around {
+    justify-content: space-around;
+}
+
+.flex.justify-center {
+    justify-content: center;
 }
 
 /* FORM ELEMENTS */
@@ -159,4 +195,12 @@ input[type="text"], input[type="email"], input[type="password"] {
 
 .hidden {
     display: none;
+}
+
+.margin-0 {
+    margin: 0;
+}
+
+.margin-bottom-1 {
+    margin-bottom: 1rem;
 }

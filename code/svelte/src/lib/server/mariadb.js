@@ -54,7 +54,7 @@ export let placeholders = {
         {
             PhotoID: 2,
             Title: "Test Photo 2",
-            Image: "https://picsum.photos/300/200",
+            Image: "https://picsum.photos/1920/1080",
             Description: "This is a test photo."
         },
         {
@@ -276,6 +276,17 @@ export async function unfollowUser(userId, followerId) {
 
 export async function isFollowing(userId, followerId) {
     return getSingleValue("SELECT COUNT(*) FROM Follows WHERE UserID = ? AND FollowerID = ?", [userId, followerId]);
+}
+
+// View photo page
+export async function getPhoto(photoId) {
+    if (DEV_MODE) return placeholders.photos[photoId];
+    return getSingleRow("SELECT * FROM Photos WHERE PhotoID = ?", [photoId]);
+}
+
+export async function getAlbumsByPhoto(photoId) {
+    if (DEV_MODE) return placeholders.albums;
+    return performQuery("SELECT * FROM Albums WHERE AlbumID IN (SELECT AlbumID FROM AlbumPhotos WHERE PhotoID = ?)", [photoId]);
 }
 
 // Photo interactions

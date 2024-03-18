@@ -1,4 +1,5 @@
 <script>
+    export let name = '';
     export let title = '';
     export let buttonShape = 'squircle';
     export let hoverable = true;
@@ -8,7 +9,7 @@
 <!-- You have to forward on:click here or the button won't work! -->
 <!-- https://svelte.dev/tutorial/dom-event-forwarding -->
 
-<button on:click {title} class="{buttonShape}" class:hoverable={hoverable} class:no-bg={disableBackground}>
+<button on:click {name} {title} class="{buttonShape}" class:hoverable={hoverable} class:no-bg={disableBackground}>
     <slot />
 </button>
 

@@ -1,21 +1,3 @@
-# Retrieve secret_id from vault to be used in our web server provisioner
-# https://registry.terraform.io/providers/hashicorp/vault/latest/docs/resources/approle_auth_backend_role_secret_id
-resource "vault_auth_backend" "approle" {
-  type = "approle"
-}
-
-resource "vault_approle_auth_backend_role" "web-server" {
-  backend = vault_auth_backend.approle.path
-  role_name    = "nodejs"
-  token_policies = ["webapp"]
-}
-
-resource "vault_approle_auth_backend_role_secret_id" "id" {
-  backend = vault_auth_backend.approle.path
-  role_name = vault_approle_auth_backend_role.web-server.role_name
-  wrapping_ttl = "10m"
-}
-
 # Database credentials
 data "vault_generic_secret" "db-host" {
   path = "secret/team02m-db-host"
@@ -94,12 +76,11 @@ resource "proxmox_vm_qemu" "web-server" {
       "sudo systemctl start node-exporter.service",
       "sudo growpart /dev/vda 3",
       "sudo lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv",
-      "sudo resize2fs /dev/ubuntu-vg/ubuntu-lv",      
-      "echo 'Your FQDN is: ' ; dig +answer -x ${self.default_ipv4_address} +short"
-      "echo 'SECRET_ID=' ${vault_approle_auth_backend_role_secret_id.id} >> /home/vagrant/team02m-2024/code/svelte/.env"
-      "echo 'DB_HOST=' ${vault_generic_secret.db-host} >> /home/vagrant/team02m-2024/code/svelte/.env"
-      "echo 'GOOGLE_CLIENT_ID=' ${vault_generic_secret.google-client-id} >> /home/vagrant/team02m-2024/code/svelte/.env"
-      "echo 'GOOGLE_SECRET_ID=' ${vault_generic_secret.google-secret-id} >> /home/vagrant/team02m-2024/code/svelte/.env"
+      "sudo resize2fs /dev/ubuntu-vg/ubuntu-lv",
+      "echo 'Your FQDN is: ' ; dig +answer -x ${self.default_ipv4_address} +short",
+      "echo 'DB_HOST=' ${vault_generic_secret.db-host} >> /home/vagrant/team02m-2024/code/svelte/.env",
+      "echo 'GOOGLE_CLIENT_ID=' ${vault_generic_secret.google-client-id} >> /home/vagrant/team02m-2024/code/svelte/.env",
+      "echo 'GOOGLE_SECRET_ID=' ${vault_generic_secret.google-secret-id} >> /home/vagrant/team02m-2024/code/svelte/.env",
     ]
 
     connection {

@@ -1,5 +1,6 @@
 <!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/search -->
 <script>
+    import IconButton from '$lib/components/IconButton.svelte';
     import { Search16 } from 'svelte-octicons';
 
     let searches = ['landscape', 'portrait', 'nature', 'architecture', 'street', 'wildlife', 'macro', 'sports', 'fashion', 'food', 'black and white', 'abstract', 'still life', 'long exposure', 'aerial', 'cityscape', 'sunrise', 'sunset', 'beach', 'mountain', 'forest', 'waterfall', 'desert', 'sky', 'clouds', 'flowers', 'birds', 'insects', 'pets', 'cars', 'bikes', 'boats', 'planes', 'trains'];
@@ -9,10 +10,10 @@
 </script>
 
 <search>
-    <input class="search-bar inset-bg" type="text" {placeholder}>
     <button class="submit">
         <Search16 />
     </button>
+    <input class="search-bar inset-bg" type="text" {placeholder}>
 </search>
 
 <style>
@@ -35,18 +36,11 @@
     }
 
     .submit {
-        border: none;
-        background-color: transparent;
         position: absolute;
-        padding: 0;
-        margin: 0.5rem auto;
-        left: 0.8rem;
-        opacity: 0.5;
-        transition: opacity 200ms;
-    }
-
-    .submit:hover {
-        cursor: pointer;
-        opacity: 1;
+        width: 2rem;
+        height: 2rem;
+        border: none;
+        background: transparent;
+        left: 0.25rem;
     }
 </style>

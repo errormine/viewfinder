@@ -1,68 +1,64 @@
 CREATE DATABASE team02m_db;
 USE team02m_db;
 
-CREATE TABLE Users (
-    UserID INT AUTO_INCREMENT PRIMARY KEY,
-    Username VARCHAR(255) NOT NULL UNIQUE,
-    Email VARCHAR(255) NOT NULL UNIQUE,
-    FirstName VARCHAR(255),
-    LastName VARCHAR(255),
+-- COLUMNS in user, user_session which are snake_case are used for OAUTH2
+CREATE TABLE user (
+    id VARCHAR(255) PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    DisplayName VARCHAR(255),
     DateOfBirth DATE,
     ProfilePicture VARCHAR(255),
     Bio TEXT,
     Website VARCHAR(255),
+    Contact VARCHAR(255),
     JoinDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE user_session (
+    id VARCHAR(255) PRIMARY KEY,
+    expires_at DATETIME NOT NULL,
+    user_id VARCHAR(255) NOT NULL REFERENCES user(id)
 );
 
 CREATE TABLE Photos (
     PhotoID INT AUTO_INCREMENT PRIMARY KEY,
-    UserID INT,
-    Image VARCHAR(255),
+    UserID VARCHAR(255) REFERENCES user(id),
+    Title VARCHAR(255),
+    Source VARCHAR(255),
     Description TEXT,
-    Timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+    Timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE Albums (
     AlbumID INT AUTO_INCREMENT PRIMARY KEY,
-    UserID INT,
+    UserID VARCHAR(255) REFERENCES user(id),
     Name VARCHAR(255) NOT NULL,
     Description TEXT,
-    CreatedDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+    CreatedDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE AlbumJunc (
-    AlbumID INT,
-    ImageID INT,
-    FOREIGN KEY (AlbumID) REFERENCES Albums(AlbumID),
-    FOREIGN KEY (ImageID) REFERENCES Photos(PhotoID)
+    AlbumID INT REFERENCES Albums(AlbumID),
+    ImageID INT REFERENCES Photos(PhotoID)
 );
 
 CREATE TABLE Comments (
     CommentID INT AUTO_INCREMENT PRIMARY KEY,
-    PhotoID INT,
-    UserID INT,
+    ParentCommentID INT NULL REFERENCES Comments(CommentID),
+    PhotoID INT REFERENCES Photos(PhotoID),
+    UserID VARCHAR(255) REFERENCES user(id),
     Content TEXT,
-    Timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    ParentCommentID INT NULL,
-    FOREIGN KEY (PhotoID) REFERENCES Photos(PhotoID),
-    FOREIGN KEY (UserID) REFERENCES Users(UserID),
-    FOREIGN KEY (ParentCommentID) REFERENCES Comments(CommentID)
+    Timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE Follows (
-    UserID INT,
-    FollowerID INT,
-    FOREIGN KEY (UserID) REFERENCES Users(UserID),
-    FOREIGN KEY (FollowerID) REFERENCES Users(UserID)
+    UserID VARCHAR(255) REFERENCES user(id),
+    FollowerID VARCHAR(255) REFERENCES user(id)
 );
 
 CREATE TABLE Favorites (
-    UserID INT,
-    PhotoID INT,
+    UserID VARCHAR(255) REFERENCES user(id),
+    PhotoID INT REFERENCES Photos(PhotoID),
     Timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (UserID, PhotoID),
-    FOREIGN KEY (UserID) REFERENCES Users(UserID),
-    FOREIGN KEY (PhotoID) REFERENCES Photos(PhotoID)
+    PRIMARY KEY (UserID, PhotoID)
 );

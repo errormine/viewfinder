@@ -319,7 +319,7 @@ build {
   provisioner "shell" {
     only             = ["source.proxmox-iso.web-server"]
     execute_command  = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
-    environment_vars = ["ROLEID=${var.ROLEID}", "SECRETID=${var.SECRETID}"]
+    environment_vars = ["ROLE_ID=${var.ROLEID}", "SECRET_ID=${var.SECRETID}", "DB_USER=${local.DBUSER}", "DB_PASS=${local.DBPASS}", "DB_PORT=${local.DBPORT}"]
     scripts          = ["../scripts/team02m/post_install_sveltekit_setup.sh"]
   }
 }

@@ -16,6 +16,20 @@ resource "vault_approle_auth_backend_role_secret_id" "id" {
   wrapping_ttl = "10m"
 }
 
+# Database credentials
+data "vault_generic_secret" "db-host" {
+  path = "secret/team02m-db-host"
+}
+
+# Google credentials
+data "vault_generic_secret" "google-client-id" {
+  path = "secret/team02m-google-client-id"
+}
+
+data "vault_generic_secret" "google-client-secret" {
+  path = "secret/team02m-google-client-secret"
+}
+
 resource "proxmox_vm_qemu" "web-server" {
   count           = var.frontend-numberofvms
   name            = "${var.frontend-id}-vm${count.index}.service.consul"
@@ -82,6 +96,10 @@ resource "proxmox_vm_qemu" "web-server" {
       "sudo lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv",
       "sudo resize2fs /dev/ubuntu-vg/ubuntu-lv",      
       "echo 'Your FQDN is: ' ; dig +answer -x ${self.default_ipv4_address} +short"
+      "echo 'SECRET_ID=' ${vault_approle_auth_backend_role_secret_id.id} >> /home/vagrant/team02m-2024/code/svelte/.env"
+      "echo 'DB_HOST=' ${vault_generic_secret.db-host} >> /home/vagrant/team02m-2024/code/svelte/.env"
+      "echo 'GOOGLE_CLIENT_ID=' ${vault_generic_secret.google-client-id} >> /home/vagrant/team02m-2024/code/svelte/.env"
+      "echo 'GOOGLE_SECRET_ID=' ${vault_generic_secret.google-secret-id} >> /home/vagrant/team02m-2024/code/svelte/.env"
     ]
 
     connection {

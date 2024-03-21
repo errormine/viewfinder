@@ -1,5 +1,5 @@
 import mariadb from 'mariadb';
-import { DB_HOST, DB_USER, DB_PASS } from '$env/static/private';
+import { NO_DB, DB_HOST, DB_USER, DB_PASS } from '$env/static/private';
 
 console.log(`DB_HOST: ${DB_HOST}, DB_USER: ${DB_USER}`);
 
@@ -24,7 +24,7 @@ const pool = mariadb.createPool({
     database: "team02m_db"
 });
 
-export let DEV_MODE = process.env.NODE_ENV === 'development' && import.meta.env.VITE_NO_DB === 'true';
+export let DEV_MODE = process.env.NODE_ENV === 'development' && NO_DB === 'true';
 export let placeholders = {
     displayName: "Placeholder User",
     username: "placeholder",
@@ -302,7 +302,14 @@ export async function getPhoto(photoId) {
 
 export async function getAlbumsByPhoto(photoId) {
     if (DEV_MODE) return placeholders.albums;
-    return performQuery("SELECT * FROM Albums WHERE AlbumID IN (SELECT AlbumID FROM AlbumPhotos WHERE PhotoID = ?)", [photoId]);
+    performQuery("SELECT * FROM Albums WHERE AlbumID IN (SELECT AlbumID FROM AlbumJunc WHERE PhotoID = ?)", [photoId])
+        .then(rows => {
+            return rows;
+        })
+        .catch(err => {
+            console.log(err);
+            return [];
+        });
 }
 
 // Photo interactions

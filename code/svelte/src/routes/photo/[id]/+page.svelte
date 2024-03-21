@@ -8,6 +8,8 @@
 
     /** @type {import('./$types').PageData} */
     export let data;
+
+    console.log(data.linkedAlbums);
 </script>
 
 <main class="content-grid">
@@ -56,13 +58,15 @@
                 </section>
                 <section class="round-corners">
                     <h3>Uploaded</h3>
-                    <p>{data.photo.Timestamp}</p>
+                    <p>{new Date(data.photo.Timestamp).toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' })}</p>
                 </section>
             </section>
-            <section class="metadata-albums margin-bottom-1">
-                <h3>This photo is part of 0 albums</h3>
-                <AlbumGrid albums={data.linkedAlbums} size={'small'} />
-            </section>
+            {#if data.linkedAlbums != null && data.linkedAlbums.length > 0}
+                <section class="metadata-albums margin-bottom-1">
+                    <h3>This photo is part of {data.linkedAlbums.length} albums</h3>
+                    <AlbumGrid albums={data.linkedAlbums} size={'small'} />
+                </section>
+            {/if}
             <section class="metadata-tags margin-bottom-1">
                 <h3>Tags</h3>
                 <p>No tags</p>

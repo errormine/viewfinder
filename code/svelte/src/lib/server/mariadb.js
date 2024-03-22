@@ -326,8 +326,8 @@ export async function isFavorite(userId, photoId) {
 }
 
 // Photo upload
-export async function uploadPhoto(userId, photo, UUID) {
-    return performQuery("INSERT INTO Photos (UserID, Title, Description, UUID) VALUES (?, ?, ?, ?)", [userId, photo.title, photo.description, UUID]);
+export async function uploadPhoto(userId, UUID, metadata) {
+    return performQuery("INSERT INTO Photos (UserID, UUID, Title, Description) VALUES (?, ?, ?, ?)", [userId, UUID, metadata.title, metadata.description]);
 }
 
 export async function deletePhoto(photoId) {

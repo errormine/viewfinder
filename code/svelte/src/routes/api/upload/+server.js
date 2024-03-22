@@ -16,6 +16,7 @@ export async function POST({ request, cookies }) {
     // Upload to minio and save information in database
     const UUID = randomUUID();
     // File blob -> Promise -> array buffer -> buffer I love javascript
+    // https://nodejs.org/api/buffer.html
     const photo = Buffer.from(await formData.get('photo').arrayBuffer());
     const photoMetadata = {
         title: formData.get('title'),

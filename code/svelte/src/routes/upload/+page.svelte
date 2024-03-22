@@ -10,13 +10,13 @@
     // Image objects to be uploaded to database
     let images = [];
 
-    function appendImage(title, preview) {
+    function appendImage(title, previewURL, fileData) {
         images.push({
-            _preview: preview,
+            _preview: previewURL,
             title: title,
             description: "This is a description.",
             tags: [],
-            source: "https://picsum.photos/1280/720?random=1"
+            data: fileData,
         });
     }
 
@@ -47,25 +47,29 @@
     $: if (files) {
         for (const file of files) {
             const reader = new FileReader();
-        
-            reader.addEventListener('load', () => {
-                let preview = createPreview(reader.result);
-                appendImage(file.name, preview);
-            });
-
+            
             reader.readAsDataURL(file);
+            reader.addEventListener('load', () => {
+                let previewURL = createPreview(reader.result);
+                appendImage(file.name, previewURL, file);
+            });
         };
     }
 
     // Upload handler
     function handleUpload() {
         for (const img of images) {
+            const formData = new FormData();
+            formData.append('title', img.title);
+            formData.append('description', img.description);
+            formData.append('tags', img.tags);
+            formData.append('photo', img.data);
+
+            console.log(formData);
+
             fetch('/api/upload', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({photo: img})
+                body: formData
             })
             .then(response => {
             console.log(response);

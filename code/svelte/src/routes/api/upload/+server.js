@@ -15,13 +15,18 @@ export async function POST({ request, cookies }) {
 
     // Upload to minio and save information in database
     const UUID = randomUUID();
-    const photo = formData.get('photo');
-    // NOT WORKING
+    // File blob -> Promise -> array buffer -> buffer I love javascript
+    const photo = Buffer.from(await formData.get('photo').arrayBuffer());
+    const photoMetadata = {
+        title: formData.get('title'),
+        description: formData.get('description'),
+        tags: formData.get('tags'),
+    };
 
     return minioClient.putObject(S3_BUCKET, UUID, photo)
         .then(res => {
             console.log(res);
-            return db.uploadPhoto(user.id, photo, UUID)
+            return db.uploadPhoto(user.id, UUID, photoMetadata)
                 .then(res => {
                     console.log(res);
                     return new Response(JSON.stringify({ message: "Image uploaded successfully."}), { status: 200 });

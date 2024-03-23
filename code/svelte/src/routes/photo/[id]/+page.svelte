@@ -9,7 +9,7 @@
     /** @type {import('./$types').PageData} */
     export let data;
 
-    console.log(data.linkedAlbums);
+    console.log(data);
 </script>
 
 <main class="content-grid">
@@ -26,7 +26,7 @@
     <section class="image-info">
         <section class="image-details">
             <header>
-                <UserPortrait size={48} />
+                <UserPortrait username={data.creator.username} src={data.creator.picture} size={3} />
                 <h1>{data.photo.Title}</h1>
             </header>
             <p class="image-description round-corners">{data.photo.Description}</p>
@@ -38,7 +38,11 @@
                     </IconButton>
                 </header>
                 <section class="comment-box">
-                    <UserPortrait size={32} />
+                    {#if data.loggedIn }
+                        <UserPortrait username={data.user.username} src={data.user.picture} size={2} />
+                    {:else}
+                        <UserPortrait src={''} size={2} />
+                    {/if}
                     <textarea class="round-corners inset-bg" name="comment-box" id="comment-box" rows="3" placeholder="Add a comment..."></textarea>
                     <section class="comment-box-bottom">
                         <Button align={"right"}>Post</Button>

@@ -208,6 +208,21 @@ export async function getUserId(username) {
     return getSingleValue("SELECT id FROM user WHERE Username = ?", [username]);
 }
 
+export async function getUsername(userId) {
+    if (DEV_MODE) return placeholders.username;
+    return getSingleValue("SELECT Username FROM user WHERE id = ?", [userId]);
+}
+
+export async function getProfilePicture(userId) {
+    const picture = await getSingleValue("SELECT ProfilePicture FROM user WHERE id = ?", [userId]);
+
+    if (picture === null) {
+        return "https://picsum.photos/128/128";
+    }
+
+    return picture;
+}
+
 export async function getDisplayName(userId) {
     if (DEV_MODE) return placeholders.displayName;
     return getSingleValue("SELECT DisplayName FROM user WHERE id = ?", [userId]);
@@ -298,6 +313,10 @@ export async function isFollowing(userId, followerId) {
 export async function getPhoto(photoId) {
     if (DEV_MODE) return placeholders.photos[photoId];
     return getSingleRow("SELECT * FROM Photos WHERE PhotoID = ?", [photoId]);
+}
+
+export async function getPhotoCreatorId(photoId) {
+    return getSingleValue("SELECT UserID FROM Photos WHERE PhotoID = ?", [photoId]);
 }
 
 export async function getAlbumsByPhoto(photoId) {

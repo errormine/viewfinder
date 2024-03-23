@@ -6,8 +6,6 @@
     /** @type {import('./$types').PageData} */
     export let data;
 
-    console.log(data.user);
-
     let isImageSelected = false;
     let selectedImageIndex;
 

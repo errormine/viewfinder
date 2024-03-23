@@ -1,11 +1,15 @@
 <script>
+    import { onMount } from 'svelte';
     import Button from '$lib/components/Button.svelte';
     import ImagePreview from '$lib/components/ImagePreview.svelte';
 
     /** @type {import('./$types').PageData} */
     export let data;
 
+    console.log(data.user);
+
     let isImageSelected = false;
+    let selectedImageIndex;
 
     // Image objects to be uploaded to database
     let images = [];
@@ -25,6 +29,7 @@
         let imgData = images.find(i => i._preview === e.currentTarget);
         
         isImageSelected = true;
+        selectedImageIndex = images.indexOf(imgData);
         document.querySelector('#title').value = imgData.title;
         document.querySelector('#description').value = imgData.description;
     }
@@ -72,7 +77,9 @@
                 body: formData
             })
             .then(response => {
-            console.log(response);
+                console.log(response);
+                // Redirect to user profile
+                location.reload();
             })
             .catch(error => {
                 console.error(error);
@@ -80,6 +87,20 @@
             });
         }
     }
+
+    onMount(() => {
+        // Metadata editor
+        let title = document.querySelector('#title');
+        let description = document.querySelector('#description');
+
+        title.addEventListener('input', () => {
+            images[selectedImageIndex].title = title.value;
+        });
+
+        description.addEventListener('input', () => {
+            images[selectedImageIndex].description = description.value;
+        });
+    })
 </script>
 
 <main>

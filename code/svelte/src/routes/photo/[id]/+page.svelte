@@ -110,7 +110,7 @@
     .image-info {
         background: white;
         display: grid;
-        grid-template-columns: 55% 1fr;
+        grid-template-columns: 65% 1fr;
         gap: 1rem;
         padding: 1rem;
     }

@@ -120,6 +120,7 @@
     .image-details header {
         display: flex;
         align-items: center;
+        gap: 1rem;
     }
 
     .image-details header h1 {

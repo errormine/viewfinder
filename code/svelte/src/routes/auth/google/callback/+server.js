@@ -37,11 +37,12 @@ export async function GET({ event, url, cookies }) {
                 ...sessionCookie.attributes
             });
         } else {
-            const userId = generateId(15);
-
-            const result = await db.performQuery("INSERT INTO user (id, email) VALUES (?, ?)", [
+            const userId = googleUser.sub;
+            const result = await db.performQuery("INSERT INTO user (id, email, Username, DisplayName) VALUES (?, ?, ?, ?)", [
                 userId,
-                googleUser.email
+                googleUser.email,
+                googleUser.email.split("@")[0],
+                googleUser.name
             ]);
             console.log(result);
 

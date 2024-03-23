@@ -38,11 +38,13 @@
                     </IconButton>
                 </header>
                 <section class="comment-box">
+                    <section>
                     {#if data.loggedIn }
                         <UserPortrait username={data.user.username} src={data.user.picture} size={2} />
                     {:else}
-                        <UserPortrait src={''} size={2} />
+                        <UserPortrait size={2} />
                     {/if}
+                    </section>
                     <textarea class="round-corners inset-bg" name="comment-box" id="comment-box" rows="3" placeholder="Add a comment..."></textarea>
                     <section class="comment-box-bottom">
                         <Button align={"right"}>Post</Button>
@@ -132,7 +134,8 @@
 
     .comment-box {
         display: grid;
-        grid-template-columns: 3rem 1fr;
+        grid-template-columns: 2rem 1fr;
+        gap: 1rem;
     }
 
     .comment-box-bottom {

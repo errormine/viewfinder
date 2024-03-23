@@ -217,7 +217,7 @@ export async function getProfilePicture(userId) {
     const picture = await getSingleValue("SELECT ProfilePicture FROM user WHERE id = ?", [userId]);
 
     if (picture === null) {
-        return "https://picsum.photos/128/128";
+        return "/images/pfp128.jpg";
     }
 
     return picture;

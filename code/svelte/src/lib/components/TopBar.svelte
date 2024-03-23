@@ -29,8 +29,7 @@
             <IconButton href="/upload" shape={"circle"}>
                 <Upload16 title={"Upload"}/>
             </IconButton>
-            <!-- YOU NEED TO DEFINE getUserAttributes in lucia to access user data -->
-            <UserPortrait src={""} size={2} color={"gray"}/>
+            <UserPortrait href={"/user/"+$page.data.user.username} src={$page.data.user.picture} size={2} color={"gray"}/>
         </ActionBar>
     {:else}
         <Button on:click={dialog.showModal()} align={"right"}>Log In</Button>

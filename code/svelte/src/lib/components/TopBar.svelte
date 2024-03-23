@@ -22,9 +22,6 @@
     <h1><a href="/">Website</a></h1>
     <SearchBar />
     {#if $page.data.loggedIn}
-        <ul>
-            <li><button>Sign Out</button></li>
-        </ul>
         <ActionBar>
             <IconButton href="/upload" shape={"circle"}>
                 <Upload16 title={"Upload"}/>

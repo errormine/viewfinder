@@ -322,4 +322,16 @@ build {
     environment_vars = ["ROLE_ID=${var.ROLEID}", "SECRET_ID=${var.SECRETID}", "DB_USER=${local.DBUSER}", "DB_PASS=${local.DBPASS}", "DB_PORT=${local.DBPORT}"]
     scripts          = ["../scripts/team02m/post_install_sveltekit_setup.sh"]
   }
+
+ ########################################################################################################################
+  # Script to install Nginx
+#########################################################################################################################
+
+  provisioner "shell" {
+    execute_command = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
+    scripts = ["../scripts/proxmox/team02m/post_install_prxmx_load-balancer-firewall-open-ports.sh",
+      "../scripts/proxmox/team02m/post_install_prxmx_load_balancer.sh",
+    "../scripts/proxmox/team02m/move-nginx-files.sh"]
+    only = ["proxmox-iso.load-balancer"]
+  }
 }

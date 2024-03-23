@@ -9,6 +9,7 @@ CREATE TABLE user (
     DateOfBirth DATE,
     ProfilePicture VARCHAR(255),
     Bio TEXT,
+    Location VARCHAR(255),
     Website VARCHAR(255),
     Contact VARCHAR(255),
     JoinDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -24,7 +25,7 @@ CREATE TABLE Photos (
     PhotoID INT AUTO_INCREMENT PRIMARY KEY,
     UserID VARCHAR(255) REFERENCES user(id),
     Title VARCHAR(255),
-    Source VARCHAR(255),
+    UUID VARCHAR(36),
     Description TEXT,
     Timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -34,7 +35,7 @@ CREATE TABLE Albums (
     UserID VARCHAR(255) REFERENCES user(id),
     Name VARCHAR(255) NOT NULL,
     Description TEXT,
-    CreatedDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    Timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE AlbumJunc (

@@ -10,6 +10,7 @@ CREATE TABLE user (
     ProfilePicture VARCHAR(255),
     Bio TEXT,
     Location VARCHAR(255),
+    Username VARCHAR(255) NOT NULL UNIQUE,
     Website VARCHAR(255),
     Contact VARCHAR(255),
     JoinDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP

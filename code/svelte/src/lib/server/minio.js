@@ -1,9 +1,10 @@
 import * as Minio from "minio";
+import { MINIO_ENDPOINT, MINIO_ACCESS_KEY, MINIO_SECRET_KEY } from '$env/static/private';
 
 export const minioClient = new Minio.Client({
-    endPoint: 'system54.rice.iit.edu',
+    endPoint: MINIO_ENDPOINT,
     port: 80,
     useSSL: false,
-    accessKey: 'aneacsu',
-    secretKey: '02f9b7de-e7d1-11ee-b28f-f718b89f371amc',
+    accessKey: MINIO_ACCESS_KEY,
+    secretKey: MINIO_SECRET_KEY,
 })

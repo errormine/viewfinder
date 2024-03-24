@@ -387,7 +387,7 @@ build {
  provisioner "shell" {
     execute_command = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
     scripts = ["../scripts/team02m/post_install_prxmx_frontend-firewall-open-ports.sh"]
-    environment_vars = ["DBUSER=${var.DBUSER}", "DBPASS=${var.DBPASS}", "DATABASE=${var.DATABASE}", "FQDN=${var.FQDN}"]
+    environment_vars = ["DBUSER=${local.DBUSER}", "DBPASS=${local.DBPASS}"]
     only             = ["proxmox-iso.web-server"]
   }
 

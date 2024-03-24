@@ -1,7 +1,7 @@
 resource "proxmox_vm_qemu" "lb-server" {
   count           = var.lb-numberofvms
   name            = "${var.lb-id}-vm${count.index}.service.consul"
-  desc            = LB Ubuntu 20.04"
+  desc            = "LB Ubuntu 20.04"
   target_node     = "${data.vault_generic_secret.target_node.data[random_shuffle.nodename.result[0]]}"
   clone           = var.lb-template_to_clone
   os_type         = "cloud-init"

@@ -40,19 +40,19 @@ locals {
  #Variables for min.io
 
  locals {
-  MINIOENDPOINT = vault("/secret/data/team02m-minio-endpoint","MINIOENDPOINT")
+  MINIOENDPOINT = vault("/secret/data/minio-endpoint","MINIOENDPOINT")
 }
 
 locals {
-  ACCESSKEY = vault("/secret/data/team02m-minio-access-key","ACCESSKEY")
+  ACCESSKEY = vault("/secret/data/minio-access-key","ACCESSKEY")
 }
 
 locals {
-  SECRETKEY = vault("/secret/data/team02m-minio-secret-key","SECRETKEY")
+  SECRETKEY = vault("/secret/data/minio-secret-key","SECRETKEY")
 }
 
 locals {
-  BUCKETNAME = vault("/secret/data/team02m-s3-bucket-name","BUCKETNAME")
+  BUCKETNAME = vault("/secret/data/s3-bucket-name","BUCKETNAME")
 }
 
 # This variable is the IP address range to allow your connections

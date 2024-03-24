@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Clone the repository
 cd /home/vagrant/
 

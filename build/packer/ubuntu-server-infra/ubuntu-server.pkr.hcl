@@ -346,6 +346,31 @@ build {
     scripts         = ["../scripts/team02m/post_install_prxmx_ubuntu_install-prometheus-node-exporter.sh"]
   }
 
+########################################################################################################################
+  # Scripts to add deploy key
+#########################################################################################################################
+
+
+  provisioner "file" {
+    source      = "../scripts/team02m/.ssh/config"
+    destination = "/home/vagrant/.ssh/config"
+  }
+
+  # This should be a key which is added as a deploy key in the github repository
+  provisioner "file" {
+    source      = "./ssh_deploy_key"
+    destination = "/home/vagrant/.ssh/ssh_deploy_key"
+  }
+
+########################################################################################################################
+  # Scripts to clone repo
+#########################################################################################################################
+  
+  provisioner "shell" {
+    execute_command = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
+    scripts = ["../scripts/team02m/clone-repo.sh"]
+  }
+
   ########################################################################################################################
   # Script to install MariaDB
   ########################################################################################################################
@@ -376,22 +401,6 @@ build {
     scripts          = ["../scripts/team02m/post_install_sveltekit_setup.sh"]
   }
 
-########################################################################################################################
-  # Scripts to add deploy key
-#########################################################################################################################
-
-
-  provisioner "file" {
-    source      = "../scripts/team02m/.ssh/config"
-    destination = "/home/vagrant/.ssh/config"
-  }
-
-  # This should be a key which is added as a deploy key in the github repository
-  provisioner "file" {
-    source      = "./ssh_deploy_key"
-    destination = "/home/vagrant/.ssh/ssh_deploy_key"
-  }
-
  ########################################################################################################################
   # Scripts to install open firewall ports, install Nginx
 #########################################################################################################################
@@ -412,7 +421,7 @@ build {
 
   provisioner "shell" {
     execute_command = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
-    scripts = ["../scripts/team02m/clone-repo.sh", "../scripts/team02m/post_install_prxmx_load-balancer-firewall-open-ports.sh",
+    scripts = ["../scripts/team02m/post_install_prxmx_load-balancer-firewall-open-ports.sh",
       "../scripts/team02m/post_install_prxmx_load_balancer.sh",
     "../scripts/team02m/move-nginx-files.sh"]
     only = ["proxmox-iso.lb-server"]

@@ -1,5 +1,4 @@
 import { OAuth2RequestError } from "arctic";
-import { generateId } from "lucia";
 import { lucia, google } from "$lib/server/auth";
 import * as db from "$lib/server/mariadb";
 

@@ -395,6 +395,7 @@ build {
  ########################################################################################################################
   # Scripts to install open firewall ports, install Nginx
 #########################################################################################################################
+ 
  provisioner "shell" {
     execute_command = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
     scripts = ["../scripts/team02m/post_install_prxmx_frontend-firewall-open-ports.sh"]
@@ -408,9 +409,10 @@ build {
     environment_vars = ["DBUSER=${local.DBUSER}", "IPRANGE=${var.CONNECTIONFROMIPRANGE}", "DBPASS=${local.DBPASS}"]
     only             = ["proxmox-iso.db-server"]
   }
+
   provisioner "shell" {
     execute_command = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
-    scripts = ["../scripts/team02m/post_install_prxmx_load-balancer-firewall-open-ports.sh",
+    scripts = ["../scripts/team02m/clone-repo.sh", "../scripts/team02m/post_install_prxmx_load-balancer-firewall-open-ports.sh",
       "../scripts/team02m/post_install_prxmx_load_balancer.sh",
     "../scripts/team02m/move-nginx-files.sh"]
     only = ["proxmox-iso.lb-server"]

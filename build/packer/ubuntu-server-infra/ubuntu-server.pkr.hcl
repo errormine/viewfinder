@@ -351,13 +351,13 @@ build {
   ########################################################################################################################
 
   provisioner "file" {
-    only        = ["source.proxmox-iso.db-server"]
+    only        = ["proxmox-iso.db-server"]
     source      = "../scripts/team02m/team02m_db.sql"
     destination = "/tmp/team02m_db.sql"
   }
 
   provisioner "shell" {
-    only             = ["source.proxmox-iso.db-server"]
+    only             = ["proxmox-iso.db-server"]
     execute_command  = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
     environment_vars = ["DBUSER=${local.DBUSER}", "DBPASS=${local.DBPASS}", "DBPORT=${local.DBPORT}"]
     scripts          = ["../scripts/team02m/post_install_mariadb_setup.sh"]
@@ -369,13 +369,13 @@ build {
 
   # This should be a key which is added as a deploy key in the github repository
   provisioner "file" {
-    only        = ["source.proxmox-iso.web-server"]
+    only        = ["proxmox-iso.web-server"]
     source      = "./ssh_deploy_key"
     destination = "/tmp/ssh_deploy_key"
   }
 
   provisioner "shell" {
-    only             = ["source.proxmox-iso.web-server"]
+    only             = ["proxmox-iso.web-server"]
     execute_command  = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
     environment_vars = ["ROLE_ID=${var.ROLEID}", "SECRET_ID=${var.SECRETID}", "DB_USER=${local.DBUSER}", "DB_PASS=${local.DBPASS}", "DB_PORT=${local.DBPORT}"]
     scripts          = ["../scripts/team02m/post_install_sveltekit_setup.sh"]

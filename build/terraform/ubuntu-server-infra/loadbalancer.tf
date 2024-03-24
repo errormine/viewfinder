@@ -1,7 +1,7 @@
 resource "proxmox_vm_qemu" "lb-server" {
   count           = var.lb-numberofvms
   name            = "${var.lb-id}-vm${count.index}.service.consul"
-  desc            = "MariaDB Ubuntu 20.04"
+  desc            = LB Ubuntu 20.04"
   target_node     = "${data.vault_generic_secret.target_node.data[random_shuffle.nodename.result[0]]}"
   clone           = var.lb-template_to_clone
   os_type         = "cloud-init"
@@ -38,7 +38,7 @@ resource "proxmox_vm_qemu" "lb-server" {
   disk {
     type    = "virtio"
     storage = random_shuffle.datadisk.result[0]
-    size    = var.disk_size
+    size    = var.lb-disk_size
   }
 
   provisioner "remote-exec" {

@@ -52,7 +52,7 @@ resource "proxmox_vm_qemu" "web-server" {
   disk {
     type    = "virtio"
     storage = random_shuffle.datadisk.result[0]
-    size    = var.disk_size
+    size    = var.frontend-disk_size
   }
 
   provisioner "remote-exec" {
@@ -78,9 +78,9 @@ resource "proxmox_vm_qemu" "web-server" {
       "sudo lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv",
       "sudo resize2fs /dev/ubuntu-vg/ubuntu-lv",
       "echo 'Your FQDN is: ' ; dig +answer -x ${self.default_ipv4_address} +short",
-      "echo 'DB_HOST=' ${vault_generic_secret.db-host} >> /home/vagrant/team02m-2024/code/svelte/.env",
-      "echo 'GOOGLE_CLIENT_ID=' ${vault_generic_secret.google-client-id} >> /home/vagrant/team02m-2024/code/svelte/.env",
-      "echo 'GOOGLE_SECRET_ID=' ${vault_generic_secret.google-secret-id} >> /home/vagrant/team02m-2024/code/svelte/.env",
+      "echo 'DB_HOST=' data.vault_generic_secret.db-host >> /home/vagrant/team02m-2024/code/svelte/.env",
+      "echo 'GOOGLE_CLIENT_ID=' data.vault_generic_secret.google-client-id >> /home/vagrant/team02m-2024/code/svelte/.env",
+      "echo 'GOOGLE_SECRET_ID=' data.vault_generic_secret.google-secret-id >> /home/vagrant/team02m-2024/code/svelte/.env",
     ]
 
     connection {

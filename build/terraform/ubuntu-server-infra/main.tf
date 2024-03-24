@@ -79,7 +79,7 @@ resource "proxmox_vm_qemu" "vanilla_server" {
   disk {
     type    = "virtio"
     storage = random_shuffle.datadisk.result[0]
-    size    = var.disk_size
+    size    = var.lb-disk_size
   }
 
   provisioner "remote-exec" {

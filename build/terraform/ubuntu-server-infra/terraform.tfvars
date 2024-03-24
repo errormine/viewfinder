@@ -2,7 +2,7 @@
 # These are your proxmox API token credentials (not username and password)
 # That will be provided to you
 ###############################################################################
-keypath             = "name-of-your-private-key" # The name to the private key you need to communicate with your instances
+keypath             = "ssh_deploy_key" # The name to the private key you need to communicate with your instances
 ###############################################################################
 # Debugging information settings
 # No need to change these values
@@ -24,8 +24,8 @@ backend-desc                     = ""                     # What is the purpose 
 lb-id                  = "team02m-lb"                     # initials to add to make unique systems
 lb-numberofvms                   = 1                      # quantity of that template to launch
 lb-desc                          = ""                     # What is the purpose of the TF template
-lb-macaddr                       = ""                     # Class assigned mac address for a public IP for your lb
-consul-service-tag-contact-email = "your-hawk-email-here" # Used as part of the consul service definition as a tag that can be queried
+lb-macaddr                       = "04:9F:15:00:00:13"                     # Class assigned mac address for a public IP for your lb
+consul-service-tag-contact-email = "dbaltrus@hawk.iit.edu" # Used as part of the consul service definition as a tag that can be queried
 ###############################################################################
 # Name the template your created via Packer for Terraform to use to deploy
 # instances from

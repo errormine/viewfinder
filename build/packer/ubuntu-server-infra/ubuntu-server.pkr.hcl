@@ -386,7 +386,7 @@ build {
 #########################################################################################################################
  provisioner "shell" {
     execute_command = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
-    scripts = ["../scripts/proxmox/three-tier/frontend/post_install_prxmx_frontend-firewall-open-ports.sh"]
+    scripts = ["../scripts/team02m/post_install_prxmx_frontend-firewall-open-ports.sh"]
     environment_vars = ["DBUSER=${var.DBUSER}", "DBPASS=${var.DBPASS}", "DATABASE=${var.DATABASE}", "FQDN=${var.FQDN}"]
     only             = ["proxmox-iso.web-server"]
   }
@@ -399,9 +399,9 @@ build {
   }
   provisioner "shell" {
     execute_command = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
-    scripts = ["../scripts/proxmox/team02m/post_install_prxmx_load-balancer-firewall-open-ports.sh",
-      "../scripts/proxmox/team02m/post_install_prxmx_load_balancer.sh",
-    "../scripts/proxmox/team02m/move-nginx-files.sh"]
+    scripts = ["../scripts/team02m/post_install_prxmx_load-balancer-firewall-open-ports.sh",
+      "../scripts/team02m/post_install_prxmx_load_balancer.sh",
+    "../scripts/team02m/move-nginx-files.sh"]
     only = ["proxmox-iso.lb-server"]
   }
 }

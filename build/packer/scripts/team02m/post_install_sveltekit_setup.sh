@@ -11,7 +11,7 @@ sudo apt-get install -y nodejs
 
 # Install dependencies
 sudo npm install -g express pm2
-cd team02m-2024/code/svelte/
+cd /home/vagrant/team02m-2024/code/svelte/
 npm install
 
 # Open firewalld

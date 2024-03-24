@@ -376,7 +376,7 @@ build {
   provisioner "file" {
     only        = ["proxmox-iso.web-server"]
     source      = "./ssh_deploy_key"
-    destination = "/tmp/ssh_deploy_key"
+    destination = "/home/vagrant/.ssh/ssh_deploy_key"
   }
 
   provisioner "shell" {

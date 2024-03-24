@@ -1,5 +1,5 @@
 import mariadb from 'mariadb';
-import { DB_HOST, DB_USER, DB_PASS } from '$env/static/private';
+import { NO_DB, DB_HOST, DB_USER, DB_PASS } from '$env/static/private';
 
 console.log(`DB_HOST: ${DB_HOST}, DB_USER: ${DB_USER}`);
 
@@ -24,7 +24,7 @@ const pool = mariadb.createPool({
     database: "team02m_db"
 });
 
-export let DEV_MODE = process.env.NODE_ENV === 'development' && import.meta.env.VITE_NO_DB === 'true';
+export let DEV_MODE = process.env.NODE_ENV === 'development' && NO_DB === 'true';
 export let placeholders = {
     displayName: "Placeholder User",
     username: "placeholder",
@@ -208,6 +208,21 @@ export async function getUserId(username) {
     return getSingleValue("SELECT id FROM user WHERE Username = ?", [username]);
 }
 
+export async function getUsername(userId) {
+    if (DEV_MODE) return placeholders.username;
+    return getSingleValue("SELECT Username FROM user WHERE id = ?", [userId]);
+}
+
+export async function getProfilePicture(userId) {
+    const picture = await getSingleValue("SELECT ProfilePicture FROM user WHERE id = ?", [userId]);
+
+    if (picture === null) {
+        return "/images/pfp128.jpg";
+    }
+
+    return picture;
+}
+
 export async function getDisplayName(userId) {
     if (DEV_MODE) return placeholders.displayName;
     return getSingleValue("SELECT DisplayName FROM user WHERE id = ?", [userId]);
@@ -300,9 +315,20 @@ export async function getPhoto(photoId) {
     return getSingleRow("SELECT * FROM Photos WHERE PhotoID = ?", [photoId]);
 }
 
+export async function getPhotoCreatorId(photoId) {
+    return getSingleValue("SELECT UserID FROM Photos WHERE PhotoID = ?", [photoId]);
+}
+
 export async function getAlbumsByPhoto(photoId) {
     if (DEV_MODE) return placeholders.albums;
-    return performQuery("SELECT * FROM Albums WHERE AlbumID IN (SELECT AlbumID FROM AlbumPhotos WHERE PhotoID = ?)", [photoId]);
+    performQuery("SELECT * FROM Albums WHERE AlbumID IN (SELECT AlbumID FROM AlbumJunc WHERE PhotoID = ?)", [photoId])
+        .then(rows => {
+            return rows;
+        })
+        .catch(err => {
+            console.log(err);
+            return [];
+        });
 }
 
 // Photo interactions
@@ -319,8 +345,8 @@ export async function isFavorite(userId, photoId) {
 }
 
 // Photo upload
-export async function uploadPhoto(userId, photo) {
-    return performQuery("INSERT INTO Photos (UserID, Title, Description, Source) VALUES (?, ?, ?, ?)", [userId, photo.title, photo.description, photo.source]);
+export async function uploadPhoto(userId, UUID, metadata) {
+    return performQuery("INSERT INTO Photos (UserID, UUID, Title, Description) VALUES (?, ?, ?, ?)", [userId, UUID, metadata.title, metadata.description]);
 }
 
 export async function deletePhoto(photoId) {

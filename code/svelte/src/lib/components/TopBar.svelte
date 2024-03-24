@@ -22,15 +22,11 @@
     <h1><a href="/">Website</a></h1>
     <SearchBar />
     {#if $page.data.loggedIn}
-        <ul>
-            <li><button>Sign Out</button></li>
-        </ul>
         <ActionBar>
             <IconButton href="/upload" shape={"circle"}>
                 <Upload16 title={"Upload"}/>
             </IconButton>
-            <!-- YOU NEED TO DEFINE getUserAttributes in lucia to access user data -->
-            <UserPortrait src={""} size={2} color={"gray"}/>
+            <UserPortrait username={$page.data.user.username} src={$page.data.user.picture} size={2} color={"gray"}/>
         </ActionBar>
     {:else}
         <Button on:click={dialog.showModal()} align={"right"}>Log In</Button>

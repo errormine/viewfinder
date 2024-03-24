@@ -27,7 +27,8 @@ sudo firewall-cmd --reload
 # Create user for web app
 sudo mariadb -e "CREATE USER '${DBUSER}'@'localhost' IDENTIFIED BY 'password';"
 sudo mariadb -e "SET PASSWORD FOR '${DBUSER}'@'localhost' = PASSWORD('${DBPASS}');"
-sudo mariadb -e "GRANT SELECT, UPDATE, INSERT, DELETE ON team02_db.* TO '${DBUSER}'@'localhost';"
+sudo mariadb -e "GRANT SELECT, UPDATE, INSERT, DELETE ON team02m_db.* TO '${DBUSER}'@'localhost';"
+sudo mariadb -e "FLUSH PRIVILEGES;"
 
 # Restart MariaDB service
 sudo systemctl restart mariadb

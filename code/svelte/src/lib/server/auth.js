@@ -13,6 +13,13 @@ export const lucia = new Lucia(adapter, {
         attributes: {
             secure: !dev
         }
+    },
+    // attributes defined in getSessionAndUser() in MariaDBAdapter
+    getUserAttributes: (attributes) => {
+        return {
+            email: attributes.email,
+            username: attributes.username
+        };
     }
 });
 

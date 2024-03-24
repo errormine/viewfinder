@@ -8,5 +8,6 @@ export async function load({ locals }) {
 
 	return {
         loggedIn: true,
+        user: locals.user,
 	};
 };

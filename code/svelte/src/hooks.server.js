@@ -1,3 +1,4 @@
+// https://lucia-auth.com/guides/validate-session-cookies/sveltekit
 import { lucia } from "$lib/server/auth";
 
 /** @type {import('@sveltejs/kit').Handle} */

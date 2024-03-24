@@ -26,7 +26,15 @@ export class MariaDBAdapter {
         } : null;
 
         const user = databaseUser ? {
-            id: databaseUser.id
+            id: databaseUser.id,
+            // Exposes custom attributes from the user table
+            // Also needs to be added to getUserAttributes() in $lib/server/auth.js
+            attributes: {
+                email: databaseUser.email,
+                username: databaseUser.Username,
+                displayName: databaseUser.DisplayName,
+                picture: databaseUser.ProfilePicture,
+            }
         } : null;
         
         return [session, user];

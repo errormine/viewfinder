@@ -22,5 +22,15 @@ sudo apt-get install -y nodejs
 # Install dependencies
 sudo npm install -g express pm2
 cd /home/vagrant/team02m-2024/code/svelte/
-npm install
 
+#Building the app
+sudo -u vagrant npm install
+sudo -u vagrant npm run build
+sudo -u vagrant pm2 start build --name "webapp"
+
+# This creates your javascript application service file
+sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u vagrant --hp /home/vagrant
+
+# This saves which files we have already started -- so pm2 will 
+# restart them at boot
+sudo -u vagrant pm2 save

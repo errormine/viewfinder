@@ -46,10 +46,6 @@ variable "CONNECTIONFROMIPRANGE" {
   default   = "10.110.%.%"
 }
 # For the NodeJS app
-locals {
-  ROLEID = vault("/auth/approle/role/nodejs/role-id","role_id")
-}
-
 variable "MEMORY" {
   type    = string
   default = "4192"

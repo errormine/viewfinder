@@ -30,9 +30,9 @@ consul-service-tag-contact-email = "your-hawk-email-here" # Used as part of the 
 # Name the template your created via Packer for Terraform to use to deploy
 # instances from
 ###############################################################################
-frontend-template_to_clone = "" # The name of the template to clone
-backend-template_to_clone  = "" # The name of the template to clone
-lb-template_to_clone       = "" # The name of the template to clone
+frontend-template_to_clone = "team02m-web-template" # The name of the template to clone
+backend-template_to_clone  = "team02m-db-template" # The name of the template to clone
+lb-template_to_clone       = "team02m-lb-template" # The name of the template to clone
 ###############################################################################
 # Customize instance hardware settings
 ###############################################################################

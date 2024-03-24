@@ -74,6 +74,64 @@ source "proxmox-iso" "ubuntu-vanilla" {
   vm_name                  = "${var.VANILLA_VMNAME}"
 }
 
+source "proxmox-iso" "lb-server" {
+  boot_command = [
+    "e<wait>",
+    "<down><down><down>",
+    "<end><bs><bs><bs><bs><wait>",
+    "autoinstall ds=nocloud-net\\;s=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ ---<wait>",
+    "<f10><wait>"
+  ]
+  boot_wait = "5s"
+  cores     = "${var.NUMBEROFCORES}"
+  node      = "${local.NODENAME}"
+  username  = "${local.USERNAME}"
+  token     = "${local.PROXMOX_TOKEN}"
+  cpu_type  = "host"
+  disks {
+    disk_size    = "${var.DISKSIZE}"
+    storage_pool = "${var.STORAGEPOOL}"
+    # storage_pool_type is deprecated and should be omitted, it will be removed in a later version of the proxmox plugin
+    # storage_pool_type = "lvm"
+    type = "virtio"
+    io_thread = true
+  }
+  http_directory   = "subiquity/http"
+  http_port_max    = 9200
+  http_port_min    = 9001
+  iso_checksum     = "${var.iso_checksum}"
+  iso_urls         = "${var.iso_urls}"
+  iso_storage_pool = "local"
+  memory           = "${var.MEMORY}"
+
+  network_adapters {
+    bridge = "vmbr0"
+    model  = "virtio"
+  }
+  network_adapters {
+    bridge = "vmbr1"
+    model  = "virtio"
+  }
+  network_adapters {
+    bridge = "vmbr2"
+    model  = "virtio"
+  }
+
+  os                       = "l26"
+  proxmox_url              = "${local.URL}"
+  insecure_skip_tls_verify = true
+  unmount_iso              = true
+  qemu_agent               = true
+  scsi_controller          = "virtio-scsi-single"       
+  cloud_init               = true
+  cloud_init_storage_pool  = "${var.STORAGEPOOL}"
+  ssh_password             = "${local.SSHPW}"
+  ssh_username             = "vagrant"
+  ssh_timeout              = "28m"
+  template_description     = "A Packer template for creating an empty ubuntu server"
+  vm_name                  = "${var.VANILLA_VMNAME}"
+}
+
 source "proxmox-iso" "db-server" {
   boot_command = [
     "e<wait>",
@@ -191,7 +249,7 @@ source "proxmox-iso" "web-server" {
 }
 
 build {
-  sources = ["source.proxmox-iso.ubuntu-vanilla", "source.proxmox-iso.db-server", "source.proxmox-iso.web-server"]
+  sources = ["source.proxmox-iso.ubuntu-vanilla", "source.proxmox-iso.db-server", "source.proxmox-iso.web-server", "source.proxmox-iso.lb-server"]
 
   ########################################################################################################################
   # Using the file provisioner to SCP this file to the instance 

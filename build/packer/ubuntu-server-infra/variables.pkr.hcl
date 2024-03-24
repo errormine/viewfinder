@@ -68,6 +68,11 @@ variable "VANILLA_VMNAME" {
   default = "team02m-vanilla-template"
 }
 
+variable "LB_VMNAME" {
+  type    = string
+  default = "team02m-lb-template"
+}
+
 variable "DB_VMNAME" {
   type    = string
   default = "team02m-db-template"

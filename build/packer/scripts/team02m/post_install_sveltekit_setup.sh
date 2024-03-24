@@ -11,9 +11,6 @@ echo "export MINIO_ACCESS_KEY='${ACCESSKEY}'" >> /home/vagrant/.bashrc
 echo "export MINIO_SECRET_KEY='${SECRETKEY}'" >> /home/vagrant/.bashrc
 echo "export S3_BUCKET_NAME='${BUCKETNAME}'" >> /home/vagrant/.bashrc
 
-# Clone the repository
-sudo -u vagrant git clone git@github.com:illinoistech-itm/team02m-2024.git
-
 # Install Node.js
 sudo apt update
 curl -fsSL https://deb.nodesource.com/setup_21.x | sudo -E bash - &&\

@@ -366,18 +366,6 @@ build {
   ########################################################################################################################
   # Script to install SvelteKit
   ########################################################################################################################
-  provisioner "file" {
-    only        = ["proxmox-iso.web-server"]
-    source      = "../scripts/team02m/.ssh/config"
-    destination = "/home/vagrant/.ssh/config"
-  }
-
-  # This should be a key which is added as a deploy key in the github repository
-  provisioner "file" {
-    only        = ["proxmox-iso.web-server"]
-    source      = "./ssh_deploy_key"
-    destination = "/home/vagrant/.ssh/ssh_deploy_key"
-  }
 
   provisioner "shell" {
     only             = ["proxmox-iso.web-server"]
@@ -386,6 +374,22 @@ build {
     "MINIOENDPOINT=${local.MINIOENDPOINT}", "ACCESSKEY=${local.ACCESSKEY}", "SECRETKEY=${local.SECRETKEY}",
     "BUCKETNAME=${local.BUCKETNAME}"]
     scripts          = ["../scripts/team02m/post_install_sveltekit_setup.sh"]
+  }
+
+########################################################################################################################
+  # Scripts to add deploy key
+#########################################################################################################################
+
+
+  provisioner "file" {
+    source      = "../scripts/team02m/.ssh/config"
+    destination = "/home/vagrant/.ssh/config"
+  }
+
+  # This should be a key which is added as a deploy key in the github repository
+  provisioner "file" {
+    source      = "./ssh_deploy_key"
+    destination = "/home/vagrant/.ssh/ssh_deploy_key"
   }
 
  ########################################################################################################################

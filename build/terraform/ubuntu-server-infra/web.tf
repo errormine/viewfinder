@@ -81,6 +81,7 @@ resource "proxmox_vm_qemu" "web-server" {
       "echo 'DB_HOST=' data.vault_generic_secret.db-host >> /home/vagrant/team02m-2024/code/svelte/.env",
       "echo 'GOOGLE_CLIENT_ID=' data.vault_generic_secret.google-client-id >> /home/vagrant/team02m-2024/code/svelte/.env",
       "echo 'GOOGLE_SECRET_ID=' data.vault_generic_secret.google-secret-id >> /home/vagrant/team02m-2024/code/svelte/.env",
+      "echo 'export BASE_URL=https://system62.rice.iit.edu' >> ~/.bashrc"
     ]
 
     connection {

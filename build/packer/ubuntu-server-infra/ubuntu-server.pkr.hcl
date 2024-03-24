@@ -128,7 +128,7 @@ source "proxmox-iso" "lb-server" {
   ssh_password             = "${local.SSHPW}"
   ssh_username             = "vagrant"
   ssh_timeout              = "28m"
-  template_description     = "A Packer template for creating an empty ubuntu server"
+  template_description     = "A Packer template for creating an ubuntu server with Nginx installed"
   vm_name                  = "${var.LB_VMNAME}"
 }
 
@@ -268,7 +268,7 @@ build {
   ########################################################################################################################
 
   provisioner "file" {
-    source      = "../scripts/proxmox/jammy-services/node-exporter-consul-service.json"
+    source      = "../scripts/team02m/node-exporter-consul-service.json"
     destination = "/home/vagrant/"
   }
 
@@ -278,7 +278,7 @@ build {
   ########################################################################################################################
 
   provisioner "file" {
-    source      = "../scripts/proxmox/jammy-services/consul.conf"
+    source      = "../scripts/team02m/consul.conf"
     destination = "/home/vagrant/"
   }
 
@@ -288,7 +288,7 @@ build {
   ########################################################################################################################
 
   provisioner "file" {
-    source      = "../scripts/proxmox/jammy-services/node-exporter.service"
+    source      = "../scripts/team02m/node-exporter.service"
     destination = "/home/vagrant/"
   }
 
@@ -298,7 +298,7 @@ build {
 
   provisioner "shell" {
     execute_command = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
-    scripts         = ["../scripts/proxmox/core-jammy/post_install_prxmx-firewall-configuration.sh"]
+    scripts         = ["../scripts/team02m/post_install_prxmx-firewall-configuration.sh"]
   }
 
   ########################################################################################################################
@@ -308,10 +308,10 @@ build {
 
   provisioner "shell" {
     execute_command = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
-    scripts = ["../scripts/proxmox/core-jammy/post_install_prxmx_ubuntu_2204.sh",
-      "../scripts/proxmox/core-jammy/post_install_prxmx_start-cloud-init.sh",
-      "../scripts/proxmox/core-jammy/post_install_prxmx_install_hashicorp_consul.sh",
-    "../scripts/proxmox/core-jammy/post_install_prxmx_update_dns_for_consul_service.sh"]
+    scripts = ["../scripts/team02m/post_install_prxmx_ubuntu_2204.sh",
+      "../scripts/team02m/post_install_prxmx_start-cloud-init.sh",
+      "../scripts/team02m/post_install_prxmx_install_hashicorp_consul.sh",
+    "../scripts/team02m/post_install_prxmx_update_dns_for_consul_service.sh"]
   }
 
   ########################################################################################################################
@@ -322,7 +322,7 @@ build {
 
   provisioner "shell" {
     execute_command = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
-    scripts         = ["../scripts/proxmox/core-jammy/post_install_change_consul_bind_interface.sh"]
+    scripts         = ["../scripts/team02m/post_install_change_consul_bind_interface.sh"]
   }
 
   ############################################################################################
@@ -333,7 +333,7 @@ build {
 
   provisioner "shell" {
     execute_command = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
-    scripts         = ["../scripts/proxmox/core-jammy/post_install_update_dynamic_motd_message.sh"]
+    scripts         = ["../scripts/team02m/post_install_update_dynamic_motd_message.sh"]
   }
 
   ############################################################################################
@@ -343,7 +343,7 @@ build {
 
   provisioner "shell" {
     execute_command = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
-    scripts         = ["../scripts/proxmox/core-jammy/post_install_prxmx_ubuntu_install-prometheus-node-exporter.sh"]
+    scripts         = ["../scripts/team02m/post_install_prxmx_ubuntu_install-prometheus-node-exporter.sh"]
   }
 
   ########################################################################################################################
@@ -382,14 +382,26 @@ build {
   }
 
  ########################################################################################################################
-  # Script to install Nginx
+  # Scripts to install open firewall ports, install Nginx
 #########################################################################################################################
+ provisioner "shell" {
+    execute_command = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
+    scripts = ["../scripts/proxmox/three-tier/frontend/post_install_prxmx_frontend-firewall-open-ports.sh"]
+    environment_vars = ["DBUSER=${var.DBUSER}", "DBPASS=${var.DBPASS}", "DATABASE=${var.DATABASE}", "FQDN=${var.FQDN}"]
+    only             = ["proxmox-iso.web-server"]
+  }
 
+  provisioner "shell" {
+    execute_command = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
+    scripts = ["../scripts/team02m/post_install_prxmx_backend-firewall-open-ports.sh"]
+    environment_vars = ["DBUSER=${var.DBUSER}", "IPRANGE=${var.CONNECTIONFROMIPRANGE}", "DBPASS=${var.DBPASS}"]
+    only             = ["proxmox-iso.db-server"]
+  }
   provisioner "shell" {
     execute_command = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
     scripts = ["../scripts/proxmox/team02m/post_install_prxmx_load-balancer-firewall-open-ports.sh",
       "../scripts/proxmox/team02m/post_install_prxmx_load_balancer.sh",
     "../scripts/proxmox/team02m/move-nginx-files.sh"]
-    only = ["proxmox-iso.load-balancer"]
+    only = ["proxmox-iso.lb-server"]
   }
 }

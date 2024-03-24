@@ -1,9 +1,4 @@
 #https://registry.terraform.io/providers/Telmate/proxmox/latest/docs
-variable "vanilla_id" {
-  default = "team02m-ubuntu-server"
-}
-variable "db_id" {}
-variable "web_id" {}
 
 variable "error_level" {
   default = "debug"
@@ -17,26 +12,42 @@ variable "pm_timeout" {}
 
 variable "pm_log_file" {}
 
-# Also commented out in terraform.tfvars, not sure how this should be handled with multiple resources
-#variable "numberofvms" {}
-#variable "desc" {}
-variable "web_server_count" {
-  default = 1
-}
+variable "frontend-numberofvms" {}
+variable "backend-numberofvms" {}
+variable "lb-numberofvms" {}
 
-variable "default_template" {}
-variable "db_template" {}
-variable "web_template" {}
+variable "frontend-desc" {}
+variable "backend-desc" {}
+variable "lb-desc" {}
+variable "lb-macaddr" {}
 
-variable "memory" {}
+variable "frontend-template_to_clone" {}
+variable "backend-template_to_clone" {}
+variable "lb-template_to_clone" {}
 
-variable "cores" {}
+variable "frontend-memory" {}
+variable "backend-memory" {}
+variable "lb-memory" {}
 
-variable "sockets" {}
+variable "frontend-cores" {}
+variable "backend-cores" {}
+variable "lb-cores" {}
 
-variable "disk_size" {}
+variable "frontend-sockets" {}
+variable "backend-sockets" {}
+variable "lb-sockets" {}
+
+variable "frontend-disk_size" {}
+variable "backend-disk_size" {}
+variable "lb-disk_size" {}
 
 variable "keypath" {}
+
+variable "frontend-id" {}
+variable "backend-id" {}
+variable "lb-id" {}
+
+variable "consul-service-tag-contact-email" {}
 
 variable "additional_wait" {
   default = 30
@@ -59,3 +70,4 @@ variable "consulip-240-student-system41" {
 variable "consulip-242-room" {
   default = "10.110.0.38"
 }
+

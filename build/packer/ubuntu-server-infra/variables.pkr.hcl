@@ -37,11 +37,33 @@ locals {
   DBPASS = vault("/secret/data/team02m-db-pass","DBPASS")
 }
 
-# For the NodeJS app
-locals {
-  ROLEID = vault("/auth/approle/role/nodejs/role-id","role_id")
+ #Variables for min.io
+
+ locals {
+  MINIOENDPOINT = vault("/secret/data/minio-endpoint","MINIOENDPOINT")
 }
 
+locals {
+  ACCESSKEY = vault("/secret/data/minio-access-key","ACCESSKEY")
+}
+
+locals {
+  SECRETKEY = vault("/secret/data/minio-secret-key","SECRETKEY")
+}
+
+locals {
+  BUCKETNAME = vault("/secret/data/s3-bucket-name","BUCKETNAME")
+}
+
+# This variable is the IP address range to allow your connections
+# The SQL wildcard is the %
+# 10.110.%.%
+variable "CONNECTIONFROMIPRANGE" {
+  type      = string
+  sensitive = true
+  default   = "10.110.%.%"
+}
+# For the NodeJS app
 variable "MEMORY" {
   type    = string
   default = "4192"
@@ -66,6 +88,11 @@ variable "NUMBEROFCORES" {
 variable "VANILLA_VMNAME" {
   type    = string
   default = "team02m-vanilla-template"
+}
+
+variable "LB_VMNAME" {
+  type    = string
+  default = "team02m-lb-template"
 }
 
 variable "DB_VMNAME" {

@@ -41,6 +41,12 @@ Secrets to be used by our app:
  - team02m-google-client-id, CLIENTID
  - team02m-google-secret-id, SECRETID
 
+ Secrets for our webserver:
+ - minio-endpoint, MINIOENDPOINT
+ - minio-access-key, ACCESSKEY
+ - minio-secret-key, SECRETKEY
+ - s3-bucket-name, BUCKETNAME
+
 Policies:
 
 ssh-secret-policy:

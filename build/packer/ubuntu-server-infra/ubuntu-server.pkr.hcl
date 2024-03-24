@@ -74,6 +74,64 @@ source "proxmox-iso" "ubuntu-vanilla" {
   vm_name                  = "${var.VANILLA_VMNAME}"
 }
 
+source "proxmox-iso" "lb-server" {
+  boot_command = [
+    "e<wait>",
+    "<down><down><down>",
+    "<end><bs><bs><bs><bs><wait>",
+    "autoinstall ds=nocloud-net\\;s=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ ---<wait>",
+    "<f10><wait>"
+  ]
+  boot_wait = "5s"
+  cores     = "${var.NUMBEROFCORES}"
+  node      = "${local.NODENAME}"
+  username  = "${local.USERNAME}"
+  token     = "${local.PROXMOX_TOKEN}"
+  cpu_type  = "host"
+  disks {
+    disk_size    = "${var.DISKSIZE}"
+    storage_pool = "${var.STORAGEPOOL}"
+    # storage_pool_type is deprecated and should be omitted, it will be removed in a later version of the proxmox plugin
+    # storage_pool_type = "lvm"
+    type = "virtio"
+    io_thread = true
+  }
+  http_directory   = "subiquity/http"
+  http_port_max    = 9200
+  http_port_min    = 9001
+  iso_checksum     = "${var.iso_checksum}"
+  iso_urls         = "${var.iso_urls}"
+  iso_storage_pool = "local"
+  memory           = "${var.MEMORY}"
+
+  network_adapters {
+    bridge = "vmbr0"
+    model  = "virtio"
+  }
+  network_adapters {
+    bridge = "vmbr1"
+    model  = "virtio"
+  }
+  network_adapters {
+    bridge = "vmbr2"
+    model  = "virtio"
+  }
+
+  os                       = "l26"
+  proxmox_url              = "${local.URL}"
+  insecure_skip_tls_verify = true
+  unmount_iso              = true
+  qemu_agent               = true
+  scsi_controller          = "virtio-scsi-single"       
+  cloud_init               = true
+  cloud_init_storage_pool  = "${var.STORAGEPOOL}"
+  ssh_password             = "${local.SSHPW}"
+  ssh_username             = "vagrant"
+  ssh_timeout              = "28m"
+  template_description     = "A Packer template for creating an ubuntu server with Nginx installed"
+  vm_name                  = "${var.LB_VMNAME}"
+}
+
 source "proxmox-iso" "db-server" {
   boot_command = [
     "e<wait>",
@@ -191,7 +249,7 @@ source "proxmox-iso" "web-server" {
 }
 
 build {
-  sources = ["source.proxmox-iso.ubuntu-vanilla", "source.proxmox-iso.db-server", "source.proxmox-iso.web-server"]
+  sources = ["source.proxmox-iso.ubuntu-vanilla", "source.proxmox-iso.db-server", "source.proxmox-iso.web-server", "source.proxmox-iso.lb-server"]
 
   ########################################################################################################################
   # Using the file provisioner to SCP this file to the instance 
@@ -210,7 +268,7 @@ build {
   ########################################################################################################################
 
   provisioner "file" {
-    source      = "../scripts/proxmox/jammy-services/node-exporter-consul-service.json"
+    source      = "../scripts/team02m/node-exporter-consul-service.json"
     destination = "/home/vagrant/"
   }
 
@@ -220,7 +278,7 @@ build {
   ########################################################################################################################
 
   provisioner "file" {
-    source      = "../scripts/proxmox/jammy-services/consul.conf"
+    source      = "../scripts/team02m/consul.conf"
     destination = "/home/vagrant/"
   }
 
@@ -230,7 +288,7 @@ build {
   ########################################################################################################################
 
   provisioner "file" {
-    source      = "../scripts/proxmox/jammy-services/node-exporter.service"
+    source      = "../scripts/team02m/node-exporter.service"
     destination = "/home/vagrant/"
   }
 
@@ -240,7 +298,7 @@ build {
 
   provisioner "shell" {
     execute_command = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
-    scripts         = ["../scripts/proxmox/core-jammy/post_install_prxmx-firewall-configuration.sh"]
+    scripts         = ["../scripts/team02m/post_install_prxmx-firewall-configuration.sh"]
   }
 
   ########################################################################################################################
@@ -250,10 +308,10 @@ build {
 
   provisioner "shell" {
     execute_command = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
-    scripts = ["../scripts/proxmox/core-jammy/post_install_prxmx_ubuntu_2204.sh",
-      "../scripts/proxmox/core-jammy/post_install_prxmx_start-cloud-init.sh",
-      "../scripts/proxmox/core-jammy/post_install_prxmx_install_hashicorp_consul.sh",
-    "../scripts/proxmox/core-jammy/post_install_prxmx_update_dns_for_consul_service.sh"]
+    scripts = ["../scripts/team02m/post_install_prxmx_ubuntu_2204.sh",
+      "../scripts/team02m/post_install_prxmx_start-cloud-init.sh",
+      "../scripts/team02m/post_install_prxmx_install_hashicorp_consul.sh",
+    "../scripts/team02m/post_install_prxmx_update_dns_for_consul_service.sh"]
   }
 
   ########################################################################################################################
@@ -264,7 +322,7 @@ build {
 
   provisioner "shell" {
     execute_command = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
-    scripts         = ["../scripts/proxmox/core-jammy/post_install_change_consul_bind_interface.sh"]
+    scripts         = ["../scripts/team02m/post_install_change_consul_bind_interface.sh"]
   }
 
   ############################################################################################
@@ -275,7 +333,7 @@ build {
 
   provisioner "shell" {
     execute_command = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
-    scripts         = ["../scripts/proxmox/core-jammy/post_install_update_dynamic_motd_message.sh"]
+    scripts         = ["../scripts/team02m/post_install_update_dynamic_motd_message.sh"]
   }
 
   ############################################################################################
@@ -285,7 +343,32 @@ build {
 
   provisioner "shell" {
     execute_command = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
-    scripts         = ["../scripts/proxmox/core-jammy/post_install_prxmx_ubuntu_install-prometheus-node-exporter.sh"]
+    scripts         = ["../scripts/team02m/post_install_prxmx_ubuntu_install-prometheus-node-exporter.sh"]
+  }
+
+########################################################################################################################
+  # Scripts to add deploy key
+#########################################################################################################################
+
+
+  provisioner "file" {
+    source      = "../scripts/team02m/.ssh/config"
+    destination = "/home/vagrant/.ssh/config"
+  }
+
+  # This should be a key which is added as a deploy key in the github repository
+  provisioner "file" {
+    source      = "./ssh_deploy_key"
+    destination = "/home/vagrant/.ssh/ssh_deploy_key"
+  }
+
+########################################################################################################################
+  # Scripts to clone repo
+#########################################################################################################################
+  
+  provisioner "shell" {
+    execute_command = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
+    scripts = ["../scripts/team02m/clone-repo.sh"]
   }
 
   ########################################################################################################################
@@ -293,13 +376,13 @@ build {
   ########################################################################################################################
 
   provisioner "file" {
-    only        = ["source.proxmox-iso.db-server"]
+    only        = ["proxmox-iso.db-server"]
     source      = "../scripts/team02m/team02m_db.sql"
     destination = "/tmp/team02m_db.sql"
   }
 
   provisioner "shell" {
-    only             = ["source.proxmox-iso.db-server"]
+    only             = ["proxmox-iso.db-server"]
     execute_command  = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
     environment_vars = ["DBUSER=${local.DBUSER}", "DBPASS=${local.DBPASS}", "DBPORT=${local.DBPORT}"]
     scripts          = ["../scripts/team02m/post_install_mariadb_setup.sh"]
@@ -309,17 +392,38 @@ build {
   # Script to install SvelteKit
   ########################################################################################################################
 
-  # This should be a key which is added as a deploy key in the github repository
-  provisioner "file" {
-    only        = ["source.proxmox-iso.web-server"]
-    source      = "./ssh_deploy_key"
-    destination = "/tmp/ssh_deploy_key"
+  provisioner "shell" {
+    only             = ["proxmox-iso.web-server"]
+    execute_command  = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
+    environment_vars = ["DBUSER=${local.DBUSER}", "DBPASS=${local.DBPASS}", "DBPORT=${local.DBPORT}", 
+    "MINIOENDPOINT=${local.MINIOENDPOINT}", "ACCESSKEY=${local.ACCESSKEY}", "SECRETKEY=${local.SECRETKEY}",
+    "BUCKETNAME=${local.BUCKETNAME}"]
+    scripts          = ["../scripts/team02m/post_install_sveltekit_setup.sh"]
+  }
+
+ ########################################################################################################################
+  # Scripts to install open firewall ports, install Nginx
+#########################################################################################################################
+ 
+ provisioner "shell" {
+    execute_command = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
+    scripts = ["../scripts/team02m/post_install_prxmx_frontend-firewall-open-ports.sh"]
+    environment_vars = ["DBUSER=${local.DBUSER}", "DBPASS=${local.DBPASS}"]
+    only             = ["proxmox-iso.web-server"]
   }
 
   provisioner "shell" {
-    only             = ["source.proxmox-iso.web-server"]
-    execute_command  = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
-    environment_vars = ["ROLEID=${var.ROLEID}", "SECRETID=${var.SECRETID}"]
-    scripts          = ["../scripts/team02m/post_install_sveltekit_setup.sh"]
+    execute_command = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
+    scripts = ["../scripts/team02m/post_install_prxmx_backend-firewall-open-ports.sh"]
+    environment_vars = ["DBUSER=${local.DBUSER}", "IPRANGE=${var.CONNECTIONFROMIPRANGE}", "DBPASS=${local.DBPASS}"]
+    only             = ["proxmox-iso.db-server"]
+  }
+
+  provisioner "shell" {
+    execute_command = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
+    scripts = ["../scripts/team02m/post_install_prxmx_load-balancer-firewall-open-ports.sh",
+      "../scripts/team02m/post_install_prxmx_load_balancer.sh",
+    "../scripts/team02m/move-nginx-files.sh"]
+    only = ["proxmox-iso.lb-server"]
   }
 }

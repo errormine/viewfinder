@@ -1,18 +1,15 @@
 #!/bin/bash
 
-# Clone the repository
-GIT_SSH_COMMAND="ssh -i /tmp/ssh_deploy_key"
-git clone git@github.com:illinoistech-itm/team02m-2024.git
+echo "export DB_PORT='${DBPORT}'" >> /home/vagrant/.bashrc
+echo "export DB_PASS='${DBPASS}'" >> /home/vagrant/.bashrc
+echo "export DB_USER='${DBUSER}'" >> /home/vagrant/.bashrc
 
-# Install vault
-wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-sudo apt update && sudo apt install vault
+echo "export NO_DB=FALSE" >> /home/vagrant/.bashrc
 
-# Unwrap secret_id
-export VAULT_ADDR='https://team-02m-vault-server-vm0.service.consul:8200'
-export VAULT_SKIP_VERIFY='true'
-vault unwrap
+echo "export MINIO_ENDPOINT='${MINIOENDPOINT}'" >> /home/vagrant/.bashrc
+echo "export MINIO_ACCESS_KEY='${ACCESSKEY}'" >> /home/vagrant/.bashrc
+echo "export MINIO_SECRET_KEY='${SECRETKEY}'" >> /home/vagrant/.bashrc
+echo "export S3_BUCKET_NAME='${BUCKETNAME}'" >> /home/vagrant/.bashrc
 
 # Install Node.js
 sudo apt update
@@ -21,11 +18,16 @@ sudo apt-get install -y nodejs
 
 # Install dependencies
 sudo npm install -g express pm2
+cd /home/vagrant/team02m-2024/code/svelte/
 
-# Open firewalld
-sudo firewall-cmd --zone=public --add-port=5000/tcp --permanent
-sudo firewall-cmd --reload
+#Building the app
+sudo -u vagrant npm install
+sudo -u vagrant npm run build
+sudo -u vagrant pm2 start build --name "webapp"
 
-# Start the server
-cd team02m-2024/code/nodejs
-pm2 start index.js
+# This creates your javascript application service file
+sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u vagrant --hp /home/vagrant
+
+# This saves which files we have already started -- so pm2 will 
+# restart them at boot
+sudo -u vagrant pm2 save

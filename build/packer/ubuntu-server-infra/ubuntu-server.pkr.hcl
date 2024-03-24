@@ -129,7 +129,7 @@ source "proxmox-iso" "lb-server" {
   ssh_username             = "vagrant"
   ssh_timeout              = "28m"
   template_description     = "A Packer template for creating an empty ubuntu server"
-  vm_name                  = "${var.VANILLA_VMNAME}"
+  vm_name                  = "${var.LB_VMNAME}"
 }
 
 source "proxmox-iso" "db-server" {

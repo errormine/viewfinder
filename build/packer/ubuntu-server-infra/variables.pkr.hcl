@@ -37,6 +37,24 @@ locals {
   DBPASS = vault("/secret/data/team02m-db-pass","DBPASS")
 }
 
+ #Variables for min.io
+
+ locals {
+  MINIOENDPOINT = vault("/secret/data/team02m-minio-endpoint","MINIOENDPOINT")
+}
+
+locals {
+  ACCESSKEY = vault("/secret/data/team02m-minio-access-key","ACCESSKEY")
+}
+
+locals {
+  SECRETKEY = vault("/secret/data/team02m-minio-secret-key","SECRETKEY")
+}
+
+locals {
+  BUCKETNAME = vault("/secret/data/team02m-s3-bucket-name","BUCKETNAME")
+}
+
 # This variable is the IP address range to allow your connections
 # The SQL wildcard is the %
 # 10.110.%.%

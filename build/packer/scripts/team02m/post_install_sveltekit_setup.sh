@@ -1,7 +1,18 @@
 #!/bin/bash
 
+echo "export DB_PORT='${DBPORT}'" >> /home/vagrant/.bashrc
+echo "export DB_PASS='${DBPASS}'" >> /home/vagrant/.bashrc
+echo "export DB_USER='${DBUSER}'" >> /home/vagrant/.bashrc
+
+echo "export NO_DB=FALSE" >> /home/vagrant/.bashrc
+
+echo "export MINIO_ENDPOINT='${MINIOENDPOINT}'" >> /home/vagrant/.bashrc
+echo "export MINIO_ACCESS_KEY='${ACCESSKEY}'" >> /home/vagrant/.bashrc
+echo "export MINIO_SECRET_KEY='${SECRETKEY}'" >> /home/vagrant/.bashrc
+echo "export S3_BUCKET_NAME='${BUCKETNAME}'" >> /home/vagrant/.bashrc
+
 # Clone the repository
-GIT_SSH_COMMAND="ssh -i /tmp/ssh_deploy_key" git clone git@github.com:illinoistech-itm/team02m-2024.git
+git clone git@github.com:illinoistech-itm/team02m-2024.git
 
 # Install Node.js
 sudo apt update
@@ -13,6 +24,3 @@ sudo npm install -g express pm2
 cd /home/vagrant/team02m-2024/code/svelte/
 npm install
 
-# Open firewalld
-#sudo firewall-cmd --zone=public --add-port=3000/tcp --permanent
-#sudo firewall-cmd --reload

@@ -366,6 +366,11 @@ build {
   ########################################################################################################################
   # Script to install SvelteKit
   ########################################################################################################################
+  provisioner "file" {
+    only        = ["proxmox-iso.web-server"]
+    source      = "../scripts/team02m/.ssh/config"
+    destination = "/home/vagrant/.ssh/config"
+  }
 
   # This should be a key which is added as a deploy key in the github repository
   provisioner "file" {
@@ -377,7 +382,9 @@ build {
   provisioner "shell" {
     only             = ["proxmox-iso.web-server"]
     execute_command  = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
-    environment_vars = ["DB_USER=${local.DBUSER}", "DB_PASS=${local.DBPASS}", "DB_PORT=${local.DBPORT}"]
+    environment_vars = ["DBUSER=${local.DBUSER}", "DBPASS=${local.DBPASS}", "DBPORT=${local.DBPORT}", 
+    "MINIOENDPOINT=${local.MINIOENDPOINT}", "ACCESSKEY=${local.ACCESSKEY}", "SECRETKEY=${local.SECRETKEY}",
+    "BUCKETNAME=${local.BUCKETNAME}"]
     scripts          = ["../scripts/team02m/post_install_sveltekit_setup.sh"]
   }
 

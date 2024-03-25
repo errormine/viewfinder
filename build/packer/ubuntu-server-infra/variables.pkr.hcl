@@ -57,11 +57,11 @@ locals {
 
 # Google secrets
 locals {
-  CLIENTID = vault("/secret/data/google-client-id","CLIENTID")
+  CLIENTID = vault("/secret/data/team02m-google-client-id","CLIENTID")
 }
 
 locals {
-  CLIENTSECRET = vault("/secret/data/google-client-secret","CLIENTSECRET")
+  CLIENTSECRET = vault("/secret/data/team02m-google-client-secret","CLIENTSECRET")
 }
 
 # This variable is the IP address range to allow your connections

@@ -1,5 +1,5 @@
 import mariadb from 'mariadb';
-import { NO_DB, DB_HOST, DB_USER, DB_PASS } from '$env/static/private';
+import { NO_DB, DB_HOST, DB_PORT, DB_USER, DB_PASS } from '$env/static/private';
 
 console.log(`DB_HOST: ${DB_HOST}, DB_USER: ${DB_USER}`);
 
@@ -19,6 +19,7 @@ your_password = DB_PASS
 
 const pool = mariadb.createPool({
     host: DB_HOST,
+    port: DB_PORT,
     user: DB_USER,
     password: DB_PASS,
     database: "team02m_db"

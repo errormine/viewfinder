@@ -384,7 +384,7 @@ build {
   provisioner "shell" {
     only             = ["proxmox-iso.db-server"]
     execute_command  = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
-    environment_vars = ["DBUSER=${local.DBUSER}", "DBPASS=${local.DBPASS}", "DBPORT=${local.DBPORT}"]
+    environment_vars = ["DBUSER=${local.DBUSER}", "DBPASS=${local.DBPASS}", "DBPORT=${local.DBPORT}", "IPRANGE=${var.CONNECTIONFROMIPRANGE}"]
     scripts          = ["../scripts/team02m/post_install_mariadb_setup.sh"]
   }
 

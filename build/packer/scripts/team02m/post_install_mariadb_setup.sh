@@ -25,9 +25,9 @@ sudo firewall-cmd --zone=meta-network --add-port=${DBPORT}/tcp --permanent
 sudo firewall-cmd --reload
 
 # Create user for web app
-sudo mariadb -e "CREATE USER '${DBUSER}'@'localhost' IDENTIFIED BY 'password';"
-sudo mariadb -e "SET PASSWORD FOR '${DBUSER}'@'localhost' = PASSWORD('${DBPASS}');"
-sudo mariadb -e "GRANT SELECT, UPDATE, INSERT, DELETE ON team02m_db.* TO '${DBUSER}'@'localhost';"
+sudo mariadb -e "CREATE USER '${DBUSER}'@'${IPRANGE}' IDENTIFIED BY 'password';"
+sudo mariadb -e "SET PASSWORD FOR '${DBUSER}'@'${IPRANGE}' = PASSWORD('${DBPASS}');"
+sudo mariadb -e "GRANT SELECT, UPDATE, INSERT, DELETE ON team02m_db.* TO '${DBUSER}'@'${IPRANGE}';"
 sudo mariadb -e "FLUSH PRIVILEGES;"
 
 # Restart MariaDB service

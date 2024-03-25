@@ -29,7 +29,7 @@ cd /home/vagrant/team02m-2024/code/svelte/
 #Building the app
 sudo -u vagrant npm install
 sudo -u vagrant npm run build
-sudo -u vagrant pm2 start build --name "webapp"
+sudo -u vagrant pm2 start build/index.js --name "webapp"
 
 # This creates your javascript application service file
 sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u vagrant --hp /home/vagrant

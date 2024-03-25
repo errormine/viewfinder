@@ -20,7 +20,7 @@ resource "proxmox_vm_qemu" "lb-server" {
   network {
     model  = "virtio"
     bridge = "vmbr0"
-#    macaddr = "04:9F:15:00:00:00" 
+    macaddr = "04:9F:15:00:00:13" 
   }
 
   network {

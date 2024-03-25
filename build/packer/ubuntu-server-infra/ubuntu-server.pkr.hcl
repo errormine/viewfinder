@@ -396,8 +396,8 @@ build {
     only             = ["proxmox-iso.web-server"]
     execute_command  = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
     environment_vars = ["DBUSER=${local.DBUSER}", "DBPASS=${local.DBPASS}", "DBPORT=${local.DBPORT}", 
-    "MINIOENDPOINT=${local.MINIOENDPOINT}", "ACCESSKEY=${local.ACCESSKEY}", "SECRETKEY=${local.SECRETKEY}",
-    "BUCKETNAME=${local.BUCKETNAME}"]
+    "MINIOENDPOINT=${local.MINIOENDPOINT}", "ACCESSKEY=${local.ACCESSKEY}", "SECRETKEY=${local.SECRETKEY}", "BUCKETNAME=${local.BUCKETNAME}",
+    "CLIENTID=${local.CLIENTID}", "CLIENTSECRET=${local.CLIENTSECRET}"]
     scripts          = ["../scripts/team02m/post_install_sveltekit_setup.sh"]
   }
 

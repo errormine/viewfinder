@@ -39,7 +39,7 @@ Secrets for our database:
 
 Secrets to be used by our app:
  - team02m-google-client-id, CLIENTID
- - team02m-google-secret-id, SECRETID
+ - team02m-google-client-secret, CLIENTSECRET
 
  Secrets for our webserver:
  - minio-endpoint, MINIOENDPOINT

@@ -55,6 +55,15 @@ locals {
   BUCKETNAME = vault("/secret/data/s3-bucket-name","BUCKETNAME")
 }
 
+# Google secrets
+locals {
+  CLIENTID = vault("/secret/data/google-client-id","CLIENTID")
+}
+
+locals {
+  CLIENTSECRET = vault("/secret/data/google-client-secret","CLIENTSECRET")
+}
+
 # This variable is the IP address range to allow your connections
 # The SQL wildcard is the %
 # 10.110.%.%

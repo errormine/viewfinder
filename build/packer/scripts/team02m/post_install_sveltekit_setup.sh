@@ -13,6 +13,10 @@ echo "MINIO_ACCESS_KEY='${ACCESSKEY}'" >> /home/vagrant/team02m-2024/code/svelte
 echo "MINIO_SECRET_KEY='${SECRETKEY}'" >> /home/vagrant/team02m-2024/code/svelte/.env
 echo "S3_BUCKET_NAME='${BUCKETNAME}'" >> /home/vagrant/team02m-2024/code/svelte/.env
 
+echo "GOOGLE_CLIENT_ID='${CLIENTID}'" >> /home/vagrant/team02m-2024/code/svelte/.env
+echo "GOOGLE_CLIENT_SECRET='${CLIENTSECRET}'" >> /home/vagrant/team02m-2024/code/svelte/.env
+echo "BASE_URL=https://system62.rice.iit.edu" >> /home/vagrant/team02m-2024/code/svelte/.env
+
 # Install Node.js
 sudo apt update
 curl -fsSL https://deb.nodesource.com/setup_21.x | sudo -E bash - &&\

@@ -2,7 +2,7 @@ import * as db from '$lib/server/mariadb';
 import { minioClient } from '$lib/server/minio';
 import { lucia } from '$lib/server/auth';
 import { randomUUID } from 'crypto';
-import { S3_BUCKET } from '$env/static/private';
+import { S3_BUCKET_NAME } from '$env/static/private';
 
 /** @type {import('./$types').RequestHandler} */
 export async function POST({ request, cookies }) {
@@ -24,7 +24,7 @@ export async function POST({ request, cookies }) {
         tags: formData.get('tags'),
     };
 
-    return minioClient.putObject(S3_BUCKET, UUID, photo)
+    return minioClient.putObject(S3_BUCKET_NAME, UUID, photo)
         .then(res => {
             console.log(res);
             return db.uploadPhoto(user.id, UUID, photoMetadata)

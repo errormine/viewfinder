@@ -78,10 +78,11 @@ resource "proxmox_vm_qemu" "web-server" {
       "sudo lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv",
       "sudo resize2fs /dev/ubuntu-vg/ubuntu-lv",
       "echo 'Your FQDN is: ' ; dig +answer -x ${self.default_ipv4_address} +short",
-      "echo 'DB_HOST=' data.vault_generic_secret.db-host >> /home/vagrant/team02m-2024/code/svelte/.env",
-      "echo 'GOOGLE_CLIENT_ID=' data.vault_generic_secret.google-client-id >> /home/vagrant/team02m-2024/code/svelte/.env",
-      "echo 'GOOGLE_SECRET_ID=' data.vault_generic_secret.google-secret-id >> /home/vagrant/team02m-2024/code/svelte/.env",
-      "echo 'export BASE_URL=https://system62.rice.iit.edu' >> ~/.bashrc"
+      "echo 'DB_HOST=' data.vault_generic_secret.db-host >> ~/.bashrc",
+      "echo 'GOOGLE_CLIENT_ID=' data.vault_generic_secret.google-client-id >> ~/.bashrc",
+      "echo 'GOOGLE_CLIENT_SECRET=' data.vault_generic_secret.google-client-secret >> ~/.bashrc",
+      "echo 'export BASE_URL=https://system62.rice.iit.edu' >> ~/.bashrc",
+      "npm run --prefix ~/team02m-2024/code/svelte build"
     ]
 
     connection {

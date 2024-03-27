@@ -1,8 +1,11 @@
 // https://lucia-auth.com/guides/validate-session-cookies/sveltekit
 import { lucia } from "$lib/server/auth";
+import { NO_DB } from "$env/static/private";
 
 /** @type {import('@sveltejs/kit').Handle} */
 export const handle = async ({ event, resolve }) => {
+	if (NO_DB == "true") return resolve(event);
+
 	const sessionId = event.cookies.get(lucia.sessionCookieName);
 
 	if (!sessionId) {

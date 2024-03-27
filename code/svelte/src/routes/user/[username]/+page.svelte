@@ -11,6 +11,7 @@
 
     /** @type {import('./$types').LayoutData} */
     export let data;
+    console.log(data);
 
     let bioInput;
     let editingBio = false;

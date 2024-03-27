@@ -49,11 +49,11 @@ html, body {
 }
 
 body {
-    padding-top: var(--header-height);
-    background-color: var(--color-off-white)
+    background-color: var(--color-off-white);
 }
 
 main {
+    padding-top: var(--header-height);
     min-height: calc(100% - var(--footer-height));
 }
 

@@ -15,7 +15,7 @@
         <button class="close-button" on:click={dialog.close()}>X</button>
         <h2>Join Website</h2>
         <p>Create an account to post photos, comment, and save photos from others.</p>
-        <Button href={"/auth/google"}>Log in with Google</Button>
+        <IconButton href={"/auth/google"}>Log in with Google</IconButton>
     </section>
 </dialog>
 <header>
@@ -42,7 +42,7 @@
             </ul>
         </ActionBar>
     {:else}
-        <Button on:click={dialog.showModal()} align={"right"}>Log In</Button>
+        <IconButton on:click={dialog.showModal()} align={"right"}>Log In</IconButton>
     {/if}
 </header>
 

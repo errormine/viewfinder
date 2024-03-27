@@ -49,11 +49,11 @@ html, body {
 }
 
 body {
-    padding-top: var(--header-height);
-    background-color: var(--color-off-white)
+    background-color: var(--color-off-white);
 }
 
 main {
+    padding-top: var(--header-height);
     min-height: calc(100% - var(--footer-height));
 }
 
@@ -232,4 +232,3 @@ input[type="text"], input[type="email"], input[type="password"] {
 .margin-bottom-1 {
     margin-bottom: 1rem;
 }
-

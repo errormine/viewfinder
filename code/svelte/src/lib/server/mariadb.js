@@ -268,3 +268,8 @@ export async function uploadPhoto(userId, UUID, metadata) {
 export async function deletePhoto(photoId) {
     return performQuery("DELETE FROM Photos WHERE PhotoID = ?", [photoId]);
 }
+
+// Update user account
+export async function updateUser(userId, displayName, email, username) {
+    return performQuery("UPDATE user SET DisplayName = ?, Email = ?, Username = ? WHERE id = ?", [displayName, email, username, userId]);
+}

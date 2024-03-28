@@ -20,9 +20,9 @@
             <section class="settings-main">
                 <section id="account">
                     <h3>Account</h3>
-                    <form action="">
-                        <label for="display-name">Display Name</label>
-                        <input type="text" id="display-name" name="display-name" value="{data.user.displayName}">
+                    <form action="/api/edit/account" method="POST">
+                        <label for="displayName">Display Name</label>
+                        <input type="text" id="displayName" name="displayName" value="{data.user.displayName}">
 
                         <label for="username">Username</label>
                         <input type="text" id="username" name="username" value="{data.user.username}">
@@ -30,7 +30,7 @@
                         <label for="email">Email</label>
                         <input type="email" id="email" name="email" value="{data.user.email}">
 
-                        <Button>Save</Button>
+                        <Button type="submit">Save</Button>
                     </form>
                 </section>
                 <section id="profile">

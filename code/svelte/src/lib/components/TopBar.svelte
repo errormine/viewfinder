@@ -29,7 +29,7 @@
             <UserPortrait username={$page.data.user.username} src={$page.data.user.picture} size={2} color={"gray"}/>
             <ul class="profile-actions round-corners">
                 <li>
-                    <a href="/profile"><Person16 /> Profile</a>
+                    <a href="/user/{$page.data.user.username}"><Person16 /> Profile</a>
                 </li>
                 <hr />
                 <li>

@@ -29,8 +29,6 @@
         border: 1px solid var(--color-gray);
         width: 2rem;
         height: 2rem;
-        padding: 0;
-        position: relative;
     }
 
     .button.hoverable:hover,

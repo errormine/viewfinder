@@ -212,6 +212,10 @@ input[type="text"], input[type="email"], input[type="password"] {
     border-radius: 0.5rem;
 }
 
+.button {
+    position: relative;
+}
+
 .button .octicon {
     margin: auto;
     position: absolute;

@@ -16,6 +16,7 @@ export class MariaDBAdapter {
 
     async getSessionAndUser(sessionId) {
         const databaseSession = await db.getSingleRow("SELECT * FROM user_session WHERE id = ?", [sessionId]);
+        if (!databaseSession) return [null, null];
         const databaseUser = await db.getSingleRow("SELECT * FROM user WHERE id = ?", [databaseSession.user_id]);
 
         // Converts the database session and user to the format expected by Lucia

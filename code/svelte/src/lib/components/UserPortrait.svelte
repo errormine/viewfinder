@@ -6,11 +6,11 @@
 </script>
 
 {#if username}
-    <a href={"/user/"+username} class="border-color-{color} border-thickness-{size}">
+    <a href={"/user/"+username} class="user-portrait border-color-{color} border-thickness-{size}">
         <img {src} alt="" class="size-{size}">
     </a>
 {:else}
-    <a href="/auth/google" class="border-color-{color} border-thickness-{size}">
+    <a href="/auth/google" class="user-portrait border-color-{color} border-thickness-{size}">
         <img {src} alt="" class="size-{size}">
     </a>
 {/if}

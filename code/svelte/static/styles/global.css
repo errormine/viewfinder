@@ -104,6 +104,11 @@ svg {
     display: block;
 }
 
+hr {
+    margin: 0;
+    border: 0.5px solid var(--color-light-gray);
+}
+
 /* FONT WEIGHTS */
 .font-weight-light { font-weight: 300; }
 .font-weight-semi-bold { font-weight: 600; }
@@ -178,6 +183,24 @@ input[type="text"], input[type="email"], input[type="password"] {
     font-size: inherit;
 }
 
+/* HEADER FUNCTIONS */
+.user-portrait + .profile-actions {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.user-portrait:hover + .profile-actions,
+.user-portrait:focus + .profile-actions {
+    opacity: 1;
+    visibility: visible;
+}
+
+.profile-actions:hover,
+.profile-actions:focus-within {
+    opacity: 1;
+    visibility: visible;
+}
+
 /* ACCESSIBILITY */
 *:focus-visible {
     outline: 2px solid var(--color-primary);
@@ -189,7 +212,7 @@ input[type="text"], input[type="email"], input[type="password"] {
     border-radius: 0.5rem;
 }
 
-.octicon {
+.button .octicon {
     margin: auto;
     position: absolute;
     top: 0;

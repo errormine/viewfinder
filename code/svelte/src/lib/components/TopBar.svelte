@@ -37,7 +37,7 @@
                 </li>
                 <hr />
                 <li>
-                    <a href="/auth/logout"><SignOut16 /> Log Out</a>
+                    <a href="/auth/logout" data-sveltekit-reload><SignOut16 /> Log Out</a>
                 </li>
             </ul>
         </ActionBar>

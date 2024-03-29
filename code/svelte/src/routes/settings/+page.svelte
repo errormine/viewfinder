@@ -1,6 +1,6 @@
 <script>
     import Button from '$lib/components/Button.svelte';
-
+    import Switch from '$lib/components/Switch.svelte';
     /** @type {import('./$types').PageData} */
     export let data;
 </script>
@@ -50,7 +50,7 @@
                         <input type="email" id="contact" name="contact" value="{data.user.email}">
 
                         <label for="show-buttons">Show buttons on profile</label>
-                        <input type="checkbox" id="show-buttons" name="show-buttons" checked="{data.user.showButtons}">
+                        <Switch id ="show-buttons" name="show-buttons"/>
 
                         <footer>
                             <Button type="submit" align={'right'}>Save</Button>
@@ -61,10 +61,10 @@
                     <h3>Notifications</h3>
                     <form action="">
                         <label for="email-notifications">Email Notifications</label>
-                        <input type="checkbox" id="email-notifications" name="email-notifications" checked="{data.user.emailNotifications}">
+                        <Switch id ="email-notifications" name="email-notifications"/>
 
                         <label for="push-notifications">Push Notifications</label>
-                        <input type="checkbox" id="push-notifications" name="push-notifications" checked="{data.user.pushNotifications}">
+                        <Switch id ="push-notifications" name="push-notifications"/>
 
                         <footer>
                             <Button type="submit" align={'right'}>Save</Button>
@@ -75,7 +75,7 @@
                     <h3>Privacy</h3>
                     <form action="">
                         <label for="private-account">Private Account</label>
-                        <input type="checkbox" id="private-account" name="private-account" checked="{data.user.privateAccount}">
+                        <Switch id ="private-account" name="private-account"/>
 
                         <footer>
                             <Button type="submit" align={'right'}>Save</Button>

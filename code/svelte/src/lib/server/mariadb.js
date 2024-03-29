@@ -275,13 +275,15 @@ export async function updateUser(userId, displayName, email, username) {
 }
 
 // Search functions
-export async function searchPhotos(searchTokens) {
+export async function searchPhotos(searchTokens, stems) {
     if (DEV_MODE) return placeholders.photos;
 
-    let results = [];
+    // Natural language search first (hopefully gives most relevant results)
+    let results = await performQuery("SELECT * FROM Photos WHERE MATCH (Title, Description) AGAINST (?) LIMIT 10", [searchTokens]);
 
-    for (let token of searchTokens) {
-        let result = await performQuery("SELECT * FROM Photos WHERE MATCH (Title, Description) AGAINST (CONCAT(?, '*') IN BOOLEAN MODE) LIMIT 10", [token]);
+    // Stemmed queries to find more matches. quite possibly very slow
+    for (let root of stems) {
+        let result = await performQuery("SELECT * FROM Photos WHERE MATCH (Title, Description) AGAINST (CONCAT(?, '*') IN BOOLEAN MODE) LIMIT 10", [root]);
         
         for (let row of result) {
             if (!results.some(r => r.PhotoID === row.PhotoID)) {

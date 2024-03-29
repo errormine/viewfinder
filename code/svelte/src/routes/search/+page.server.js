@@ -4,12 +4,10 @@ import natural from 'natural';
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ url }) {
     const searchQuery = url.searchParams.get('q');
-
     const stopwords = new Set(['a', 'an', 'and', 'are', 'as', 'at', 
     'be', 'by', 'for', 'from', 'has', 'he', 'in', 'is', 'it', 'its', 
     'of', 'on', 'that', 'the', 'to', 'was', 'were', 'will', 'with']);
     
-    // Tokenize the search query
     let tokenizer = new natural.WordTokenizer();
     let tokens = tokenizer.tokenize(searchQuery);
     
@@ -21,11 +19,9 @@ export async function load({ url }) {
     // Two stemmers are used because they have different results
     const porterStemmed = tokens.map(token => natural.PorterStemmer.stem(token));
     const lancasterStemmed = tokens.map(token => natural.LancasterStemmer.stem(token));
-    const merged = Array.from(new Set([...tokens, ...porterStemmed, ...lancasterStemmed]));
-
-    console.log(`Searching for: ${merged}`);
+    let stems = Array.from(new Set([...porterStemmed, ...lancasterStemmed]));
 
     return {
-        results: await db.searchPhotos(merged),
+        results: await db.searchPhotos(tokens.join(' '), stems),
     };
 };

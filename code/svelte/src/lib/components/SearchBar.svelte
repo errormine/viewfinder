@@ -31,6 +31,13 @@
         border: 1px solid var(--color-gray);
         border-radius: 1rem;
         text-indent: 1.5rem;
+        color: var(--color-dark-gray);
+        transition: color 200ms;
+    }
+
+    .search-bar:hover,
+    .search-bar:focus-within {
+        color: black;
     }
     
     .search-bar::placeholder {

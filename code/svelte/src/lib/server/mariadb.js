@@ -191,7 +191,7 @@ export async function updateBio(userId, bio) {
 export async function getPhotos(userId) {
     if (DEV_MODE) return placeholders.photos;
     // TODO: Pagination
-    return performQuery("SELECT * FROM Photos WHERE UserID = ?", [userId]);
+    return performQuery("SELECT * FROM Photos WHERE UserID = ? LIMIT 10", [userId]);
 }
 
 export async function getRecentPhotos(userId, amount = 4) {
@@ -272,4 +272,9 @@ export async function deletePhoto(photoId) {
 // Update user account
 export async function updateUser(userId, displayName, email, username) {
     return performQuery("UPDATE user SET DisplayName = ?, Email = ?, Username = ? WHERE id = ?", [displayName, email, username, userId]);
+}
+
+// Search functions
+export async function searchPhotos(searchTerm) {
+    return performQuery("SELECT * FROM Photos WHERE MATCH (Title, Description) AGAINST (? IN NATURAL LANGUAGE MODE) LIMIT 10;", [searchTerm]);
 }

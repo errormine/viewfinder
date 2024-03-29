@@ -10,6 +10,7 @@ export const handle = async ({ event, resolve }) => {
 			email: "email@example.com",
 			username: "username",
 			picture: "https://picsum.photos/128",
+			displayName: "Jane Doe",
 		}
 		return resolve(event);
 	}

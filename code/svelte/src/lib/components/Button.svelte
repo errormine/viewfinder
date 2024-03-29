@@ -1,6 +1,7 @@
 <script>
     export let href = "";
     export let align = "center";
+    export let type = "button";
 </script>
 
 {#if href != ""}
@@ -8,7 +9,7 @@
         <slot>Button</slot>
     </a>
 {:else}
-    <button class="button align-{align}" on:click>
+    <button {type} class="button align-{align}" on:click>
         <slot>Button</slot>
     </button>
 {/if}

@@ -32,6 +32,10 @@
 
     /* BORDERS AND SHADOWS */
     --inner-shadow: inset 0px 1px 4px rgba(0, 0, 0, 0.25);
+    --inner-shadow-small: inset 0px 1px 2px rgba(0, 0, 0, 0.25);
+    --bold-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    --small-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.251);
+
 }
 
 html {
@@ -109,6 +113,15 @@ hr {
     border: 0.5px solid var(--color-light-gray);
 }
 
+/* Anchor links get offset by the header */
+[id]::before {
+    content: '';
+    display: block;
+    height:      4.5rem;
+    margin-top: -4.5rem;
+    visibility: hidden;
+}
+
 /* FONT WEIGHTS */
 .font-weight-light { font-weight: 300; }
 .font-weight-semi-bold { font-weight: 600; }
@@ -181,6 +194,17 @@ textarea {
 input[type="text"], input[type="email"], input[type="password"] {
     font-family: inherit;
     font-size: inherit;
+    border-radius: 0.25rem;
+    height: 1.5rem;
+    padding: 0 0.3rem;
+    border: 1px solid var(--color-gray);
+    box-shadow: var(--inner-shadow-small);
+    background-color: var(--color-light-gray);
+}
+
+/* temporary */
+input[type="email"]:invalid {
+    box-shadow: 0 0 0 2px red;
 }
 
 /* HEADER FUNCTIONS */
@@ -210,6 +234,10 @@ input[type="text"], input[type="email"], input[type="password"] {
 /* MISC CLASSES */
 .round-corners {
     border-radius: 0.5rem;
+}
+
+.button {
+    position: relative;
 }
 
 .button .octicon {

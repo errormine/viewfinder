@@ -10,10 +10,12 @@
 </script>
 
 <search>
-    <button class="submit">
-        <Search16 />
-    </button>
-    <input class="search-bar inset-bg" type="text" {placeholder}>
+    <form action="/search">
+        <button class="submit">
+            <Search16 />
+        </button>
+        <input class="search-bar inset-bg" type="text" name="q" {placeholder}>
+    </form>
 </search>
 
 <style>
@@ -28,7 +30,7 @@
         font-size: 1rem;
         border: 1px solid var(--color-gray);
         border-radius: 1rem;
-        text-indent: 2.25rem;
+        text-indent: 1.5rem;
     }
     
     .search-bar::placeholder {

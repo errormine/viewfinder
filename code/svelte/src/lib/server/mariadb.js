@@ -275,6 +275,20 @@ export async function updateUser(userId, displayName, email, username) {
 }
 
 // Search functions
-export async function searchPhotos(searchTerm) {
-    return performQuery("SELECT * FROM Photos WHERE MATCH (Title, Description) AGAINST (? IN NATURAL LANGUAGE MODE) LIMIT 10;", [searchTerm]);
+export async function searchPhotos(searchTokens) {
+    if (DEV_MODE) return placeholders.photos;
+
+    let results = [];
+
+    for (let token of searchTokens) {
+        let result = await performQuery("SELECT * FROM Photos WHERE MATCH (Title, Description) AGAINST (CONCAT(?, '*') IN BOOLEAN MODE) LIMIT 10", [token]);
+        
+        for (let row of result) {
+            if (!results.some(r => r.PhotoID === row.PhotoID)) {
+                results.push(row);
+            }
+        }
+    }
+
+    return results;
 }

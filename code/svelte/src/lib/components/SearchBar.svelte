@@ -71,6 +71,8 @@
         document.addEventListener('click', event => {
             if (!event.target.closest('search')) {
                 autocomplete.classList.add('hidden');
+            } else if (event.target.closest('search') && search.value !== '') {
+                autocomplete.classList.remove('hidden');
             }
         });
     });

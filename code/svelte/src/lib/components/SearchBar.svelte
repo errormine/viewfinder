@@ -1,12 +1,27 @@
-<!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/search -->
 <script>
-    import IconButton from '$lib/components/IconButton.svelte';
     import { Search16 } from 'svelte-octicons';
+    import { onMount } from 'svelte';
 
+    // Random placeholder text
     let searches = ['landscape', 'portrait', 'nature', 'architecture', 'street', 'wildlife', 'macro', 'sports', 'fashion', 'food', 'black and white', 'abstract', 'still life', 'long exposure', 'aerial', 'cityscape', 'sunrise', 'sunset', 'beach', 'mountain', 'forest', 'waterfall', 'desert', 'sky', 'clouds', 'flowers', 'birds', 'insects', 'pets', 'cars', 'bikes', 'boats', 'planes', 'trains'];
-
     let randomPlaceholders = searches.sort(() => Math.random() - 0.5).slice(0, 3);
     let placeholder = `Search for ${randomPlaceholders[0]}, ${randomPlaceholders[1]}, ${randomPlaceholders[2]}`;
+
+    onMount(() => {
+        // Autocomplete suggestions
+        let search = document.querySelector('.search-bar');
+        
+        search.addEventListener('input', () => {
+            let value = search.value;
+            let suggestions = fetch(`/api/search?q=${value}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                });
+
+            console.log(suggestions);
+        });
+    });
 </script>
 
 <search>

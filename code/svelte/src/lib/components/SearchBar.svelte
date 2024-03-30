@@ -36,6 +36,37 @@
                 });
         });
 
+        // Keyboard navigation
+        search.addEventListener('keydown', event => {
+            let selected = autocomplete.querySelector('li.selected');
+
+            if (event.key === 'ArrowDown') {
+                event.preventDefault();
+                if (selected) {
+                    selected.classList.remove('selected');
+                    selected = selected.nextElementSibling || autocomplete.firstElementChild;
+                } else {
+                    selected = autocomplete.firstElementChild;
+                }
+
+                selected.classList.add('selected');
+            } else if (event.key === 'ArrowUp') {
+                event.preventDefault();
+                if (selected) {
+                    selected.classList.remove('selected');
+                    selected = selected.previousElementSibling || autocomplete.lastElementChild;
+                } else {
+                    selected = autocomplete.lastElementChild;
+                }
+
+                selected.classList.add('selected');
+            } else if (event.key === 'Enter' && selected) {
+                event.preventDefault();
+                search.value = selected.innerText;
+                document.querySelector('form').submit();
+            }
+        });
+
         // Hide autocomplete when clicking outside
         document.addEventListener('click', event => {
             if (!event.target.closest('search')) {
@@ -107,7 +138,8 @@
         transition: background-color 100ms;
     }
 
-    :global(#autocomplete li:hover) {
+    :global(#autocomplete li:hover),
+    :global(#autocomplete li.selected) {
         background: var(--color-light-gray);
     }
 </style>

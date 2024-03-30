@@ -191,7 +191,7 @@ export async function updateBio(userId, bio) {
 export async function getPhotos(userId) {
     if (DEV_MODE) return placeholders.photos;
     // TODO: Pagination
-    return performQuery("SELECT * FROM Photos WHERE UserID = ?", [userId]);
+    return performQuery("SELECT * FROM Photos WHERE UserID = ? LIMIT 10", [userId]);
 }
 
 export async function getRecentPhotos(userId, amount = 4) {
@@ -272,4 +272,29 @@ export async function deletePhoto(photoId) {
 // Update user account
 export async function updateUser(userId, displayName, email, username) {
     return performQuery("UPDATE user SET DisplayName = ?, Email = ?, Username = ? WHERE id = ?", [displayName, email, username, userId]);
+}
+
+// Search functions
+export async function searchTitles(term) {
+    return performQuery("SELECT Title FROM Photos WHERE Title LIKE CONCAT('%', ?, '%') LIMIT 10", [term]);
+}
+
+export async function searchPhotos(searchTokens, stems) {
+    if (DEV_MODE) return placeholders.photos;
+
+    // Natural language search first (hopefully gives most relevant results)
+    let results = await performQuery("SELECT * FROM Photos WHERE MATCH (Title, Description) AGAINST (?) LIMIT 10", [searchTokens]);
+
+    // Stemmed queries to find more matches. quite possibly very slow
+    for (let root of stems) {
+        let result = await performQuery("SELECT * FROM Photos WHERE MATCH (Title, Description) AGAINST (CONCAT(?, '*') IN BOOLEAN MODE) LIMIT 10", [root]);
+        
+        for (let row of result) {
+            if (!results.some(r => r.PhotoID === row.PhotoID)) {
+                results.push(row);
+            }
+        }
+    }
+
+    return results;
 }

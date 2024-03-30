@@ -113,8 +113,12 @@ hr {
     border: 0.5px solid var(--color-light-gray);
 }
 
-/* Anchor links get offset by the header */
-[id]::before {
+strong {
+    font-weight: 700;
+}
+
+/* Targeted elements get offset by the header */
+[id]:target::before {
     content: '';
     display: block;
     height:      4.5rem;

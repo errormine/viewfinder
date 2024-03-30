@@ -35,6 +35,13 @@
                     }
                 });
         });
+
+        // Hide autocomplete when clicking outside
+        document.addEventListener('click', event => {
+            if (!event.target.closest('search')) {
+                autocomplete.classList.add('hidden');
+            }
+        });
     });
 </script>
 

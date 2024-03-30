@@ -113,6 +113,10 @@ hr {
     border: 0.5px solid var(--color-light-gray);
 }
 
+strong {
+    font-weight: 700;
+}
+
 /* Targeted elements get offset by the header */
 [id]:target::before {
     content: '';

@@ -10,16 +10,30 @@
     onMount(() => {
         // Autocomplete suggestions
         let search = document.querySelector('.search-bar');
+        let autocomplete = document.querySelector('#autocomplete');
         
         search.addEventListener('input', () => {
             let value = search.value;
-            let suggestions = fetch(`/api/search?q=${value}`)
+            
+            fetch(`/api/search?q=${value}`)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
-                });
+                    autocomplete.innerHTML = '';
+                    autocomplete.classList.toggle('hidden', value === '' || data.length === 0);
 
-            console.log(suggestions);
+                    for (let suggestion of data) {
+                        let suggestionElement = document.createElement('li');
+
+                        suggestionElement.innerText = suggestion.Title;
+                        suggestionElement.innerHTML = suggestion.Title.replace(new RegExp(value, 'gi'), match => `<strong>${match}</strong>`);
+                        autocomplete.appendChild(suggestionElement);
+                        
+                        suggestionElement.addEventListener('click', () => {
+                            search.value = suggestion.Title;
+                            document.querySelector('form').submit();
+                        });
+                    }
+                });
         });
     });
 </script>
@@ -31,6 +45,7 @@
         </button>
         <input class="search-bar inset-bg" type="text" name="q" {placeholder}>
     </form>
+    <ul id="autocomplete" class="round-corners hidden"></ul>
 </search>
 
 <style>
@@ -66,5 +81,26 @@
         border: none;
         background: transparent;
         left: 0.25rem;
+    }
+
+    #autocomplete {
+        background-color: white;
+        position: absolute;
+        top: 2.5rem;
+        left: 0;
+        width: 35rem;
+        padding: 0.25rem;
+    }
+
+    :global(#autocomplete li) {
+        list-style-type: none;
+        padding: 0.5rem;
+        border-radius: 0.25rem;
+        cursor: pointer;
+        transition: background-color 100ms;
+    }
+
+    :global(#autocomplete li:hover) {
+        background: var(--color-light-gray);
     }
 </style>

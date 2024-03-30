@@ -276,7 +276,7 @@ export async function updateUser(userId, displayName, email, username) {
 
 // Search functions
 export async function searchTitles(term) {
-    return performQuery("SELECT Title FROM Photos WHERE Title LIKE CONCAT('%', ?, '%')", [term]);
+    return performQuery("SELECT Title FROM Photos WHERE Title LIKE CONCAT('%', ?, '%') LIMIT 10", [term]);
 }
 
 export async function searchPhotos(searchTokens, stems) {

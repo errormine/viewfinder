@@ -5,7 +5,7 @@
 
 <a href="/album/{album.AlbumID}" class="round-corners">
     <figure class="{style}">
-        <img src={album.Thumbnail} alt="" />
+        <img src={"/api/images/"+album.Thumbnail} alt="" />
         <figcaption>
             <span class="font-weight-semi-bold" title={album.Name}>{album.Name}</span>
             <small>{album.Count} Photos</small>

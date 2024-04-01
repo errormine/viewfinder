@@ -1,6 +1,6 @@
 <script>
     import { page } from '$app/stores';
-    import { Upload16 } from 'svelte-octicons';
+    import { Gear16, Person16, SignOut16, Upload16 } from 'svelte-octicons';
     import SearchBar from '$lib/components/SearchBar.svelte';
     import ActionBar from '$lib/components/ActionBar.svelte';
     import Button from '$lib/components/Button.svelte';
@@ -27,6 +27,19 @@
                 <Upload16 title={"Upload"}/>
             </IconButton>
             <UserPortrait username={$page.data.user.username} src={$page.data.user.picture} size={2} color={"gray"}/>
+            <ul class="profile-actions round-corners">
+                <li>
+                    <a href="/user/{$page.data.user.username}"><Person16 /> Profile</a>
+                </li>
+                <hr />
+                <li>
+                    <a href="/settings"><Gear16 /> Settings</a>
+                </li>
+                <hr />
+                <li>
+                    <a href="/auth/logout" data-sveltekit-reload><SignOut16 /> Log Out</a>
+                </li>
+            </ul>
         </ActionBar>
     {:else}
         <Button on:click={dialog.showModal()} align={"right"}>Log In</Button>
@@ -57,5 +70,32 @@
         display: block;
         text-decoration: none;
         color: black;
+    }
+
+    .profile-actions {
+        position: absolute;
+        top: calc(var(--header-height) - 0.5rem);
+        right: 1rem;
+        list-style: none;
+        padding: 0.5rem;
+        background: white;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        min-width: 7rem;
+        box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
+        transition-delay: 200ms;
+    }
+
+    .profile-actions li a {
+        display: flex;
+        gap: 0.5rem;
+        color: black;
+        text-decoration: none;
+        transition: opacity 200ms;
+    }
+    
+    .profile-actions li a:hover {
+        opacity: 0.6;
     }
 </style>

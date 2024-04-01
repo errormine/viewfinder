@@ -35,108 +35,20 @@ export let placeholders = {
     bio: "This is a test user. They do not exist.",
     location: "Chicago, IL",
     joinDate: "2021-01-01",
-    recentPhotos: [
-        {
-            PhotoID: 1,
-            Title: "Test Photo 1 really long n a m e a a a  aaa!!!",
-            Source: "https://picsum.photos/200/300",
-            Description: "This is a test photo."
-        },
-        {
-            PhotoID: 2,
-            Title: "Test Photo 2",
-            Source: "https://picsum.photos/300/200",
-            Description: "This is a test photo."
-        },
-        {
-            PhotoID: 3,
-            Title: "Test Photo 3",
-            Source: "https://picsum.photos/300/300",
-            Description: "This is a test photo."
-        },
-        {
-            PhotoID: 4,
-            Title: "Test Photo 4",
-            Source: "https://picsum.photos/250/300",
-            Description: "This is a test photo."
-        }
-    ],
     photos: [
         {
-            PhotoID: 1,
+            PhotoID: 0,
             Title: "Test Photo 1 really long n a m e a a a  aaa!!!",
-            Source: "https://picsum.photos/200/300",
-            Description: "This is a test photo."
-        },
-        {
-            PhotoID: 2,
-            Title: "Test Photo 2",
-            Source: "https://picsum.photos/1920/1080",
-            Description: "This is a test photo."
-        },
-        {
-            PhotoID: 3,
-            Title: "Test Photo 3",
-            Source: "https://picsum.photos/300/300",
-            Description: "This is a test photo."
-        },
-        {
-            PhotoID: 4,
-            Title: "Test Photo 4",
-            Source: "https://picsum.photos/250/300",
-            Description: "This is a test photo."
-        },
-        {
-            PhotoID: 5,
-            Title: "Test Photo 5",
-            Source: "https://picsum.photos/400/200",
-            Description: "This is a test photo."
-        },
-        {
-            PhotoID: 6,
-            Title: "Test Photo 6",
-            Source: "https://picsum.photos/500/400",
-            Description: "This is a test photo."
-        },
-        {
-            PhotoID: 7,
-            Title: "Test Photo 7",
-            Source: "https://picsum.photos/300/300",
-            Description: "This is a test photo."
-        },
-        {
-            PhotoID: 8,
-            Title: "Test Photo 8",
-            Source: "https://picsum.photos/400/500",
-            Description: "This is a test photo."
-        },
-        {
-            PhotoID: 9,
-            Title: "Test Photo 9",
-            Source: "https://picsum.photos/200/300",
+            UUID: "placeholder.png",
             Description: "This is a test photo."
         }
     ],
     albums: [
         {
-            AlbumID: 1,
+            AlbumID: 0,
             Name: "Test Album 1",
             Description: "This is a test album 1.",
-            Thumbnail: "https://picsum.photos/500/200",
-            Count: 2
-        },
-        {
-            AlbumID: 2,
-            Name: "I gave my album a long name to see how it looks in the UI.",
-            Description: "This is a test album 2.",
-            Thumbnail: "https://picsum.photos/300/200",
-            Count: 2
-        },
-        {
-            AlbumID: 3,
-            Name: "Test Album 3",
-            Description: "This is a test album 3.",
-            Thumbnail: "https://picsum.photos/200/300",
+            Thumbnail: "placeholder.png",
             Count: 2
         }
     ]
@@ -215,6 +127,8 @@ export async function getUsername(userId) {
 }
 
 export async function getProfilePicture(userId) {
+    if (DEV_MODE) return "/images/pfp128.jpg";
+
     const picture = await getSingleValue("SELECT ProfilePicture FROM user WHERE id = ?", [userId]);
 
     if (picture === null) {
@@ -277,11 +191,11 @@ export async function updateBio(userId, bio) {
 export async function getPhotos(userId) {
     if (DEV_MODE) return placeholders.photos;
     // TODO: Pagination
-    return performQuery("SELECT * FROM Photos WHERE UserID = ?", [userId]);
+    return performQuery("SELECT * FROM Photos WHERE UserID = ? LIMIT 10", [userId]);
 }
 
 export async function getRecentPhotos(userId, amount = 4) {
-    if (DEV_MODE) return placeholders.recentPhotos;
+    if (DEV_MODE) return placeholders.photos;
     return performQuery("SELECT * FROM Photos WHERE UserID = ? ORDER BY Timestamp DESC LIMIT ?", [userId, amount]);
 }
 
@@ -312,11 +226,12 @@ export async function isFollowing(userId, followerId) {
 
 // View photo page
 export async function getPhoto(photoId) {
-    if (DEV_MODE) return placeholders.photos[photoId];
+    if (DEV_MODE) return placeholders.photos[0];
     return getSingleRow("SELECT * FROM Photos WHERE PhotoID = ?", [photoId]);
 }
 
 export async function getPhotoCreatorId(photoId) {
+    if (DEV_MODE) return placeholders.userId;
     return getSingleValue("SELECT UserID FROM Photos WHERE PhotoID = ?", [photoId]);
 }
 
@@ -352,4 +267,34 @@ export async function uploadPhoto(userId, UUID, metadata) {
 
 export async function deletePhoto(photoId) {
     return performQuery("DELETE FROM Photos WHERE PhotoID = ?", [photoId]);
+}
+
+// Update user account
+export async function updateUser(userId, displayName, email, username) {
+    return performQuery("UPDATE user SET DisplayName = ?, Email = ?, Username = ? WHERE id = ?", [displayName, email, username, userId]);
+}
+
+// Search functions
+export async function searchTitles(term) {
+    return performQuery("SELECT Title FROM Photos WHERE Title LIKE CONCAT('%', ?, '%') LIMIT 10", [term]);
+}
+
+export async function searchPhotos(searchTokens, stems) {
+    if (DEV_MODE) return placeholders.photos;
+
+    // Natural language search first (hopefully gives most relevant results)
+    let results = await performQuery("SELECT * FROM Photos WHERE MATCH (Title, Description) AGAINST (?) LIMIT 10", [searchTokens]);
+
+    // Stemmed queries to find more matches. quite possibly very slow
+    for (let root of stems) {
+        let result = await performQuery("SELECT * FROM Photos WHERE MATCH (Title, Description) AGAINST (CONCAT(?, '*') IN BOOLEAN MODE) LIMIT 10", [root]);
+        
+        for (let row of result) {
+            if (!results.some(r => r.PhotoID === row.PhotoID)) {
+                results.push(row);
+            }
+        }
+    }
+
+    return results;
 }

@@ -248,7 +248,7 @@ export async function getPhotoCreatorId(photoId) {
 
 export async function getAlbumsByPhoto(photoId) {
     if (DEV_MODE) return placeholders.albums;
-    performQuery("SELECT * FROM Albums WHERE AlbumID IN (SELECT AlbumID FROM AlbumJunc WHERE PhotoID = ?)", [photoId])
+    return performQuery("SELECT * FROM Albums WHERE AlbumID IN (SELECT AlbumID FROM AlbumJunc WHERE PhotoID = ?)", [photoId])
         .then(rows => {
             return rows;
         })
@@ -283,6 +283,24 @@ export async function deletePhoto(photoId) {
 // Update user account
 export async function updateUser(userId, displayName, email, username) {
     return performQuery("UPDATE user SET DisplayName = ?, Email = ?, Username = ? WHERE id = ?", [displayName, email, username, userId]);
+}
+
+// Update album
+export async function createOrUpdateAlbum(albumId, userId, name, description, photoIDs) {
+    return getSingleRow("SELECT AlbumID FROM Albums WHERE UserID = ?", [userId])
+        .then(res => {
+            if (res != []) {
+                // If album exists
+                return performQuery("UPDATE Albums SET UserID = ?, Name = ?, Description = ? WHERE AlbumID = ?", [userId, name, description, albumId]);
+            } else {
+                // Create new album if it doesn't
+                return performQuery("INSERT INTO Albums (UserID, Name, Description) VALUES (?, ?, ?)", [userId, name, description]);
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            return err;
+        });
 }
 
 // Search functions

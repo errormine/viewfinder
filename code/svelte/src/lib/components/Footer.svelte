@@ -22,7 +22,7 @@
         color: var(--color-gray);
         padding: 20px;
         text-align: center;
-        width: 100vw;
+        width: 100%;
         position: relative;
         bottom: 0;
         height: var(--footer-height);

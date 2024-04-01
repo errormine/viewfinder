@@ -102,40 +102,47 @@
 </script>
 
 <main>
-    <section class="image-upload">
-        <h1>Upload Images</h1>
-        <section id="image-previews">
-            <section id="upload-button">
-                <input bind:files type="file" accept="image/png, image/jpeg" multiple id="file-upload" name="file-upload" class="hidden">
-                <label for="file-upload" class="round-corners">Add Image</label>
+    <section class="upload-menu">
+        <section class="image-upload">
+            <h1>Upload Images</h1>
+            <section id="image-previews">
+                <section id="upload-button">
+                    <input bind:files type="file" accept="image/png, image/jpeg" multiple id="file-upload" name="file-upload" class="hidden">
+                    <label for="file-upload" class="round-corners">Add Image</label>
+                </section>
             </section>
         </section>
-    </section>
-    <section class="options">
-        <aside class="edit-image-details round-corners" class:hidden={!isImageSelected}>
-            <h3>Edit Image</h3>
-            <hr />
-            <form>
-                <label for="title">Title</label>
-                <input type="text" id="title" name="title" placeholder="Enter a title."/>
-                <label for="description">Description</label>
-                <textarea id="description" name="description" placeholder="Enter a description."></textarea>
-                <label for="tags">Tags</label>
-                <input type="text" id="tags" name="tags" />
-            </form>
-        </aside>
-        <section id="upload-actions" class="flex space-between">
-            <Button on:click={handleUpload}>Upload Images</Button>
+        <section class="options">
+            <aside class="edit-image-details round-corners" class:hidden={!isImageSelected}>
+                <h3>Edit Image</h3>
+                <hr />
+                <form>
+                    <label for="title">Title</label>
+                    <input type="text" id="title" name="title" placeholder="Enter a title."/>
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" placeholder="Enter a description."></textarea>
+                    <label for="tags">Tags</label>
+                    <input type="text" id="tags" name="tags" />
+                </form>
+            </aside>
+            <section id="upload-actions" class="flex space-between">
+                <Button on:click={handleUpload}>Upload Images</Button>
+            </section>
         </section>
     </section>
 </main>
 
 <style>
     main {
+        height: calc(100% - var(--footer-height));
+    }
+
+    .upload-menu {
         display: grid;
         grid-template-columns: 1fr 20rem;
         gap: 1rem;
         padding: 2rem;
+        height: 100%;
     }
 
     #upload-button label {

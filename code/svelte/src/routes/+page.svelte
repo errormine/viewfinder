@@ -10,6 +10,7 @@
         background: url(https://picsum.photos/1920/1080) no-repeat center;
         background-size: cover;
         position: relative;
+        height: 100%;
     }
 
     section {

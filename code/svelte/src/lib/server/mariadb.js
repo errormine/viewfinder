@@ -225,6 +225,11 @@ export async function isFollowing(userId, followerId) {
 }
 
 // View album page
+export async function getAlbum(albumId) {
+    if (DEV_MODE) return placeholders.albums[0];
+    return getSingleRow("SELECT * FROM Albums WHERE AlbumID = ?", [albumId]);
+}
+
 export async function getAlbumPhotos(albumId) {
     if (DEV_MODE) return placeholders.photos;
     return getSingleRow("SELECT * FROM AlbumsJunc WHERE AlbumID = ?", [albumId]);

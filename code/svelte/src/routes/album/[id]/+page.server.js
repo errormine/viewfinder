@@ -5,7 +5,7 @@ export async function load({ params }) {
     let albumId = params.id;
 
     return {
-        albumId: albumId,
+        album: await db.getAlbum(albumId),
         photos: await db.getAlbumPhotos(albumId)
     };
 };

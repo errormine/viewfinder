@@ -126,7 +126,7 @@
                     <label for="album">Album</label>
                     <select id="albumName" name="albumName">
                         {#each data.userAlbums as album}
-                            <option value="{album.Name}">{album.Name}</option>
+                            <option value="{album.AlbumID}">{album.Name}</option>
                         {/each}
                     </select>
 

@@ -119,8 +119,17 @@
                 <form>
                     <label for="title">Title</label>
                     <input type="text" id="title" name="title" placeholder="Enter a title."/>
+
                     <label for="description">Description</label>
                     <textarea id="description" name="description" placeholder="Enter a description."></textarea>
+
+                    <label for="album">Album</label>
+                    <select id="albumName" name="albumName">
+                        {#each data.userAlbums as album}
+                            <option value="{album.Name}">{album.Name}</option>
+                        {/each}
+                    </select>
+
                     <label for="tags">Tags</label>
                     <input type="text" id="tags" name="tags" />
                 </form>

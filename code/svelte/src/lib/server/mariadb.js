@@ -183,6 +183,10 @@ export async function getBio(userId) {
     return getSingleValue("SELECT Bio FROM user WHERE id = ?", [userId]);
 }
 
+export async function getUserAlbums(userId) {
+    if (DEV_MODE) return placeholders.albums;
+}
+
 export async function updateBio(userId, bio) {
     return performQuery("UPDATE user SET Bio = ? WHERE id = ?", [bio, userId]);
 }

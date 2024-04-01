@@ -224,6 +224,12 @@ export async function isFollowing(userId, followerId) {
     return getSingleValue("SELECT COUNT(*) FROM Follows WHERE UserID = ? AND FollowerID = ?", [userId, followerId]);
 }
 
+// View album page
+export async function getAlbumPhotos(albumId) {
+    if (DEV_MODE) return placeholders.photos;
+    return getSingleRow("SELECT * FROM AlbumsJunc WHERE AlbumID = ?", [albumId]);
+}
+
 // View photo page
 export async function getPhoto(photoId) {
     if (DEV_MODE) return placeholders.photos[0];

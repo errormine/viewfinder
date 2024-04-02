@@ -16,7 +16,7 @@
 
 <style>
     .button {
-        background: var(--color-primary-gradient);
+        background: var(--gradient-primary);
         color: white;
         border: 1px solid var(--color-primary-dark);
         display: block;

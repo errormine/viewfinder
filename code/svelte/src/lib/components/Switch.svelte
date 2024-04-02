@@ -53,7 +53,7 @@
         width: calc(var(--height) + 0.2rem);
         height: calc(var(--height) + 0.2rem);
         border-radius: inherit;
-        background: var(--color-gray-gradient);
+        background: var(--gradient-gray);
         transition: transform 200ms;
         box-shadow: var(--small-shadow);
     }

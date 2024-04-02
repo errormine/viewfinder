@@ -102,7 +102,7 @@
     }
 
     .settings-left-bar {
-        background: var(--color-gray-gradient);
+        background: var(--gradient-gray);
         border-radius: 0.5rem 0 0 0.5rem;
         border-right: 1px solid var(--color-gray);
     }

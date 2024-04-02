@@ -114,10 +114,10 @@
         </header>
         <form action="/api/edit/album" method="POST" class="flex-column">
             <label for="album-name">Name</label>
-            <input type="text" id="album-name" name="album-name" placeholder="Enter a name."/>
+            <input type="text" id="album-name" name="album-name" placeholder="Enter a name." autocomplete="off"/>
 
             <label for="album-description">Description</label>
-            <input type="text" id="album-description" name="album-description" placeholder="Enter a description."/>
+            <textarea type="text" id="album-description" name="album-description" placeholder="Enter a description." autocomplete="off"/>
 
             <Button type="submit">Create</Button>
         </form>

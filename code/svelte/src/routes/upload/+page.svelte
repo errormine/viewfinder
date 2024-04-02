@@ -1,5 +1,6 @@
 <script>
     import { onMount } from 'svelte';
+    import { invalidateAll } from '$app/navigation';
     import { Plus16, X16 } from 'svelte-octicons';
     import Button from '$lib/components/Button.svelte';
     import IconButton from '$lib/components/IconButton.svelte';
@@ -101,6 +102,38 @@
         description.addEventListener('input', () => {
             images[selectedImageIndex].description = description.value;
         });
+
+        // Album creation
+        let albumForm = document.querySelector('.create-album-dialog form')
+        let createAlbumButton = albumForm.querySelector('button');
+
+        createAlbumButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            let data = new FormData(albumForm);
+            let albumChoices = document.querySelector('#albumName');
+
+            fetch('/api/edit/album', {
+                method: 'POST',
+                body: data
+            })
+            .then(res => {
+                console.log(res);
+                invalidateAll()
+                    .then(() => {
+                        albumChoices.innerHTML = '';
+                        for (const album of data.userAlbums) {
+                            let option = document.createElement('option');
+                            option.value = album.AlbumID;
+                            option.text = album.Name;
+                            albumChoices.add(option);
+                        }
+                    });
+            })
+            .catch(error => {
+                console.error(error);
+                data.bio = 'Error creating album.';
+            });
+        })
     })
 </script>
 

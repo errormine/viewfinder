@@ -104,7 +104,7 @@
     })
 </script>
 
-<dialog bind:this={albumDialog} class="create-album-dialog round-corners" open="true">
+<dialog bind:this={albumDialog} class="create-album-dialog round-corners">
     <section>
         <header class="flex space-between align-center margin-bottom-1">
             <h2 class="margin-0">Create a new album</h2>

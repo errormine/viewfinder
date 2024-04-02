@@ -1,11 +1,14 @@
 <script>
     import { onMount } from 'svelte';
+    import { Plus16 } from 'svelte-octicons';
     import Button from '$lib/components/Button.svelte';
+    import IconButton from '$lib/components/IconButton.svelte';
     import ImagePreview from '$lib/components/ImagePreview.svelte';
 
     /** @type {import('./$types').PageData} */
     export let data;
 
+    let albumDialog;
     let isImageSelected = false;
     let selectedImageIndex;
 
@@ -101,6 +104,20 @@
     })
 </script>
 
+<dialog bind:this={albumDialog} class="create-album-dialog round-corners">
+    <section>
+        <h2>Create a new album</h2>
+        <form action="/api/edit/album" method="POST" class="flex-column">
+            <label for="album-name">Name</label>
+            <input type="text" id="album-name" name="album-name" placeholder="Enter a name."/>
+
+            <label for="album-description">Description</label>
+            <input type="text" id="album-description" name="album-description" placeholder="Enter a description."/>
+
+            <Button type="submit">Create</Button>
+        </form>
+    </section>
+</dialog>
 <main>
     <section class="upload-menu">
         <section class="image-upload">
@@ -116,14 +133,19 @@
             <aside class="edit-image-details round-corners" class:hidden={!isImageSelected}>
                 <h3>Edit Image</h3>
                 <hr />
-                <form>
+                <form class="flex-column">
                     <label for="title">Title</label>
                     <input type="text" id="title" name="title" placeholder="Enter a title."/>
 
                     <label for="description">Description</label>
                     <textarea id="description" name="description" placeholder="Enter a description."></textarea>
 
-                    <label for="album">Album</label>
+                    <section class="flex space-between align-center">
+                        <label for="album">Album</label>
+                        <IconButton on:click={albumDialog.showModal()} disableBackground>
+                            <Plus16 />
+                        </IconButton>
+                    </section>
                     <select id="albumName" name="albumName">
                         {#each data.userAlbums as album}
                             <option value="{album.AlbumID}">{album.Name}</option>

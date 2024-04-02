@@ -137,6 +137,11 @@
         gap: 1rem;
     }
 
+    .settings-main form label,
+    .settings-main form input {
+        margin-bottom: 0;
+    }
+
     .settings-main form footer {
         grid-column: span 2;
     }

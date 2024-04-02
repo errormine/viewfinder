@@ -1,6 +1,6 @@
 <script>
     import { onMount } from 'svelte';
-    import { Plus16 } from 'svelte-octicons';
+    import { Plus16, X16 } from 'svelte-octicons';
     import Button from '$lib/components/Button.svelte';
     import IconButton from '$lib/components/IconButton.svelte';
     import ImagePreview from '$lib/components/ImagePreview.svelte';
@@ -104,9 +104,14 @@
     })
 </script>
 
-<dialog bind:this={albumDialog} class="create-album-dialog round-corners">
+<dialog bind:this={albumDialog} class="create-album-dialog round-corners" open="true">
     <section>
-        <h2>Create a new album</h2>
+        <header class="flex space-between align-center margin-bottom-1">
+            <h2 class="margin-0">Create a new album</h2>
+            <IconButton on:click={albumDialog.close()} title="Cancel album creation" disableBackground>
+                <X16 />
+            </IconButton>
+        </header>
         <form action="/api/edit/album" method="POST" class="flex-column">
             <label for="album-name">Name</label>
             <input type="text" id="album-name" name="album-name" placeholder="Enter a name."/>
@@ -166,6 +171,10 @@
 <style>
     main {
         height: calc(100% - var(--footer-height));
+    }
+
+    .create-album-dialog {
+        min-width: 20rem;
     }
 
     .upload-menu {

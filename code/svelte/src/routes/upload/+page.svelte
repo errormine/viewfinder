@@ -72,20 +72,16 @@
             formData.append('tags', img.tags);
             formData.append('photo', img.data);
 
-            console.log(formData);
-
             fetch('/api/upload', {
                 method: 'POST',
                 body: formData
             })
             .then(response => {
-                console.log(response);
                 // Redirect to user profile
                 location.reload();
             })
             .catch(error => {
                 console.error(error);
-                data.bio = 'Error uploading image.';
             });
         }
     }

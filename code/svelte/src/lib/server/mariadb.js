@@ -183,6 +183,11 @@ export async function getBio(userId) {
     return getSingleValue("SELECT Bio FROM user WHERE id = ?", [userId]);
 }
 
+export async function getUserAlbums(userId) {
+    if (DEV_MODE) return placeholders.albums;
+    return performQuery("SELECT * FROM Albums WHERE UserID = ?", [userId]);
+}
+
 export async function updateBio(userId, bio) {
     return performQuery("UPDATE user SET Bio = ? WHERE id = ?", [bio, userId]);
 }
@@ -224,6 +229,17 @@ export async function isFollowing(userId, followerId) {
     return getSingleValue("SELECT COUNT(*) FROM Follows WHERE UserID = ? AND FollowerID = ?", [userId, followerId]);
 }
 
+// View album page
+export async function getAlbum(albumId) {
+    if (DEV_MODE) return placeholders.albums[0];
+    return getSingleRow("SELECT * FROM Albums WHERE AlbumID = ?", [albumId]);
+}
+
+export async function getAlbumPhotos(albumId) {
+    if (DEV_MODE) return placeholders.photos;
+    return performQuery("SELECT * FROM Photos WHERE PhotoID IN (SELECT PhotoID FROM AlbumJunc WHERE AlbumID = ?)", [albumId]);
+}
+
 // View photo page
 export async function getPhoto(photoId) {
     if (DEV_MODE) return placeholders.photos[0];
@@ -237,7 +253,7 @@ export async function getPhotoCreatorId(photoId) {
 
 export async function getAlbumsByPhoto(photoId) {
     if (DEV_MODE) return placeholders.albums;
-    performQuery("SELECT * FROM Albums WHERE AlbumID IN (SELECT AlbumID FROM AlbumJunc WHERE PhotoID = ?)", [photoId])
+    return performQuery("SELECT * FROM Albums WHERE AlbumID IN (SELECT AlbumID FROM AlbumJunc WHERE PhotoID = ?)", [photoId])
         .then(rows => {
             return rows;
         })
@@ -262,7 +278,13 @@ export async function isFavorite(userId, photoId) {
 
 // Photo upload
 export async function uploadPhoto(userId, UUID, metadata) {
-    return performQuery("INSERT INTO Photos (UserID, UUID, Title, Description) VALUES (?, ?, ?, ?)", [userId, UUID, metadata.title, metadata.description]);
+    performQuery("INSERT INTO Photos (UserID, UUID, Title, Description) VALUES (?, ?, ?, ?)", [userId, UUID, metadata.title, metadata.description])
+        .then(res => {
+            if (metadata.albumId) {
+                performQuery("INSERT INTO AlbumJunc (AlbumID, PhotoID) VALUES (?, ?)", [metadata.albumId, res.insertId]);
+                performQuery("UPDATE Albums SET Thumbnail = ? WHERE AlbumID = ?", [UUID, metadata.albumId]);
+            }
+        });
 }
 
 export async function deletePhoto(photoId) {
@@ -272,6 +294,19 @@ export async function deletePhoto(photoId) {
 // Update user account
 export async function updateUser(userId, displayName, email, username) {
     return performQuery("UPDATE user SET DisplayName = ?, Email = ?, Username = ? WHERE id = ?", [displayName, email, username, userId]);
+}
+
+// Update album
+export async function createOrUpdateAlbum(userId, name, description, albumId) {
+    if (albumId != null) {
+        // If album exists
+        console.log("Updating album")
+        return performQuery("UPDATE Albums SET UserID = ?, Name = ?, Description = ? WHERE AlbumID = ?", [userId, name, description, albumId]);
+    } else {
+        // Create new album if it doesn't
+        console.log("Creating new album")
+        return performQuery("INSERT INTO Albums (UserID, Name, Description) VALUES (?, ?, ?)", [userId, name, description]);
+    }
 }
 
 // Search functions

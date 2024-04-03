@@ -57,7 +57,7 @@
         height: 4rem;
         position: fixed;
         top: 0;
-        width: 100vw;
+        width: 100%;
         backdrop-filter: blur(8px);
         z-index: 999;
     }

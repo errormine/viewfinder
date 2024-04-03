@@ -10,7 +10,7 @@
     /* COLOR VARIABLES */
     --color-primary: #825ABD;
     --color-primary-dark: #664892;
-    --color-primary-gradient: linear-gradient(var(--color-primary), var(--color-primary-dark));
+    --gradient-primary: linear-gradient(var(--color-primary), var(--color-primary-dark));
 
     --color-white-gradient: linear-gradient(white, rgb(237, 237, 237));
     --transparent-white-gradient: linear-gradient(rgba(255, 255, 255, 0.8), rgba(237, 237, 237, 0.8));
@@ -21,9 +21,9 @@
     --color-darkish-gray: #DFDFDF;
     --color-dark-gray: #7A7A7A;
 
-    --color-gray-gradient: linear-gradient(var(--color-off-white), var(--color-darkish-gray));
+    --gradient-gray: linear-gradient(var(--color-off-white), var(--color-darkish-gray));
 
-    --color-black-gradient: linear-gradient(#363636, black);
+    --gradient-black: linear-gradient(#363636, black);
     --transparent-black-gradient: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
 
     /* SIZE VARIABLES */
@@ -117,6 +117,20 @@ strong {
     font-weight: 700;
 }
 
+/* Dialog elements */
+dialog {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    border: 1px solid var(--color-gray);
+    padding: 1rem;
+}
+
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.2);
+}
+
 /* Targeted elements get offset by the header */
 [id]:target::before {
     content: '';
@@ -153,13 +167,11 @@ strong {
 
 .flex {
     display: flex;
-    align-items: center;
 }
 
 .flex-column {
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 
 .flex.wrap {
@@ -178,32 +190,43 @@ strong {
     justify-content: center;
 }
 
-/* FORM ELEMENTS */
-.inset-bg {
-    box-shadow: var(--inner-shadow);
-    background-color: var(--color-light-gray);
+.flex.align-center {
+    align-items: center;
 }
 
-textarea {
+/* FORM ELEMENTS */
+label {
+    margin-bottom: 0.5rem;
+}
+
+textarea,
+input,
+select {
+    display: block;
     font-family: inherit;
     font-size: inherit;
-    display: block;
-    width: 100%;
+    box-shadow: var(--inner-shadow);
+    background-color: var(--color-light-gray);
     border: 1px solid var(--color-gray);
-    padding: 0.5rem;
-    resize: none;
+    border-radius: 0.25rem;
     margin-bottom: 1rem;
 }
 
+textarea {
+    width: 100%;
+    padding: 0.3rem;
+    resize: none;
+}
+
 input[type="text"], input[type="email"], input[type="password"] {
-    font-family: inherit;
-    font-size: inherit;
-    border-radius: 0.25rem;
     height: 1.5rem;
     padding: 0 0.3rem;
-    border: 1px solid var(--color-gray);
     box-shadow: var(--inner-shadow-small);
-    background-color: var(--color-light-gray);
+}
+
+select {
+    background: var(--gradient-gray);
+    box-shadow: none;
 }
 
 /* temporary */

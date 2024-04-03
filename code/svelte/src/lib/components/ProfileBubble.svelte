@@ -15,7 +15,7 @@
 
 <style>
     .bubble {
-        background: var(--color-gray-gradient);
+        background: var(--gradient-gray);
         border-radius: 0.5rem;
         padding: 0.8rem;
     }

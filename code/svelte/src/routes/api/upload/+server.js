@@ -21,6 +21,7 @@ export async function POST({ request, cookies }) {
     const photoMetadata = {
         title: formData.get('title'),
         description: formData.get('description'),
+        albumId: formData.get('albumId'),
         tags: formData.get('tags'),
     };
 

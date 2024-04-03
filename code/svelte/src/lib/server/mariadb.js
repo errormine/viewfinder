@@ -237,7 +237,7 @@ export async function getAlbum(albumId) {
 
 export async function getAlbumPhotos(albumId) {
     if (DEV_MODE) return placeholders.photos;
-    return getSingleRow("SELECT * FROM AlbumsJunc WHERE AlbumID = ?", [albumId]);
+    return performQuery("SELECT * FROM AlbumJunc WHERE AlbumID = ?", [albumId]);
 }
 
 // View photo page
@@ -278,7 +278,12 @@ export async function isFavorite(userId, photoId) {
 
 // Photo upload
 export async function uploadPhoto(userId, UUID, metadata) {
-    return performQuery("INSERT INTO Photos (UserID, UUID, Title, Description) VALUES (?, ?, ?, ?)", [userId, UUID, metadata.title, metadata.description]);
+    return performQuery("INSERT INTO Photos (UserID, UUID, Title, Description) VALUES (?, ?, ?, ?)", [userId, UUID, metadata.title, metadata.description])
+        .then(res => {
+            if (metadata.albumId) {
+                return performQuery("INSERT INTO AlbumJunc (AlbumID, PhotoID) VALUES (?, ?)", [metadata.albumId, res.insertId]);
+            }
+        });
 }
 
 export async function deletePhoto(photoId) {

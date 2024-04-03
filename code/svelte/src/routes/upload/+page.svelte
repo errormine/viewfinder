@@ -21,6 +21,7 @@
             _preview: previewURL,
             title: title,
             description: "This is a description.",
+            albumId: -1,
             tags: [],
             data: fileData,
         });
@@ -34,6 +35,7 @@
         selectedImageIndex = images.indexOf(imgData);
         document.querySelector('#title').value = imgData.title;
         document.querySelector('#description').value = imgData.description;
+        document.querySelector('#albumId').value = imgData.albumId;
     }
 
     function createPreview(src) {
@@ -69,6 +71,7 @@
             let formData = new FormData();
             formData.append('title', img.title);
             formData.append('description', img.description);
+            formData.append('albumId', img.albumId);
             formData.append('tags', img.tags);
             formData.append('photo', img.data);
 
@@ -90,6 +93,7 @@
         // Metadata editor
         let title = document.querySelector('#title');
         let description = document.querySelector('#description');
+        let albumId = document.querySelector('#albumId');
 
         title.addEventListener('input', () => {
             images[selectedImageIndex].title = title.value;
@@ -97,6 +101,10 @@
 
         description.addEventListener('input', () => {
             images[selectedImageIndex].description = description.value;
+        });
+
+        albumId.addEventListener('input', () => {
+            images[selectedImageIndex].albumId = albumId.value;
         });
 
         // Album creation
@@ -178,7 +186,7 @@
                             <Plus16 />
                         </IconButton>
                     </section>
-                    <select id="albumName" name="albumName">
+                    <select id="albumId" name="albumId">
                         <option value="-1">None</option>
                         {#each data.userAlbums as album}
                             <option value="{album.AlbumID}">{album.Name}</option>

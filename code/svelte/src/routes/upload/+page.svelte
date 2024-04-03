@@ -66,7 +66,7 @@
     // Upload handler
     function handleUpload() {
         for (const img of images) {
-            const formData = new FormData();
+            let formData = new FormData();
             formData.append('title', img.title);
             formData.append('description', img.description);
             formData.append('tags', img.tags);
@@ -109,29 +109,27 @@
 
         createAlbumButton.addEventListener('click', (e) => {
             e.preventDefault();
-            let data = new FormData(albumForm);
+            albumDialog.close();
+            let formData = new FormData(albumForm);
             let albumChoices = document.querySelector('#albumName');
 
             fetch('/api/edit/album', {
                 method: 'POST',
-                body: data
+                body: formData
             })
             .then(res => {
-                console.log(res);
-                invalidateAll()
-                    .then(() => {
-                        albumChoices.innerHTML = '';
-                        for (const album of data.userAlbums) {
-                            let option = document.createElement('option');
-                            option.value = album.AlbumID;
-                            option.text = album.Name;
-                            albumChoices.add(option);
-                        }
-                    });
+                invalidateAll(); // Runs the page.server.js load function again
+                
+                albumChoices.innerHTML = '';
+                for (const album of data.userAlbums) {
+                    let option = document.createElement('option');
+                    option.value = album.AlbumID;
+                    option.text = album.Name;
+                    albumChoices.add(option);
+                }
             })
             .catch(error => {
                 console.error(error);
-                data.bio = 'Error creating album.';
             });
         })
     })
@@ -185,6 +183,7 @@
                         </IconButton>
                     </section>
                     <select id="albumName" name="albumName">
+                        <option value="-1">None</option>
                         {#each data.userAlbums as album}
                             <option value="{album.AlbumID}">{album.Name}</option>
                         {/each}

@@ -9,13 +9,14 @@ export async function POST({ locals, request }) {
 	if (!data) return new Response(JSON.stringify({ error: "No data provided." }), { status: 400 });
 
     const albumId = data.get('albumId');
-    const name = data.get('name');
-    const description = data.get('description');
-    const photoIDs = data.get('photoIDs');
+    const name = data.get('album-name');
+    const description = data.get('album-description');
 
-	if (!albumId || !name || !description) return new Response(JSON.stringify({ error: "Missing required fields." }), { status: 400 });
+	if (!name || !description) return new Response(JSON.stringify({ error: "Missing required fields." }), { status: 400 });
 
-	return db.createOrUpdateAlbum(albumId, locals.user.id, name, description, photoIDs)
+	console.log(locals.user.id);
+
+	return db.createOrUpdateAlbum(locals.user.id, name, description, albumId)
 		.then(res => {
 			console.log(res);
 			return new Response(JSON.stringify({ message: "Album updated successfully." }), { status: 200 });

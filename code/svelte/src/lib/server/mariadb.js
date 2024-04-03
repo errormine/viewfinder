@@ -185,6 +185,7 @@ export async function getBio(userId) {
 
 export async function getUserAlbums(userId) {
     if (DEV_MODE) return placeholders.albums;
+    return performQuery("SELECT * FROM Albums WHERE UserID = ?", [userId]);
 }
 
 export async function updateBio(userId, bio) {
@@ -290,21 +291,16 @@ export async function updateUser(userId, displayName, email, username) {
 }
 
 // Update album
-export async function createOrUpdateAlbum(albumId, userId, name, description, photoIDs) {
-    return getSingleRow("SELECT AlbumID FROM Albums WHERE UserID = ?", [userId])
-        .then(res => {
-            if (res != []) {
-                // If album exists
-                return performQuery("UPDATE Albums SET UserID = ?, Name = ?, Description = ? WHERE AlbumID = ?", [userId, name, description, albumId]);
-            } else {
-                // Create new album if it doesn't
-                return performQuery("INSERT INTO Albums (UserID, Name, Description) VALUES (?, ?, ?)", [userId, name, description]);
-            }
-        })
-        .catch(err => {
-            console.log(err);
-            return err;
-        });
+export async function createOrUpdateAlbum(userId, name, description, albumId) {
+    if (albumId != null) {
+        // If album exists
+        console.log("Updating album")
+        return performQuery("UPDATE Albums SET UserID = ?, Name = ?, Description = ? WHERE AlbumID = ?", [userId, name, description, albumId]);
+    } else {
+        // Create new album if it doesn't
+        console.log("Creating new album")
+        return performQuery("INSERT INTO Albums (UserID, Name, Description) VALUES (?, ?, ?)", [userId, name, description]);
+    }
 }
 
 // Search functions

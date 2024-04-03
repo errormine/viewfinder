@@ -103,6 +103,7 @@
         text-indent: 1.5rem;
         color: var(--color-dark-gray);
         transition: color 200ms;
+        margin: 0;
     }
 
     .search-bar:hover,

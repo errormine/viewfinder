@@ -105,8 +105,10 @@
         margin: calc((var(--header-height) - 1.25rem) / 2) 0;
     }
 
-    nav li.active {
+    nav li:hover,
+    nav li:focus-within {
         background: var(--gradient-gray);
+        border-radius: 0.5rem;
     }
 
     .profile-actions {

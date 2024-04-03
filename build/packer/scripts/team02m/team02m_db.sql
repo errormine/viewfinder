@@ -41,7 +41,7 @@ CREATE TABLE Albums (
 
 CREATE TABLE AlbumJunc (
     AlbumID INT REFERENCES Albums(AlbumID),
-    ImageID INT REFERENCES Photos(PhotoID)
+    PhotoID INT REFERENCES Photos(PhotoID)
 );
 
 CREATE TABLE Comments (

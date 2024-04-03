@@ -337,5 +337,5 @@ export async function searchPhotos(searchTokens, stems) {
 // Explore page
 export async function getSuggestedPhotos(page = 0) {
     if (DEV_MODE) return placeholders.photos;
-    return performQuery("SELECT * FROM Photos LIMIT 25 OFFSET ?", [(page) * 25]);
+    return performQuery("SELECT * FROM Photos ORDER BY Timestamp DESC LIMIT 25 OFFSET ?", [(page) * 25]);
 }

@@ -278,10 +278,11 @@ export async function isFavorite(userId, photoId) {
 
 // Photo upload
 export async function uploadPhoto(userId, UUID, metadata) {
-    return performQuery("INSERT INTO Photos (UserID, UUID, Title, Description) VALUES (?, ?, ?, ?)", [userId, UUID, metadata.title, metadata.description])
+    performQuery("INSERT INTO Photos (UserID, UUID, Title, Description) VALUES (?, ?, ?, ?)", [userId, UUID, metadata.title, metadata.description])
         .then(res => {
             if (metadata.albumId) {
-                return performQuery("INSERT INTO AlbumJunc (AlbumID, PhotoID) VALUES (?, ?)", [metadata.albumId, res.insertId]);
+                performQuery("INSERT INTO AlbumJunc (AlbumID, PhotoID) VALUES (?, ?)", [metadata.albumId, res.insertId]);
+                performQuery("UPDATE Albums SET Thumbnail = ? WHERE AlbumID = ?", [UUID, metadata.albumId]);
             }
         });
 }

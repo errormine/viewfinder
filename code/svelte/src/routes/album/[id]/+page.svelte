@@ -3,8 +3,6 @@
 
     /** @type {import('./$types').PageData} */
     export let data;
-
-    console.log(data.photos);
 </script>
 
 <main class="content-grid">

@@ -19,10 +19,22 @@
     </section>
 </dialog>
 <header>
-    <h1><a href="/">Website</a></h1>
-    <SearchBar />
+    <nav>
+        <h1><a href="/">Website</a></h1>
+        {#if $page.data.loggedIn}
+            <ul>
+                <li class:active={ $page.url.pathname === "/feed" }>
+                    <a href="/feed">Feed</a>
+                </li>
+                <li class:active={ $page.url.pathname === "/explore" }>
+                    <a href="/explore">Explore</a>
+                </li>
+            </ul>
+        {/if}
+    </nav>
     {#if $page.data.loggedIn}
         <ActionBar>
+            <SearchBar size="small" />
             <IconButton href="/upload" shape={"circle"}>
                 <Upload16 title={"Upload"}/>
             </IconButton>
@@ -42,6 +54,7 @@
             </ul>
         </ActionBar>
     {:else}
+        <SearchBar size="large" />
         <Button on:click={dialog.showModal()} align={"right"}>Log In</Button>
     {/if}
 </header>
@@ -66,10 +79,34 @@
         margin: 0;
     }
 
-    header h1 a {
+    header a {
         display: block;
         text-decoration: none;
         color: black;
+    }
+
+    nav {
+        display: flex;
+        gap: 1.25rem;
+        align-items: center;
+    }
+
+    nav ul {
+        display: flex;
+        font-size: 1.25rem;
+    }
+
+    nav ul li {
+        height: var(--header-height);
+        padding: 0 0.75rem;
+    }
+
+    nav li a {
+        margin: calc((var(--header-height) - 1.25rem) / 2) 0;
+    }
+
+    nav li.active {
+        background: var(--gradient-gray);
     }
 
     .profile-actions {

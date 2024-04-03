@@ -237,7 +237,7 @@ export async function getAlbum(albumId) {
 
 export async function getAlbumPhotos(albumId) {
     if (DEV_MODE) return placeholders.photos;
-    return performQuery("SELECT * FROM AlbumJunc WHERE AlbumID = ?", [albumId]);
+    return performQuery("SELECT * FROM Photos WHERE PhotoID IN (SELECT PhotoID FROM AlbumJunc WHERE AlbumID = ?)", [albumId]);
 }
 
 // View photo page

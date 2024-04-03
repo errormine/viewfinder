@@ -5,6 +5,7 @@ export async function load({ url }) {
     const page = url.searchParams.get('page');
 
     return {
+        page: Number(page),
         photos: await db.getSuggestedPhotos(page),
     };
 };

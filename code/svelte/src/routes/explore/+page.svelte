@@ -20,11 +20,29 @@
         {:else}
             <PhotoGrid photos={data.photos} />
         {/if}
+        <footer>
+            {#if data.page > 0}
+                <p><a href="/explore?page={data.page - 1}">Previous page</a></p>
+            {/if}
+            <p class="next-page"><a href="/explore?page={data.page + 1}">Next page</a></p>
+        </footer>
     </section>
 </main>
 
 <style>
     .explore-page {
         padding: 1.5rem;
+    }
+
+    footer {
+        margin-top: 1rem;
+    }
+
+    footer p {
+        margin: 0;
+    }
+
+    .next-page {
+        text-align: right;
     }
 </style>

@@ -10,6 +10,17 @@ mariadb -V
 # Start MariaDB service
 sudo systemctl start mariadb
 
+# Set port number
+sudo sed -i "20s/.*/port=${DBPORT}/" /etc/mysql/mariadb.conf.d/50-server.cnf
+
+# Allow external connections
+sudo sed -i 's/^bind-address\s*=.*/bind-address = 0.0.0.0/' /etc/mysql/mariadb.conf.d/50-server.cnf
+
+# Open firewall
+sudo systemctl start firewalld
+sudo firewall-cmd --zone=meta-network --add-port=${DBPORT}/tcp --permanent
+sudo firewall-cmd --reload
+
 # Set unique server ID for the replica
 echo "server-id = 2" | sudo tee -a /etc/mysql/mariadb.conf.d/50-server.cnf
 echo "relay-log = /var/log/mysql/mariadb-relay-bin" | sudo tee -a /etc/mysql/mariadb.conf.d/50-server.cnf

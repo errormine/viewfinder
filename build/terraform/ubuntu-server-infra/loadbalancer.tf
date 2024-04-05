@@ -41,6 +41,8 @@ resource "proxmox_vm_qemu" "lb-server" {
     size    = var.lb-disk_size
   }
 
+  depends_on = [proxmox_vm_qemu.web-server]
+
   provisioner "remote-exec" {
     # This inline provisioner is needed to accomplish the final fit and finish of your deployed
     # instance and condigure the system to register the FQDN with the Consul DNS system

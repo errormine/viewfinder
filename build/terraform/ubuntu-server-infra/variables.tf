@@ -44,6 +44,7 @@ variable "lb-disk_size" {}
 variable "keypath" {}
 
 variable "frontend-id" {}
+variable "replica-id" {}
 variable "backend-id" {}
 variable "lb-id" {}
 

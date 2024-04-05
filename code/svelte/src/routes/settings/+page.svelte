@@ -102,7 +102,7 @@
     }
 
     .settings-left-bar {
-        background: var(--color-gray-gradient);
+        background: var(--gradient-gray);
         border-radius: 0.5rem 0 0 0.5rem;
         border-right: 1px solid var(--color-gray);
     }
@@ -135,6 +135,11 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 1rem;
+    }
+
+    .settings-main form label,
+    .settings-main form input {
+        margin-bottom: 0;
     }
 
     .settings-main form footer {

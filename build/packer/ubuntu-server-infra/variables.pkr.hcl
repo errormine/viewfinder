@@ -37,6 +37,10 @@ locals {
   DBPASS = vault("/secret/data/team02m-db-pass","DBPASS")
 }
 
+locals {
+  DBPASSREPLICA = vault("/secret/data/team02m-db-pass-replica","DBPASS")
+}
+
  #Variables for min.io
 
  locals {
@@ -107,6 +111,11 @@ variable "LB_VMNAME" {
 variable "DB_VMNAME" {
   type    = string
   default = "team02m-db-template"
+}
+
+variable "REPLICA_DB_VMNAME" {
+  type    = string
+  default = "team02m-db-template-replica"
 }
 
 variable "WEB_VMNAME" {

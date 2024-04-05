@@ -1,13 +1,13 @@
-resource "proxmox_vm_qemu" "lb-server" {
-  count           = var.lb-numberofvms
-  name            = "${var.lb-id}-vm${count.index}.service.consul"
-  desc            = "LB Ubuntu 20.04"
+resource "proxmox_vm_qemu" "db-server-replica" {
+  count           = var.backend-numberofvms
+  name            = "${var.replica-id}-vm${count.index}.service.consul"
+  desc            = "MariaDB Ubuntu 20.04"
   target_node     = "${data.vault_generic_secret.target_node.data[random_shuffle.nodename.result[0]]}"
-  clone           = var.lb-template_to_clone
+  clone           = var.backend-template_to_clone
   os_type         = "cloud-init"
-  memory          = var.lb-memory
-  cores           = var.lb-cores
-  sockets         = var.lb-sockets
+  memory          = var.backend-memory
+  cores           = var.backend-cores
+  sockets         = var.backend-sockets
   scsihw          = "virtio-scsi-pci"
   bootdisk        = "virtio0"
   boot            = "cdn"
@@ -20,7 +20,7 @@ resource "proxmox_vm_qemu" "lb-server" {
   network {
     model  = "virtio"
     bridge = "vmbr0"
-    macaddr = "04:9F:15:00:00:13" 
+#    macaddr = "04:9F:15:00:00:00" 
   }
 
   network {
@@ -38,27 +38,27 @@ resource "proxmox_vm_qemu" "lb-server" {
   disk {
     type    = "virtio"
     storage = random_shuffle.datadisk.result[0]
-    size    = var.lb-disk_size
+    size    = var.backend-disk_size
   }
 
-  depends_on = [proxmox_vm_qemu.web-server]
+  depends_on = [proxmox_vm_qemu.db-server]
 
   provisioner "remote-exec" {
     # This inline provisioner is needed to accomplish the final fit and finish of your deployed
     # instance and condigure the system to register the FQDN with the Consul DNS system
     inline = [
-      "sudo hostnamectl set-hostname ${var.lb-id}-vm${count.index}",
+      "sudo hostnamectl set-hostname ${var.backend-id}-vm${count.index}",
       "sudo sed -i 's/changeme/${random_id.id.dec}${count.index}/' /etc/consul.d/system.hcl",
-      "sudo sed -i 's/replace-name/${var.lb-id}-vm${count.index}/' /etc/consul.d/system.hcl",
-      "sudo sed -i 's/ubuntu-server/${var.lb-id}-vm${count.index}/' /etc/hosts",
-      "sudo sed -i 's/FQDN/${var.lb-id}-vm${count.index}.service.consul/' /etc/update-motd.d/999-consul-dns-message",
+      "sudo sed -i 's/replace-name/${var.backend-id}-vm${count.index}/' /etc/consul.d/system.hcl",
+      "sudo sed -i 's/ubuntu-server/${var.backend-id}-vm${count.index}/' /etc/hosts",
+      "sudo sed -i 's/FQDN/${var.backend-id}-vm${count.index}.service.consul/' /etc/update-motd.d/999-consul-dns-message",
       "sudo sed -i 's/#datacenter = \"my-dc-1\"/datacenter = \"rice-dc-1\"/' /etc/consul.d/consul.hcl",
       "echo 'retry_join = [\"${var.consulip-240-prod-system28}\",\"${var.consulip-240-student-system41}\",\"${var.consulip-242-room}\"]' | sudo tee -a /etc/consul.d/consul.hcl",
       "sudo systemctl daemon-reload",
       "sudo systemctl restart consul.service",
       "sudo rm /opt/consul/node-id",
       "sudo systemctl restart consul.service",
-      "sudo sed -i 's/0.0.0.0/${var.lb-id}-vm${count.index}.service.consul/' /etc/systemd/system/node-exporter.service",
+      "sudo sed -i 's/0.0.0.0/${var.backend-id}-vm${count.index}.service.consul/' /etc/systemd/system/node-exporter.service",
       "sudo systemctl daemon-reload",
       "sudo systemctl enable node-exporter.service",
       "sudo systemctl start node-exporter.service",

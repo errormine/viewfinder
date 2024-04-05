@@ -18,6 +18,7 @@ pm_log_file   = "terraform-plugin-proxmox.log" # (Optional; defaults to terrafor
 frontend-id            = "team02m-web"                     # initials to add to make unique systems
 frontend-numberofvms             = 3                      # quantity of that template to launch
 frontend-desc                    = ""                     # What is the purpose of the TF template
+replica-id             = "team02m-db-replica"             # initials to add to make unique systems
 backend-id             = "team02m-db"                     # initials to add to make unique systems
 backend-numberofvms              = 1                      # quantity of that template to launch
 backend-desc                     = ""                     # What is the purpose of the TF template

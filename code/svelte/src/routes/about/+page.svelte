@@ -1,7 +1,7 @@
 <script>
-	/** @type {import('./$types').PageData} */
+    /** @type {import('./$types').PageData} */
     export let data;
-	const teamMembers = [
+    const teamMembers = [
     { name: 'Andrei', role: 'Designer', image: 'image/Andrei.png' },
     { name: 'Dylan', role: 'Developer', image: 'image/Dylan.png' },
     { name: 'David', role: 'Developer', image: 'image/David.png' },

@@ -190,6 +190,63 @@ source "proxmox-iso" "db-server" {
   vm_name                  = "${var.DB_VMNAME}"
 }
 
+source "proxmox-iso" "db-replica" {
+  boot_command = [
+    "e<wait>",
+    "<down><down><down>",
+    "<end><bs><bs><bs><bs><wait>",
+    "autoinstall ds=nocloud-net\\;s=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ ---<wait>",
+    "<f10><wait>"
+  ]
+  boot_wait = "5s"
+  cores     = "${var.NUMBEROFCORES}"
+  node      = "${local.NODENAME}"
+  username  = "${local.USERNAME}"
+  token     = "${local.PROXMOX_TOKEN}"
+  cpu_type  = "host"
+  disks {
+    disk_size    = "${var.DISKSIZE}"
+    storage_pool = "${var.STORAGEPOOL}"
+    type = "virtio"
+    io_thread = true
+  }
+  http_directory   = "subiquity/http"
+  http_port_max    = 9200
+  http_port_min    = 9001
+  iso_checksum     = "${var.iso_checksum}"
+  iso_urls         = "${var.iso_urls}"
+  iso_storage_pool = "local"
+  memory           = "${var.MEMORY}"
+
+  network_adapters {
+    bridge = "vmbr0"
+    model  = "virtio"
+  }
+  network_adapters {
+    bridge = "vmbr1"
+    model  = "virtio"
+  }
+  network_adapters {
+    bridge = "vmbr2"
+    model  = "virtio"
+  }
+
+  os                       = "l26"
+  proxmox_url              = "${local.URL}"
+  insecure_skip_tls_verify = true
+  unmount_iso              = true
+  qemu_agent               = true
+  scsi_controller          = "virtio-scsi-single"       
+  cloud_init               = true
+  cloud_init_storage_pool  = "${var.STORAGEPOOL}"
+  ssh_password             = "${local.SSHPW}"
+  ssh_username             = "vagrant"
+  ssh_timeout              = "28m"
+  template_description     = "A Packer template for creating an ubuntu server configured as a MariaDB replica"
+  vm_name                  = "${var.REPLICA_DB_VMNAME}"
+}
+
+
 source "proxmox-iso" "web-server" {
   boot_command = [
     "e<wait>",
@@ -249,7 +306,7 @@ source "proxmox-iso" "web-server" {
 }
 
 build {
-  sources = ["source.proxmox-iso.ubuntu-vanilla", "source.proxmox-iso.db-server", "source.proxmox-iso.web-server", "source.proxmox-iso.lb-server"]
+  sources = ["source.proxmox-iso.ubuntu-vanilla", "source.proxmox-iso.db-server", "source.proxmox-iso.db-replica", "source.proxmox-iso.web-server", "source.proxmox-iso.lb-server"]
 
   ########################################################################################################################
   # Using the file provisioner to SCP this file to the instance 
@@ -384,8 +441,25 @@ build {
   provisioner "shell" {
     only             = ["proxmox-iso.db-server"]
     execute_command  = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
-    environment_vars = ["DBUSER=${local.DBUSER}", "DBPASS=${local.DBPASS}", "DBPORT=${local.DBPORT}", "IPRANGE=${var.CONNECTIONFROMIPRANGE}"]
+    environment_vars = ["DBUSER=${local.DBUSER}", "DBPASS=${local.DBPASS}", "DBPASSREPLICA=${local.DBPASSREPLICA}", "DBPORT=${local.DBPORT}", "IPRANGE=${var.CONNECTIONFROMIPRANGE}"]
     scripts          = ["../scripts/team02m/post_install_mariadb_setup.sh"]
+  }
+
+  ########################################################################################################################
+  # Script to install MariaDB for REPLICA
+  ########################################################################################################################
+
+  provisioner "file" {
+    only        = ["proxmox-iso.db-replica"]
+    source      = "../scripts/team02m/team02m_db.sql"
+    destination = "/tmp/team02m_db.sql"
+  }
+
+  provisioner "shell" {
+    only             = ["proxmox-iso.db-server"]
+    execute_command  = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
+    environment_vars = ["DBUSER=${local.DBUSER}", "DBPASS=${local.DBPASS}", "DBPASSREPLICA=${local.DBPASSREPLICA}", "DBPORT=${local.DBPORT}", "IPRANGE=${var.CONNECTIONFROMIPRANGE}"]
+    scripts          = ["../scripts/team02m/post_install_mariadb_setup_replica.sh"]
   }
 
   ########################################################################################################################

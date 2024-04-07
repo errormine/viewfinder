@@ -30,7 +30,7 @@
     }
     
     figcaption {
-        background: var(--color-gray-gradient);
+        background: var(--gradient-gray);
         padding: 0.5rem;
         height: 3rem;
         width: 100%;

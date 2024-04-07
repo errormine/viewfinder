@@ -36,6 +36,7 @@ Secrets for our database:
  - team02m-db-port, DBPORT
  - team02m-db-user, DBUSER
  - team02m-db-pass, DBPASS
+ - team02m-db-pass-replica, DBPASS 
 
 Secrets to be used by our app:
  - team02m-google-client-id, CLIENTID

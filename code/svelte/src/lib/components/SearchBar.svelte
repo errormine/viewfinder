@@ -2,6 +2,8 @@
     import { Search16 } from 'svelte-octicons';
     import { onMount } from 'svelte';
 
+    export let size = 'large';
+
     // Random placeholder text
     let searches = ['landscape', 'portrait', 'nature', 'architecture', 'street', 'wildlife', 'macro', 'sports', 'fashion', 'food', 'black and white', 'abstract', 'still life', 'long exposure', 'aerial', 'cityscape', 'sunrise', 'sunset', 'beach', 'mountain', 'forest', 'waterfall', 'desert', 'sky', 'clouds', 'flowers', 'birds', 'insects', 'pets', 'cars', 'bikes', 'boats', 'planes', 'trains'];
     let randomPlaceholders = searches.sort(() => Math.random() - 0.5).slice(0, 3);
@@ -83,19 +85,27 @@
         <button class="submit">
             <Search16 />
         </button>
-        <input class="search-bar inset-bg" type="text" name="q" {placeholder}>
+        <input class="search-bar inset-bg {size}" type="text" name="q" {placeholder}>
     </form>
-    <ul id="autocomplete" class="round-corners hidden"></ul>
+    <ul id="autocomplete" class="round-corners hidden {size}"></ul>
 </search>
 
 <style>
+    .large {
+        --size: 35rem;
+    }
+
+    .small {
+        --size: 20rem;
+    }
+
     search {
         position: relative;
         display: block;
     }
 
     .search-bar {
-        width: 35rem;
+        width: var(--size);
         height: 2rem;
         font-size: 1rem;
         border: 1px solid var(--color-gray);
@@ -103,6 +113,7 @@
         text-indent: 1.5rem;
         color: var(--color-dark-gray);
         transition: color 200ms;
+        margin: 0;
     }
 
     .search-bar:hover,
@@ -128,7 +139,7 @@
         position: absolute;
         top: 2.5rem;
         left: 0;
-        width: 35rem;
+        width: var(--size);
         padding: 0.25rem;
     }
 

@@ -83,7 +83,7 @@
 
 <style>
     .image-viewer {
-        background: var(--color-black-gradient);
+        background: var(--gradient-black);
         min-height: 24rem;
         max-height: 32rem;
     }

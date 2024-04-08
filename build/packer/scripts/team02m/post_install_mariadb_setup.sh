@@ -39,7 +39,7 @@ sudo mariadb -e "FLUSH PRIVILEGES;"
 # Create a replication user using secret (vault) 
 sudo mariadb -e "CREATE USER 'replicator'@'${IPRANGE}' IDENTIFIED BY 'password';"
 sudo mariadb -e "SET PASSWORD FOR 'replicator'@'${IPRANGE}' = PASSWORD('${DBPASSREPLICA}');"
-sudo mariadb -e "GRANT REPLICATION SLAVE ON team02m_db.* TO 'replicator'@'${IPRANGE}';"
+sudo mariadb -e "GRANT REPLICATION SLAVE ON *.* TO 'replicator'@'${IPRANGE}';"
 sudo mariadb -e "FLUSH PRIVILEGES;"
 
 # Restart MariaDB service

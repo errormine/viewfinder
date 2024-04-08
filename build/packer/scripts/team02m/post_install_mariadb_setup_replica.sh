@@ -32,7 +32,7 @@ sudo mariadb -e "GRANT SELECT, UPDATE, INSERT, DELETE ON team02m_db.* TO '${DBUS
 sudo mariadb -e "FLUSH PRIVILEGES;"
 
 # Configure the MariaDB replica ADD master
-sudo mariadb -e "CHANGE MASTER TO MASTER_HOST='team02m-db-vm0.service.consul', MASTER_PORT='${DBPORT}', MASTER_USER='replicator', MASTER_PASSWORD='${DBPASSREPLICA}';"
+sudo mariadb -e "CHANGE MASTER TO MASTER_HOST='team02m-db-vm0.service.consul', MASTER_USER='replicator', MASTER_PORT=${DBPORT}, MASTER_PASSWORD='${DBPASSREPLICA}';"
 sudo mariadb -e "START SLAVE;"
 
 # Restart MariaDB service

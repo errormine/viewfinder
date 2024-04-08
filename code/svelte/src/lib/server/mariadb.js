@@ -200,11 +200,6 @@ export async function getUserAlbums(userId) {
     return performQuery("SELECT * FROM Albums WHERE UserID = ?", [userId], "replica");
 }
 
-export async function getUserAlbums(userId) {
-    if (DEV_MODE) return placeholders.albums;
-    return performQuery("SELECT * FROM Albums WHERE UserID = ?", [userId]);
-}
-
 export async function updateBio(userId, bio) {
     return performQuery("UPDATE user SET Bio = ? WHERE id = ?", [bio, userId]);
 }
@@ -255,17 +250,6 @@ export async function getAlbum(albumId) {
 export async function getAlbumPhotos(albumId) {
     if (DEV_MODE) return placeholders.photos;
     return performQuery("SELECT * FROM Photos WHERE PhotoID IN (SELECT PhotoID FROM AlbumJunc WHERE AlbumID = ?)", [albumId], "replica");
-}
-
-// View album page
-export async function getAlbum(albumId) {
-    if (DEV_MODE) return placeholders.albums[0];
-    return getSingleRow("SELECT * FROM Albums WHERE AlbumID = ?", [albumId]);
-}
-
-export async function getAlbumPhotos(albumId) {
-    if (DEV_MODE) return placeholders.photos;
-    return performQuery("SELECT * FROM Photos WHERE PhotoID IN (SELECT PhotoID FROM AlbumJunc WHERE AlbumID = ?)", [albumId]);
 }
 
 // View photo page

@@ -456,7 +456,7 @@ build {
   }
 
   provisioner "shell" {
-    only             = ["proxmox-iso.db-server"]
+    only             = ["proxmox-iso.db-replica"]
     execute_command  = "echo 'vagrant' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'"
     environment_vars = ["DBUSER=${local.DBUSER}", "DBPASS=${local.DBPASS}", "DBPASSREPLICA=${local.DBPASSREPLICA}", "DBPORT=${local.DBPORT}", "IPRANGE=${var.CONNECTIONFROMIPRANGE}"]
     scripts          = ["../scripts/team02m/post_install_mariadb_setup_replica.sh"]

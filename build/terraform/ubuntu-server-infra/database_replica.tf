@@ -3,7 +3,7 @@ resource "proxmox_vm_qemu" "db-server-replica" {
   name            = "${var.replica-id}-vm${count.index}.service.consul"
   desc            = "MariaDB Ubuntu 20.04"
   target_node     = "${data.vault_generic_secret.target_node.data[random_shuffle.nodename.result[0]]}"
-  clone           = var.backend-template_to_clone
+  clone           = var.replica-template_to_clone
   os_type         = "cloud-init"
   memory          = var.backend-memory
   cores           = var.backend-cores

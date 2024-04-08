@@ -24,6 +24,7 @@ variable "lb-macaddr" {}
 variable "frontend-template_to_clone" {}
 variable "backend-template_to_clone" {}
 variable "lb-template_to_clone" {}
+variable "replica-template_to_clone" {}
 
 variable "frontend-memory" {}
 variable "backend-memory" {}

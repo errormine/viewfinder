@@ -115,7 +115,7 @@ variable "DB_VMNAME" {
 
 variable "REPLICA_DB_VMNAME" {
   type    = string
-  default = "team02m-db-template-replica"
+  default = "team02m-db-replica-template"
 }
 
 variable "WEB_VMNAME" {

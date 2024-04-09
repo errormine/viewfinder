@@ -1,5 +1,6 @@
 import mariadb from 'mariadb';
-import { NO_DB, DB_HOST, DB_REPLICA, DB_PORT, DB_USER, DB_PASS } from '$env/static/private';
+import { NO_DB, DB_HOST, DB_PORT, DB_USER, DB_PASS } from '$env/static/private';
+import { DB_REPLICA, READ_FROM_REPLICA } from '$env/static/private';
 
 console.log(`DB_HOST: ${DB_HOST}, DB_USER: ${DB_USER}`);
 
@@ -85,7 +86,7 @@ export async function performQuery(query, param, from = "primary") {
     let conn;
 
     try {
-        if (from === "primary" || DEV_MODE) {
+        if (from === "primary" || DEV_MODE || !READ_FROM_REPLICA) {
             conn = await pool.getConnection();
         } else if (from === "replica") {
             conn = await replicaPool.getConnection();

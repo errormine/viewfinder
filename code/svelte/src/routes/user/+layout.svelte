@@ -11,10 +11,7 @@
     export let photosHref = `${baseHref}/photos`;
     export let albumsHref = `${baseHref}/albums`;
     export let favoritesHref = `${baseHref}/favorites`;
-
-    console.log(data);
 </script>
-
 
 <svelte:head>
     <link rel="stylesheet" href="/styles/user-profile.css">
@@ -161,9 +158,6 @@
 
     .profile-navigation li.active a {
         color: black;
-    }
-
-    .profile-actions {
     }
 
     .page-contents {

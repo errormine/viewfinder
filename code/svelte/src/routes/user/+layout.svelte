@@ -1,5 +1,9 @@
 <script>
     import { page } from '$app/stores';
+    import Button from '$lib/components/Button.svelte';
+    import IconButton from '$lib/components/IconButton.svelte';
+    import { KebabHorizontal16 } from 'svelte-octicons';
+
     /** @type {import('./$types').LayoutData} */
     export let data;
 
@@ -7,6 +11,8 @@
     export let photosHref = `${baseHref}/photos`;
     export let albumsHref = `${baseHref}/albums`;
     export let favoritesHref = `${baseHref}/favorites`;
+
+    console.log(data);
 </script>
 
 
@@ -32,20 +38,30 @@
         </section>
     </header>
     <nav class='profile-navigation full-width'>
-        <ul>
-            <li class:active={ $page.url.pathname === baseHref }>
-                <a href={ baseHref } >About</a>
-            </li>
-            <li class:active={ $page.url.pathname.includes(photosHref) }>
-                <a href={ photosHref }>Photos</a>
-            </li>
-            <li class:active={ $page.url.pathname.includes(albumsHref) }>
-                <a href={ albumsHref }>Albums</a>
-            </li>
-            <li class:active={ $page.url.pathname.includes(favoritesHref) }>
-                <a href={ favoritesHref }>Favorites</a>
-            </li>
-        </ul>
+        <section class="flex space-between">
+            <ul>
+                <li class:active={ $page.url.pathname === baseHref }>
+                    <a href={ baseHref } >About</a>
+                </li>
+                <li class:active={ $page.url.pathname.includes(photosHref) }>
+                    <a href={ photosHref }>Photos</a>
+                </li>
+                <li class:active={ $page.url.pathname.includes(albumsHref) }>
+                    <a href={ albumsHref }>Albums</a>
+                </li>
+                <li class:active={ $page.url.pathname.includes(favoritesHref) }>
+                    <a href={ favoritesHref }>Favorites</a>
+                </li>
+            </ul>
+            {#if data.loggedIn && data.username != data.user.username }
+                <section class="profile-actions flex align-center gap-05">
+                    <Button>Follow</Button>
+                    <IconButton shape="circle">
+                        <KebabHorizontal16 />
+                    </IconButton>
+                </section>
+            {/if}
+        </section>
     </nav>
     <section class="page-contents">
         <slot />
@@ -122,7 +138,7 @@
 
     .profile-navigation ul {
         display: flex;
-        flex-direction: row;
+        width: fit-content;
     }
     
     .profile-navigation ul li {
@@ -145,6 +161,9 @@
 
     .profile-navigation li.active a {
         color: black;
+    }
+
+    .profile-actions {
     }
 
     .page-contents {

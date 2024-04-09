@@ -194,6 +194,14 @@ dialog::backdrop {
     align-items: center;
 }
 
+.gap-05 {
+    gap: 0.5rem;
+}
+
+.gap-1 {
+    gap: 1rem;
+}
+
 /* FORM ELEMENTS */
 label {
     margin-bottom: 0.5rem;

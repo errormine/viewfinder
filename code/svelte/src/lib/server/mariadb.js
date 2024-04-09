@@ -1,5 +1,5 @@
 import mariadb from 'mariadb';
-import placeholders from '$lib/server/db-placeholders';
+import * as placeholders from '$lib/server/db-placeholders';
 import { NO_DB, DB_HOST, DB_PORT, DB_USER, DB_PASS } from '$env/static/private';
 import { DB_REPLICA, READ_FROM_REPLICA } from '$env/static/private';
 

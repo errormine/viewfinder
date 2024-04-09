@@ -19,6 +19,7 @@ export const lucia = new Lucia(adapter, {
             email: attributes.email,
             username: attributes.username,
             displayName: attributes.displayName,
+            picture: attributes.picture
         };
     }
 });

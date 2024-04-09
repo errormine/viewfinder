@@ -1,4 +1,5 @@
 import mariadb from 'mariadb';
+import placeholders from '$lib/server/db-placeholders';
 import { NO_DB, DB_HOST, DB_PORT, DB_USER, DB_PASS } from '$env/static/private';
 import { DB_REPLICA, READ_FROM_REPLICA } from '$env/static/private';
 
@@ -28,52 +29,6 @@ const pool = mariadb.createPool({
 });
 
 export let DEV_MODE = process.env.NODE_ENV === 'development' && NO_DB === 'true';
-export let placeholders = {
-    displayName: "Placeholder User",
-    username: "placeholder",
-    userId: 1,
-    website: "https://example.com",
-    contact: "contact@example.com",
-    bio: "This is a test user. They do not exist.",
-    location: "Chicago, IL",
-    joinDate: "2021-01-01",
-    photos: [
-        {
-            PhotoID: 0,
-            Title: "Test Photo 1 really long n a m e a a a  aaa!!!",
-            UUID: "placeholder.png",
-            Description: "This is a test photo."
-        }
-    ],
-    albums: [
-        {
-            AlbumID: 0,
-            Name: "Test Album 1",
-            Description: "This is a test album 1.",
-            Thumbnail: "placeholder.png",
-            Count: 2
-        }
-    ]
-}
-
-export async function testConnection() {
-    if (DEV_MODE) {
-        return false;
-    }
-
-    let conn = await pool.getConnection();
-
-    return conn.query("SELECT 1 as val")
-        .then(rows => {
-            console.log("DB Connection test successful!");
-            console.log(`DB_HOST: ${import.meta.env.VITE_DB_HOST}, DB_USER: ${import.meta.env.VITE_DB_USER}`);
-            return true;
-        })
-        .catch(err => {
-            console.log(err);
-            return false;
-        });
-}
 
 export async function performQuery(query, param, from = "primary") {
     let conn;

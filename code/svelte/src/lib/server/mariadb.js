@@ -3,6 +3,7 @@ import { NO_DB, DB_HOST, DB_PORT, DB_USER, DB_PASS } from '$env/static/private';
 import { DB_REPLICA, READ_FROM_REPLICA } from '$env/static/private';
 
 console.log(`DB_HOST: ${DB_HOST}, DB_USER: ${DB_USER}`);
+console.log(`USING REPLICA: ${READ_FROM_REPLICA}`); 
 
 /*
 Make sure the database has correct privileges before connecting.
@@ -20,14 +21,6 @@ your_password = DB_PASS
 
 const pool = mariadb.createPool({
     host: DB_HOST,
-    port: DB_PORT,
-    user: DB_USER,
-    password: DB_PASS,
-    database: "team02m_db"
-});
-
-const replicaPool = mariadb.createPool({
-    host: DB_REPLICA,
     port: DB_PORT,
     user: DB_USER,
     password: DB_PASS,
@@ -86,11 +79,7 @@ export async function performQuery(query, param, from = "primary") {
     let conn;
 
     try {
-        if (from === "primary" || DEV_MODE || !READ_FROM_REPLICA) {
-            conn = await pool.getConnection();
-        } else if (from === "replica") {
-            conn = await replicaPool.getConnection();
-        }
+        conn = await pool.getConnection();
 
         return conn.query(query, param)
             .then(rows => {

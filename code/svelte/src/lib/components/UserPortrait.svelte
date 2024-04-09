@@ -5,15 +5,9 @@
     export let color = 'white';
 </script>
 
-{#if username}
-    <a href={"/user/"+username} class="user-portrait border-color-{color} border-thickness-{size}">
-        <img {src} alt="" class="size-{size}">
-    </a>
-{:else}
-    <a href="/auth/google" class="user-portrait border-color-{color} border-thickness-{size}">
-        <img {src} alt="" class="size-{size}">
-    </a>
-{/if}
+<a href={username ? "/user/"+username : "/auth/google"} class="user-portrait border-color-{color} border-thickness-{size}">
+    <img {src} alt="" class="size-{size}">
+</a>
 
 <style>
     a {

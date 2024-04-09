@@ -24,7 +24,7 @@
     <header class='hero full-width'>
         <section class='user-info'>
             <figure class='user-portrait'>
-                <img src="https://picsum.photos/200" alt="">
+                <img src={data.picture} alt="">
                 <figcaption>
                     <h2 class='user-display-name'>{ data.displayName }</h2>
                     <p class="user-handle font-weight-light">@{ data.username }</p>

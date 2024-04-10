@@ -2,14 +2,16 @@
     export let href = "";
     export let align = "center";
     export let type = "button";
+    export let id = "";
+    export let hidden = false;
 </script>
 
 {#if href != ""}
-    <a class="button align-{align}" {href}>
+    <a {id} class="button align-{align}" {href} class:hidden={hidden}>
         <slot>Button</slot>
     </a>
 {:else}
-    <button {type} class="button align-{align}" on:click>
+    <button {id} {type} class="button align-{align}" class:hidden={hidden} on:click>
         <slot>Button</slot>
     </button>
 {/if}

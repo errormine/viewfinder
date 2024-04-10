@@ -12,7 +12,7 @@
     --color-primary-dark: #664892;
     --gradient-primary: linear-gradient(var(--color-primary), var(--color-primary-dark));
 
-    --color-white-gradient: linear-gradient(white, rgb(237, 237, 237));
+    --gradient-white: linear-gradient(white, rgb(237, 237, 237));
     --transparent-white-gradient: linear-gradient(rgba(255, 255, 255, 0.8), rgba(237, 237, 237, 0.8));
     --color-off-white: #F5F5F5;
 
@@ -117,6 +117,10 @@ strong {
     font-weight: 700;
 }
 
+i {
+    font-style: italic;
+}
+
 /* Dialog elements */
 dialog {
     position: absolute;
@@ -192,6 +196,14 @@ dialog::backdrop {
 
 .flex.align-center {
     align-items: center;
+}
+
+.gap-05 {
+    gap: 0.5rem;
+}
+
+.gap-1 {
+    gap: 1rem;
 }
 
 /* FORM ELEMENTS */
@@ -277,7 +289,7 @@ input[type="email"]:invalid {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 .margin-0 {

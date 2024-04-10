@@ -301,6 +301,7 @@ export async function getSuggestedPhotos(page = 0) {
 
 // Feed page
 export async function getRecentPosts(userId, amount = 10) {
+    if (DEV_MODE) return placeholders.posts;
     let posts = [];
     let photos = await performQuery("SELECT * FROM Photos WHERE UserID IN (SELECT UserID FROM Follows WHERE FollowerID = ?) ORDER BY Timestamp DESC LIMIT ?", [userId, amount], "replica");
 

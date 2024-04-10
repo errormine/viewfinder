@@ -23,3 +23,13 @@ export let albums = [
         Count: 2
     }
 ];
+export let posts = [
+    {
+        creator: {
+            UserID: userId,
+            DisplayName: displayName,
+            Username: username
+        },
+        photo: photos[0]
+    }
+]

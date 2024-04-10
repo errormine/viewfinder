@@ -183,7 +183,9 @@ export async function unfollowUser(userId, followerId) {
 }
 
 export async function isFollowing(userId, followerId) {
-    return getSingleValue("SELECT COUNT(*) FROM Follows WHERE UserID = ? AND FollowerID = ?", [userId, followerId], "replica");
+    let following = await getSingleValue("SELECT * FROM Follows WHERE UserID = ? AND FollowerID = ?", [userId, followerId], "replica");
+
+    return following > 0;
 }
 
 // View album page

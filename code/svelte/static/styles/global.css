@@ -285,7 +285,7 @@ input[type="email"]:invalid {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 .margin-0 {

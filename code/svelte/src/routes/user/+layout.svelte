@@ -1,5 +1,7 @@
 <script>
     import { page } from '$app/stores';
+    import { onMount } from 'svelte';
+    import { invalidateAll } from '$app/navigation';
     import Button from '$lib/components/Button.svelte';
     import IconButton from '$lib/components/IconButton.svelte';
     import { KebabHorizontal16 } from 'svelte-octicons';
@@ -11,6 +13,26 @@
     export let photosHref = `${baseHref}/photos`;
     export let albumsHref = `${baseHref}/albums`;
     export let favoritesHref = `${baseHref}/favorites`;
+
+    onMount(() => {
+        let followButton = document.querySelector('#follow-button');
+        followButton.addEventListener('click', () => {
+            let formData = new FormData();
+            formData.append('userId', data.userId);
+            formData.append('follow', !data.isFollowing);
+
+            fetch(`/api/follow`, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (response.ok) {
+                        invalidateAll();
+                        return response.json();
+                    }
+                });
+        });
+    });
 </script>
 
 <svelte:head>
@@ -52,7 +74,7 @@
             </ul>
             {#if data.loggedIn && data.username != data.user.username }
                 <section class="profile-actions flex align-center gap-05">
-                    <Button>Follow</Button>
+                    <Button id="follow-button">{#if data.isFollowing}Unfollow{:else}Follow{/if}</Button>
                     <IconButton shape="circle">
                         <KebabHorizontal16 />
                     </IconButton>

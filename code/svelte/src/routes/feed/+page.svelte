@@ -8,15 +8,17 @@
 </script>
 
 <main class="content-grid">
-    <section>
-        <h2>Feed</h2>
+    <section class="posts flex-column gap-1">
         {#if data.posts.length > 0}
-            <ul>
-                {#each data.posts as post}
-                    <Post {post} />
-                {/each}
-            </ul>
+            {#each data.posts as post}
+                <Post {post} />
+            {/each}
         {/if}
-        <p>No new posts to show.</p>
     </section>
 </main>
+
+<style>
+    .posts {
+        padding: 1rem;
+    }
+</style>

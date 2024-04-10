@@ -298,3 +298,19 @@ export async function getSuggestedPhotos(page = 0) {
     if (DEV_MODE) return placeholders.photos;
     return performQuery("SELECT * FROM Photos ORDER BY Timestamp DESC LIMIT 25 OFFSET ?", [(page) * 25], "replica");
 }
+
+// Feed page
+export async function getRecentPosts(userId, amount = 10) {
+    let posts = [];
+    let photos = await performQuery("SELECT * FROM Photos WHERE UserID IN (SELECT UserID FROM Follows WHERE FollowerID = ?) ORDER BY Timestamp DESC LIMIT ?", [userId, amount], "replica");
+
+    for (let photo of photos) {
+        let creator = await getSingleRow("SELECT * FROM user WHERE id = ?", [photo.UserID], "replica");
+        posts.push({
+            creator: creator,
+            photo: photo
+        });
+    }
+
+    return posts;
+}

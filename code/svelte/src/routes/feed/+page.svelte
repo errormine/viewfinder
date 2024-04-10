@@ -20,5 +20,6 @@
 <style>
     .posts {
         padding: 1rem;
+        margin: 0 auto;
     }
 </style>

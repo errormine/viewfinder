@@ -7,7 +7,7 @@ data "vault_generic_secret" "db-pass-replica" {
 }
 
 resource "proxmox_vm_qemu" "db-server-replica" {
-  count           = var.backend-numberofvms
+  count           = 0
   name            = "${var.replica-id}-vm${count.index}.service.consul"
   desc            = "MariaDB Ubuntu 20.04"
   target_node     = "${data.vault_generic_secret.target_node.data[random_shuffle.nodename.result[0]]}"

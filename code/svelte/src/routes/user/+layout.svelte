@@ -16,6 +16,7 @@
 
     onMount(() => {
         let followButton = document.querySelector('#follow-button');
+        if (!followButton) return;
         followButton.addEventListener('click', () => {
             let formData = new FormData();
             formData.append('userId', data.userId);

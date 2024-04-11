@@ -13,7 +13,7 @@ resource "random_shuffle" "datadisk" {
 }
 
 resource "random_shuffle" "nodename" {
-  input        = ["NODENAME3","NODENAME4"]
+  input        = ["NODENAME4"]
   result_count = 1
 }
 

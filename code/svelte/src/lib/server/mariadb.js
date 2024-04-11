@@ -183,7 +183,7 @@ export async function unfollowUser(userId, followerId) {
 }
 
 export async function isFollowing(userId, followerId) {
-    let following = await getSingleValue("SELECT * FROM Follows WHERE UserID = ? AND FollowerID = ?", [userId, followerId], "replica");
+    let following = await getSingleValue("SELECT COUNT(*) FROM Follows WHERE UserID = ? AND FollowerID = ?", [userId, followerId], "replica");
 
     return following > 0;
 }
@@ -276,21 +276,27 @@ export async function searchTitles(term) {
 export async function searchPhotos(searchTokens, stems) {
     if (DEV_MODE) return placeholders.photos;
 
-    // Natural language search first (hopefully gives most relevant results)
-    let results = await performQuery("SELECT * FROM Photos WHERE MATCH (Title, Description) AGAINST (?) LIMIT 10", [searchTokens], "replica");
+    try {
+        // Natural language search first (hopefully gives most relevant results)
+        let results = await performQuery("SELECT * FROM Photos WHERE MATCH (Title, Description) AGAINST (?) LIMIT 10", [searchTokens], "replica");
 
-    // Stemmed queries to find more matches. quite possibly very slow
-    for (let root of stems) {
-        let result = await performQuery("SELECT * FROM Photos WHERE MATCH (Title, Description) AGAINST (CONCAT(?, '*') IN BOOLEAN MODE) LIMIT 10", [root], "replica");
-        
-        for (let row of result) {
-            if (!results.some(r => r.PhotoID === row.PhotoID)) {
-                results.push(row);
+        // Stemmed queries to find more matches. quite possibly very slow
+        for (let root of stems) {
+            let result = await performQuery("SELECT * FROM Photos WHERE MATCH (Title, Description) AGAINST (CONCAT(?, '*') IN BOOLEAN MODE) LIMIT 10", [root], "replica");
+            console.log(result);
+            
+            for (let row of result) {
+                if (!results.some(r => r.PhotoID === row.PhotoID)) {
+                    results.push(row);
+                }
             }
         }
-    }
 
-    return results;
+        return results;
+    } catch (err) {
+        console.log(err);
+        return [];
+    }
 }
 
 // Explore page

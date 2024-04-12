@@ -4,12 +4,46 @@
     import IconButton from '$lib/components/IconButton.svelte';
 	import UserPortrait from '$lib/components/UserPortrait.svelte';
     import AlbumGrid from '$lib/components/AlbumGrid.svelte';
+    import Comment from '$lib/components/Comment.svelte';
     import { Download24, Heart24, SortDesc16 } from 'svelte-octicons';
+    import { onMount } from 'svelte';
 
     /** @type {import('./$types').PageData} */
     export let data;
 
     console.log(data);
+
+    let commentBox;
+
+    function postComment() {
+        let content = commentBox.value;
+
+        if (content.length > 0) {
+            let formData = new FormData();
+            formData.append('photoID', data.photo.PhotoID);
+            formData.append('content', content);
+            
+            fetch('/api/comment', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    commentBox.value = '';
+                    location.reload();
+                }
+            });
+        }
+    };
+
+    onMount(() => {
+        commentBox.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                postComment();
+            }
+        });
+    });
 </script>
 
 <main class="content-grid">
@@ -32,12 +66,12 @@
             <p class="image-description round-corners">{data.photo.Description}</p>
             <section class="image-comments">
                 <header class="flex space-between margin-bottom-1">
-                    <h2 class="margin-0">0 Comments</h2>
+                    <h2 class="margin-0">{data.comments.length} Comment{data.comments.length != 1 ? "s" : ""}</h2>
                     <IconButton disableBackground>
                         <SortDesc16 />
                     </IconButton>
                 </header>
-                <section class="comment-box">
+                <form class="comment-box">
                     <section>
                     {#if data.loggedIn }
                         <UserPortrait username={data.user.username} src={data.user.picture} size={2} />
@@ -45,10 +79,15 @@
                         <UserPortrait size={2} />
                     {/if}
                     </section>
-                    <textarea class="round-corners inset-bg" name="comment-box" id="comment-box" rows="3" placeholder="Add a comment..."></textarea>
+                    <textarea bind:this={commentBox} class="round-corners inset-bg" name="comment-box" id="comment-box" rows="3" placeholder="Add a comment..."></textarea>
                     <section class="comment-box-bottom">
-                        <Button align={"right"}>Post</Button>
+                        <Button align={"right"} on:click={postComment}>Post</Button>
                     </section>
+                </form>
+                <section class="comment-list flex-column gap-1">
+                    {#each data.comments as comment}
+                        <Comment {comment} />
+                    {/each}
                 </section>
             </section>
         </section>
@@ -137,6 +176,11 @@
         display: grid;
         grid-template-columns: 2rem 1fr;
         gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .comment-box textarea {
+        margin: 0;
     }
 
     .comment-box-bottom {

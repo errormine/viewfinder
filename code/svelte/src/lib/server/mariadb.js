@@ -244,6 +244,20 @@ export async function isFavorite(userId, photoId) {
     return getSingleValue("SELECT COUNT(*) FROM Favorites WHERE UserID = ? AND PhotoID = ?", [userId, photoId], "replica");
 }
 
+export async function postComment(userId, photoId, content) {
+    return performQuery("INSERT INTO Comments (UserID, PhotoID, Content) VALUES (?, ?, ?)", [userId, photoId, content]);
+}
+
+export async function getComments(photoId) {
+    let comments = await performQuery("SELECT * FROM Comments WHERE PhotoID = ? ORDER BY Timestamp DESC", [photoId], "replica");
+
+    for (let comment of comments) {
+        comment.creator = await getSingleRow("SELECT * FROM user WHERE id = ?", [comment.UserID], "replica");
+    }
+
+    return comments;
+}
+
 // Photo upload
 export async function uploadPhoto(userId, UUID, metadata) {
     performQuery("INSERT INTO Photos (UserID, UUID, Title, Description) VALUES (?, ?, ?, ?)", [userId, UUID, metadata.title, metadata.description])

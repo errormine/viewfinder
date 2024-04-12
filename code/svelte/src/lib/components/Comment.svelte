@@ -1,14 +1,12 @@
 <script>
-    import TimeAgo from 'javascript-time-ago';
-    import en from 'javascript-time-ago/locale/en';
+    import ago from 's-ago';
     import UserPortrait from '$lib/components/UserPortrait.svelte';
     import IconButton from '$lib/components/IconButton.svelte';
     import { KebabHorizontal16 } from 'svelte-octicons';
 
     export let comment;
-    
-    TimeAgo.addDefaultLocale(en);
-    const timeAgo = new TimeAgo('en-US');
+    let offset = new Date(comment.Timestamp).getTimezoneOffset();
+    let timestamp = new Date(comment.Timestamp - offset * 60 * 1000);
 </script>
 
 <article class="comment">
@@ -18,7 +16,7 @@
     <section class="content">
         <header>
             <h3><a href={"/user/"+comment.creator.Username}>@{comment.creator.Username}</a></h3>
-            <p>{timeAgo.format(new Date(comment.Timestamp))}</p>
+            <p>{ago(new Date(timestamp))}</p>
         </header>
         <p>{comment.Content}</p>
     </section>

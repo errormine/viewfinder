@@ -1,6 +1,6 @@
 <script>
     import { page } from '$app/stores';
-    import { Gear16, Person16, SignOut16, Upload16 } from 'svelte-octicons';
+    import { Gear16, Person16, SignOut16, Upload16, X16 } from 'svelte-octicons';
     import SearchBar from '$lib/components/SearchBar.svelte';
     import ActionBar from '$lib/components/ActionBar.svelte';
     import Button from '$lib/components/Button.svelte';
@@ -10,15 +10,19 @@
     let dialog;
 </script>
 
-<dialog class="login-dialog" bind:this={dialog}>
+<dialog class="login-dialog round-corners" bind:this={dialog}>
     <section class="login-wrapper">
-        <button class="close-button" on:click={dialog.close()}>X</button>
-        <h2>Join Website</h2>
+        <header class="flex space-between margin-bottom-1">
+            <h2>Join Website</h2>
+            <IconButton on:click={dialog.close()}>
+                <X16 />
+            </IconButton>
+        </header>
         <p>Create an account to post photos, comment, and save photos from others.</p>
         <Button href={"/auth/google"}>Log in with Google</Button>
     </section>
 </dialog>
-<header>
+<header class="top-bar">
     <nav>
         <h1><a href="/">Website</a></h1>
         {#if $page.data.loggedIn}
@@ -60,7 +64,16 @@
 </header>
 
 <style>
-    header {
+    .login-dialog {
+        max-width: 20rem;
+    }
+
+    .login-dialog h2 {
+        font-size: 2rem;
+        margin: 0;
+    }
+
+    .top-bar {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -75,11 +88,11 @@
         z-index: 999;
     }
 
-    header h1 {
+    .top-bar h1 {
         margin: 0;
     }
 
-    header a {
+    .top-bar a {
         display: block;
         text-decoration: none;
         color: black;

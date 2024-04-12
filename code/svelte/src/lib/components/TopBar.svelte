@@ -13,7 +13,7 @@
 <dialog class="login-dialog round-corners" bind:this={dialog}>
     <section class="login-wrapper">
         <header class="flex space-between margin-bottom-1">
-            <h2>Join Website</h2>
+            <h2>Join Viewfinder</h2>
             <IconButton on:click={dialog.close()}>
                 <X16 />
             </IconButton>
@@ -24,7 +24,7 @@
 </dialog>
 <header class="top-bar">
     <nav>
-        <h1><a href="/">Website</a></h1>
+        <h1><a href="/">Viewfinder</a></h1>
         {#if $page.data.loggedIn}
             <ul>
                 <li class:active={ $page.url.pathname === "/feed" }>

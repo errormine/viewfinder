@@ -222,6 +222,15 @@ export async function getAlbumsByPhoto(photoId) {
         });
 }
 
+// Front page
+export async function getFeaturedImage() {
+    if (DEV_MODE) return posts[0];
+    let photo = await getSingleRow("SELECT * FROM Photos ORDER BY RAND() LIMIT 1", [], "replica");
+    let creator = await getSingleRow("SELECT * FROM user WHERE id = ?", [photo.UserID], "replica");
+
+    return {photo, creator};
+}
+
 // Photo interactions
 export async function favoritePhoto(userId, photoId) {
     return performQuery("INSERT INTO Favorites (UserID, PhotoID) VALUES (?, ?)", [userId, photoId]);

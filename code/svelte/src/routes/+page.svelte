@@ -1,13 +1,17 @@
-<main>
+<script>
+    /** @type {import('./$types').LayoutData} */
+    export let data;
+</script>
+
+<main style={"background: url(/api/images/"+data.featuredImage.photo.UUID+") no-repeat center / cover;"}>
     <section>
-        <h2><a href="/">Featured Photo</a></h2>
-        <p>by <a href="/user/john_doe">John Doe</a></p>
+        <h2><a href={"/photo/"+data.featuredImage.photo.PhotoID}>{data.featuredImage.photo.Title}</a></h2>
+        <p>by <a href={"/user/"+data.featuredImage.creator.Username}>{data.featuredImage.creator.DisplayName}</a></p>
     </section>
 </main>
 
 <style>
     main {
-        background: url(https://picsum.photos/1920/1080) no-repeat center;
         background-size: cover;
         position: relative;
         height: 100%;
@@ -26,5 +30,9 @@
     section a {
         color: white;
         text-decoration: none;
+    }
+
+    section a:hover {
+        text-decoration: underline;
     }
 </style>

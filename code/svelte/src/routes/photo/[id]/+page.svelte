@@ -80,7 +80,7 @@
                         <UserPortrait size={2} />
                     {/if}
                     </section>
-                    <textarea bind:this={commentBox} class="round-corners inset-bg" name="comment-box" id="comment-box" rows="3" placeholder="Add a comment..."></textarea>
+                    <textarea bind:this={commentBox} class="round-corners inset-bg" name="comment-box" id="comment-box" rows="3" placeholder="Add a comment..." disabled={!data.loggedIn}></textarea>
                     <section class="comment-box-bottom">
                         <Button align={"right"} on:click={postComment}>Post</Button>
                     </section>

@@ -7,6 +7,7 @@
     import Comment from '$lib/components/Comment.svelte';
     import { Download24, Heart24, SortDesc16 } from 'svelte-octicons';
     import { onMount } from 'svelte';
+    import { invalidateAll } from '$app/navigation';
 
     /** @type {import('./$types').PageData} */
     export let data;
@@ -30,7 +31,7 @@
             .then(response => {
                 if (response.ok) {
                     commentBox.value = '';
-                    location.reload();
+                    invalidateAll();
                 }
             });
         }
@@ -180,7 +181,13 @@
     }
 
     .comment-box textarea {
+        height: 2.25rem;
         margin: 0;
+        transition: height 200ms;
+    }
+
+    .comment-box:focus-within textarea {
+        height: 6rem;
     }
 
     .comment-box-bottom {

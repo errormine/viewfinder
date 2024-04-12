@@ -84,7 +84,7 @@
         display: flex;
         align-items: baseline;
         gap: 0.5rem;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.25rem;
     }
 
     .comment header h3 {

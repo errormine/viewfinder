@@ -56,7 +56,7 @@ autoinstall:
       - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHkNv5ijJnXZd/3pKlTqyf50Pdq4KeLs3vJogIE7O6pV aneacsu@philedelphiaphilharmonic'
       - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMbBO5Lqoy2q0moARJP7hGpzGJATf8OJV3qAsY7iv+VE dbaltrus@philedelphiaphilharmonic'
       - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHXbjPDVsk+LaZY0nf7pgf76bMvYgJoCvz8Bm7okaCk5 dsinger1@philedelphiaphilharmonic'
-      - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl dlim7@philedelphiaphilharmonic'
+      - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGZHypTdgC1lIwM3ygtkb6dZBy4urcn9lBDk9gI3aSG4 dlim7@philedelphiaphilharmonic'
   late-commands:
     - sed -i 's/^#*\(send dhcp-client-identifier\).*$/\1 = hardware;/' /target/etc/dhcp/dhclient.conf
     - "echo 'Defaults:vagrant !requiretty' > /target/etc/sudoers.d/vagrant"

@@ -10,6 +10,9 @@ mariadb -V
 # Start MariaDB service
 sudo systemctl start mariadb
 
+# Create tables
+sudo mariadb < /tmp/team02m_db.sql
+
 # Set port number
 sudo sed -i "20s/.*/port=${DBPORT}/" /etc/mysql/mariadb.conf.d/50-server.cnf
 

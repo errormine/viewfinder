@@ -12,5 +12,6 @@ export async function load({ params }) {
             username: await db.getUsername(creatorId),
             picture: await db.getProfilePicture(creatorId),
         },
+        comments: await db.getComments(id),
     };
 };

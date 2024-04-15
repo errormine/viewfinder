@@ -222,6 +222,15 @@ export async function getAlbumsByPhoto(photoId) {
         });
 }
 
+// Front page
+export async function getFeaturedImage() {
+    if (DEV_MODE) return posts[0];
+    let photo = await getSingleRow("SELECT * FROM Photos ORDER BY RAND() LIMIT 1", [], "replica");
+    let creator = await getSingleRow("SELECT * FROM user WHERE id = ?", [photo.UserID], "replica");
+
+    return {photo, creator};
+}
+
 // Photo interactions
 export async function favoritePhoto(userId, photoId) {
     return performQuery("INSERT INTO Favorites (UserID, PhotoID) VALUES (?, ?)", [userId, photoId]);
@@ -233,6 +242,20 @@ export async function unfavoritePhoto(userId, photoId) {
 
 export async function isFavorite(userId, photoId) {
     return getSingleValue("SELECT COUNT(*) FROM Favorites WHERE UserID = ? AND PhotoID = ?", [userId, photoId], "replica");
+}
+
+export async function postComment(userId, photoId, content) {
+    return performQuery("INSERT INTO Comments (UserID, PhotoID, Content) VALUES (?, ?, ?)", [userId, photoId, content]);
+}
+
+export async function getComments(photoId) {
+    let comments = await performQuery("SELECT * FROM Comments WHERE PhotoID = ? ORDER BY Timestamp DESC", [photoId], "replica");
+
+    for (let comment of comments) {
+        comment.creator = await getSingleRow("SELECT * FROM user WHERE id = ?", [comment.UserID], "replica");
+    }
+
+    return comments;
 }
 
 // Photo upload

@@ -9,7 +9,7 @@
     let timestamp = new Date(comment.Timestamp - offset * 60 * 1000);
 </script>
 
-<article class="comment">
+<article id={comment.CommentID} class="comment">
     <section>
         <UserPortrait username={comment.creator.Username} src={comment.creator.ProfilePicture} size={3} />
     </section>

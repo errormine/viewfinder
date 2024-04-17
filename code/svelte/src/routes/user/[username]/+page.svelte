@@ -2,6 +2,7 @@
     import DOMPurify from "isomorphic-dompurify";
     import * as gemtext from "dioscuri";
     import { Pencil16, X16 } from "svelte-octicons";
+    import { invalidateAll } from "$app/navigation";
 
     import ProfileBubble from "$lib/components/ProfileBubble.svelte";
     import ActionBar from "$lib/components/ActionBar.svelte";
@@ -18,17 +19,20 @@
 
     function handleSaveBio() {
         editingBio = false;
-        data.bio = bioInput.value;
+        let formData = new FormData();
+        formData.append('bio', bioInput.value);
 
-        fetch('/edit/user', {
+        fetch('/api/edit/profile', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ bio: bioInput.value })
+            body: formData
         })
         .then(response => {
             console.log(response);
+            if (response.ok) {
+                invalidateAll();
+            } else {
+                data.bio = 'Error saving bio.';
+            }
         })
         .catch(error => {
             console.error(error);

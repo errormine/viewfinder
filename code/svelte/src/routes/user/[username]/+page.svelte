@@ -73,6 +73,7 @@
         {@html DOMPurify.sanitize(gemtext.buffer(data.bio)) }
     {/if}
 </section>
+<!-- Hidden for presentation day. 
 <section id="user-showcase" >
     <header>
         <h3>Showcase</h3>
@@ -84,6 +85,7 @@
         <p>Here is the user showcase</p>
     </article>
 </section>
+-->
 <section id="user-recent-photos">
     <header>
         <h3>Recent Photos</h3>

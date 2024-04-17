@@ -1,7 +1,7 @@
 <script>
     import { onMount } from 'svelte';
     import { invalidateAll } from '$app/navigation';
-    import { Plus16, X16 } from 'svelte-octicons';
+    import { Plus16, Upload16, X16 } from 'svelte-octicons';
     import Button from '$lib/components/Button.svelte';
     import IconButton from '$lib/components/IconButton.svelte';
     import ImagePreview from '$lib/components/ImagePreview.svelte';
@@ -17,14 +17,16 @@
     let images = [];
 
     function appendImage(title, previewURL, fileData) {
-        images.push({
+        let newImage = {
             _preview: previewURL,
             title: title,
             description: "This is a description.",
             albumId: -1,
             tags: [],
             data: fileData,
-        });
+        };
+        images.push(newImage);
+        imageOnClick({ currentTarget: previewURL });
     }
 
     // Image previews
@@ -36,6 +38,11 @@
         document.querySelector('#title').value = imgData.title;
         document.querySelector('#description').value = imgData.description;
         document.querySelector('#albumId').value = imgData.albumId;
+
+        for (const button of document.querySelectorAll('#image-previews button')) {
+            button.classList.remove('selected');
+        }
+        e.currentTarget.classList.add('selected');
     }
 
     function createPreview(src) {
@@ -60,7 +67,8 @@
             reader.readAsDataURL(file);
             reader.addEventListener('load', () => {
                 let previewURL = createPreview(reader.result);
-                appendImage(file.name, previewURL, file);
+                let title = file.name.split('.').slice(0, -1);
+                appendImage(title, previewURL, file);
             });
         };
     }
@@ -165,7 +173,10 @@
             <section id="image-previews">
                 <section id="upload-button">
                     <input bind:files type="file" accept="image/png, image/jpeg" multiple id="file-upload" name="file-upload" class="hidden">
-                    <label for="file-upload" class="round-corners">Add Image</label>
+                    <label for="file-upload" class="round-corners">
+                        <Upload16 />
+                        <span>Add Image</span>
+                    </label>
                 </section>
             </section>
         </section>
@@ -193,8 +204,10 @@
                         {/each}
                     </select>
 
+                    <!--
                     <label for="tags">Tags</label>
                     <input type="text" id="tags" name="tags" />
+                    -->
                 </form>
             </aside>
             <section id="upload-actions" class="flex space-between">
@@ -222,7 +235,11 @@
     }
 
     #upload-button label {
-        display: block;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
         width: 100%;
         height: 100%;
         background: var(--gradient-gray);
@@ -235,6 +252,22 @@
         grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
         grid-template-rows: repeat(auto-fill, 8rem);
         gap: 0.5rem;
+    }
+    
+    :global(#image-previews button) {
+        position: relative;
+        padding: 0;
+        overflow: hidden;
+        border-radius: 0.5rem;
+        border: 1px solid var(--color-gray);
+        top: 0;
+        transition: top 200ms;
+    }
+
+    :global(#image-previews .selected) {
+        border: 1px solid var(--color-primary);
+        box-shadow: var(--bold-shadow);
+        top: -0.2rem;
     }
 
     .edit-image-details {

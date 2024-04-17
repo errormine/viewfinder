@@ -212,14 +212,21 @@ export async function getPhotoCreatorId(photoId) {
 
 export async function getAlbumsByPhoto(photoId) {
     if (DEV_MODE) return placeholders.albums;
-    return performQuery("SELECT * FROM Albums WHERE AlbumID IN (SELECT AlbumID FROM AlbumJunc WHERE PhotoID = ?)", [photoId], "replica")
-        .then(rows => {
-            return rows;
-        })
-        .catch(err => {
-            console.log(err);
-            return [];
-        });
+
+    // VERY HACK BUT NO THUMBNAIL IN ALBUM SCHEMA SO...
+    try {
+        let albums = await performQuery("SELECT * FROM Albums WHERE AlbumID IN (SELECT AlbumID FROM AlbumJunc WHERE PhotoID = ?)", [photoId], "replica");
+    
+        for (let album of albums) {
+            let photoId = await getSingleValue("SELECT PhotoID FROM AlbumJunc WHERE AlbumID = ?", [album.AlbumID], "replica");
+            album.Thumbnail = await getSingleValue("SELECT UUID FROM Photos WHERE PhotoID = ?", [photoId], "replica");
+        }
+
+        return albums;
+    } catch (err) {
+        console.log(err);
+        return [];
+    }
 }
 
 // Front page

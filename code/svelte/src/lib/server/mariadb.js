@@ -164,7 +164,21 @@ export async function getRecentPhotos(userId, amount = 4) {
 // User Profile ALBUMS
 export async function getAlbums(userId) {
     if (DEV_MODE) return placeholders.albums;
-    return performQuery("SELECT * FROM Albums WHERE UserID = ?", [userId], "replica");
+    try {
+        let albums = await performQuery("SELECT * FROM Albums WHERE UserID = ?", [userId], "replica");
+
+        for (let album of albums) {
+            let photoId = await getSingleValue("SELECT PhotoID FROM AlbumJunc WHERE AlbumID = ?", [album.AlbumID], "replica");
+            let count = await getSingleValue("SELECT COUNT(*) FROM AlbumJunc WHERE AlbumID = ?", [album.AlbumID], "replica");
+            album.Thumbnail = await getSingleValue("SELECT UUID FROM Photos WHERE PhotoID = ?", [photoId], "replica");
+            album.Count = count;
+        }
+
+        return albums;
+    } catch (err) {
+        console.log(err);
+        return [];
+    }
 }
 
 // User Profile FAVORITES

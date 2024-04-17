@@ -186,5 +186,6 @@
     .page-contents {
         padding: 1.5rem 4rem;
         background: white;
+        min-height: 100vh;
     }
 </style>

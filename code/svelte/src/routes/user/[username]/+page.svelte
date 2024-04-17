@@ -58,18 +58,20 @@
 <section id="user-bio">
     <header>
         <h3>About</h3>
-        <ActionBar>
-            {#if editingBio}
-                <Button on:click={handleSaveBio}>Save</Button>
-                <IconButton title="Cancel" on:click={() => editingBio = false }>
-                    <X16 />
-                </IconButton>
-            {:else}
-                <IconButton title="Edit Bio" on:click={() => editingBio = true } disableBackground>
-                    <Pencil16 />
-                </IconButton>
-            {/if}
-        </ActionBar>
+        {#if data.loggedIn && data.username == data.user.username }
+            <ActionBar>
+                {#if editingBio}
+                    <Button on:click={handleSaveBio}>Save</Button>
+                    <IconButton title="Cancel" on:click={() => editingBio = false }>
+                        <X16 />
+                    </IconButton>
+                {:else}
+                    <IconButton title="Edit Bio" on:click={() => editingBio = true } disableBackground>
+                        <Pencil16 />
+                    </IconButton>
+                {/if}
+            </ActionBar>
+        {/if}
     </header>
     {#if editingBio}
         <textarea bind:this={bioInput} id="bio-input" rows="5" class="round-corners inset-bg">{data.bio}</textarea>

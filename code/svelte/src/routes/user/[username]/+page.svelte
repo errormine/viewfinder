@@ -2,6 +2,7 @@
     import DOMPurify from "isomorphic-dompurify";
     import * as gemtext from "dioscuri";
     import { Pencil16, X16 } from "svelte-octicons";
+    import { invalidateAll } from "$app/navigation";
 
     import ProfileBubble from "$lib/components/ProfileBubble.svelte";
     import ActionBar from "$lib/components/ActionBar.svelte";
@@ -18,17 +19,20 @@
 
     function handleSaveBio() {
         editingBio = false;
-        data.bio = bioInput.value;
+        let formData = new FormData();
+        formData.append('bio', bioInput.value);
 
-        fetch('/edit/user', {
+        fetch('/api/edit/profile', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ bio: bioInput.value })
+            body: formData
         })
         .then(response => {
             console.log(response);
+            if (response.ok) {
+                invalidateAll();
+            } else {
+                data.bio = 'Error saving bio.';
+            }
         })
         .catch(error => {
             console.error(error);
@@ -54,18 +58,20 @@
 <section id="user-bio">
     <header>
         <h3>About</h3>
-        <ActionBar>
-            {#if editingBio}
-                <Button on:click={handleSaveBio}>Save</Button>
-                <IconButton title="Cancel" on:click={() => editingBio = false }>
-                    <X16 />
-                </IconButton>
-            {:else}
-                <IconButton title="Edit Bio" on:click={() => editingBio = true } disableBackground>
-                    <Pencil16 />
-                </IconButton>
-            {/if}
-        </ActionBar>
+        {#if data.loggedIn && data.username == data.user.username }
+            <ActionBar>
+                {#if editingBio}
+                    <Button on:click={handleSaveBio}>Save</Button>
+                    <IconButton title="Cancel" on:click={() => editingBio = false }>
+                        <X16 />
+                    </IconButton>
+                {:else}
+                    <IconButton title="Edit Bio" on:click={() => editingBio = true } disableBackground>
+                        <Pencil16 />
+                    </IconButton>
+                {/if}
+            </ActionBar>
+        {/if}
     </header>
     {#if editingBio}
         <textarea bind:this={bioInput} id="bio-input" rows="5" class="round-corners inset-bg">{data.bio}</textarea>

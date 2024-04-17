@@ -124,5 +124,6 @@
         justify-content: space-evenly;
         align-items: stretch;
         gap: 0.5rem;
+        max-height: 12rem;
     }
 </style>

@@ -28,9 +28,14 @@ sudo apt-get install -y nodejs
 sudo npm install -g express pm2
 cd /home/vagrant/team02m-2024/code/svelte/
 
-#Building the app
+# Building the app
 sudo -u vagrant npm install
 sudo -u vagrant npm run build
+# Error out if build fails
+if [ $? -ne 0 ]; then
+    echo "npm build failed"
+    exit 1
+fi
 sudo -u vagrant pm2 start build/index.js --name "webapp"
 
 # This creates your javascript application service file

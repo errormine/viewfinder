@@ -55,7 +55,7 @@
                     <Heart16 />
                 </IconButton>
             {/if}
-            <IconButton disableBackground>
+            <IconButton href={"/photo/"+post.photo.PhotoID+"#comments"} disableBackground>
                 <Comment16 />
             </IconButton>
         </section>

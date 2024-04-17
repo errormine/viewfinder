@@ -95,7 +95,7 @@
                 <h1>{data.photo.Title}</h1>
             </header>
             <p class="image-description round-corners">{data.photo.Description}</p>
-            <section class="image-comments">
+            <section id="comments" class="image-comments">
                 <header class="flex space-between margin-bottom-1">
                     <h2 class="margin-0">{data.comments.length} Comment{data.comments.length != 1 ? "s" : ""}</h2>
                     <IconButton disableBackground>

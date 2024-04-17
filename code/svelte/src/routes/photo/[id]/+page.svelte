@@ -5,14 +5,35 @@
 	import UserPortrait from '$lib/components/UserPortrait.svelte';
     import AlbumGrid from '$lib/components/AlbumGrid.svelte';
     import Comment from '$lib/components/Comment.svelte';
-    import { Download24, Heart24, SortDesc16 } from 'svelte-octicons';
+    import { Download24, Heart24, HeartFill16, HeartFill24, SortDesc16 } from 'svelte-octicons';
     import { onMount } from 'svelte';
     import { invalidateAll } from '$app/navigation';
 
     /** @type {import('./$types').PageData} */
     export let data;
 
-    console.log(data);
+    function favoritePhoto() {
+        fetch(`/api/favorite/${data.photo.PhotoID}`, {
+            method: 'POST'
+        })
+        .then(response => {
+            console.log(response);
+            if (response.ok) {
+                invalidateAll();
+            }
+        });
+    }
+
+    function unfavoritePhoto() {
+        fetch(`/api/favorite/${data.photo.PhotoID}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (response.ok) {
+                invalidateAll();
+            }
+        });
+    }
 
     let commentBox;
 
@@ -52,6 +73,15 @@
         <img src="/api/images/{data.photo.UUID}" alt="">
         <section class="aside-right">
             <ActionBar>
+                {#if data.isFavorite}
+                    <IconButton on:click={unfavoritePhoto} disableBackground hoverable={false}>
+                        <HeartFill24 fill={"white"}/>
+                    </IconButton>
+                {:else}
+                    <IconButton on:click={favoritePhoto} disableBackground hoverable={false}>
+                        <Heart24 fill={"white"}/>
+                    </IconButton>
+                {/if}
                 <IconButton disableBackground hoverable={false}>
                     <Download24 fill={"white"}/>
                 </IconButton>
@@ -65,7 +95,7 @@
                 <h1>{data.photo.Title}</h1>
             </header>
             <p class="image-description round-corners">{data.photo.Description}</p>
-            <section class="image-comments">
+            <section id="comments" class="image-comments">
                 <header class="flex space-between margin-bottom-1">
                     <h2 class="margin-0">{data.comments.length} Comment{data.comments.length != 1 ? "s" : ""}</h2>
                     <IconButton disableBackground>
@@ -96,7 +126,7 @@
             <section class="metadata-metrics flex wrap space-between margin-bottom-1">
                 <section class="round-corners">
                     <h3>Favorites</h3>
-                    <p>0</p>
+                    <p>{data.favorites}</p>
                 </section>
                 <section class="round-corners">
                     <h3>Downloads</h3>

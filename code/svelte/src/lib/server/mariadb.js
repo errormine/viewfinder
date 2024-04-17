@@ -219,6 +219,15 @@ export async function getPhoto(photoId) {
     return getSingleRow("SELECT * FROM Photos WHERE PhotoID = ?", [photoId], "replica");
 }
 
+export async function getPhotoFavorites(photoId) {
+    if (DEV_MODE) return 0;
+    return getSingleValue("SELECT COUNT(*) FROM Favorites WHERE PhotoID = ?", [photoId], "replica")
+        .catch(err => {
+            console.log(err);
+            return 0;
+        });
+}
+
 export async function getPhotoCreatorId(photoId) {
     if (DEV_MODE) return placeholders.userId;
     return getSingleValue("SELECT UserID FROM Photos WHERE PhotoID = ?", [photoId], "replica");
@@ -262,7 +271,15 @@ export async function unfavoritePhoto(userId, photoId) {
 }
 
 export async function isFavorite(userId, photoId) {
-    return getSingleValue("SELECT COUNT(*) FROM Favorites WHERE UserID = ? AND PhotoID = ?", [userId, photoId], "replica");
+    // so scuffed
+    return getSingleValue("SELECT EXISTS(SELECT * FROM Favorites WHERE UserID = ? AND PhotoID = ?)", [userId, photoId], "replica")
+        .then(res => {
+            return res > 0;
+        })
+        .catch(err => {
+            console.log(err);
+            return false;
+        });
 }
 
 export async function postComment(userId, photoId, content) {
@@ -350,18 +367,50 @@ export async function getSuggestedPhotos(page = 0) {
 }
 
 // Feed page
-export async function getRecentPosts(userId, amount = 10) {
+export async function getRecentPhotos(userId, amount = 10) {
     if (DEV_MODE) return placeholders.posts;
-    let posts = [];
     let photos = await performQuery("SELECT * FROM Photos WHERE UserID IN (SELECT UserID FROM Follows WHERE FollowerID = ?) ORDER BY Timestamp DESC LIMIT ?", [userId, amount], "replica");
 
     for (let photo of photos) {
         let creator = await getSingleRow("SELECT * FROM user WHERE id = ?", [photo.UserID], "replica");
-        posts.push({
-            creator: creator,
-            photo: photo
-        });
+        photo.creator = creator;
+        photo.isFavorite = await isFavorite(userId, photo.PhotoID);
+        photo.type = "photo";
     }
 
-    return posts;
+    return photos;
+}
+
+export async function getRecentComments(userId, amount = 25) {
+    try {
+        let comments = await performQuery("SELECT * FROM Comments WHERE UserID IN (SELECT UserID FROM Follows WHERE FollowerID = ?) ORDER BY Timestamp DESC LIMIT ?", [userId, amount], "replica");
+
+        for (let comment of comments) {
+            let creator = await getSingleRow("SELECT * FROM user WHERE id = ?", [comment.UserID], "replica");
+            comment.creator = creator;
+            comment.Title = await getSingleValue("SELECT Title FROM Photos WHERE PhotoID = ?", [comment.PhotoID], "replica");
+            comment.type = "comment";
+        }
+        return comments;
+    } catch(err) {
+        console.log(err);
+        return [];
+    }
+}
+
+export async function getRecentFavorites(userId, amount = 25) {
+    try {
+        let favorites = await performQuery("SELECT * FROM Favorites WHERE PhotoID IN (SELECT PhotoID FROM Favorites WHERE UserID = ?) ORDER BY Timestamp DESC LIMIT ?", [userId, amount], "replica")
+        
+        for (let favorite of favorites) {
+            let creator = await getSingleRow("SELECT * FROM user WHERE id = ?", [favorite.UserID], "replica");
+            favorite.creator = creator;
+            favorite.Title = await getSingleValue("SELECT Title FROM Photos WHERE PhotoID = ?", [favorite.PhotoID], "replica");
+            favorite.type = "favorite";
+        }
+        return favorites;
+    } catch(err) {
+        console.log(err);
+        return [];
+    };
 }

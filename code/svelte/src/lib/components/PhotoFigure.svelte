@@ -4,13 +4,6 @@
 
     export let photo;
     export let fit;
-
-    let liked = false;
-
-    function handleLike() {
-        liked = !liked;
-        console.log('Like button clicked!');
-    }
 </script>
 
 <a href="/photo/{photo.PhotoID}" class="round-corners">
@@ -18,15 +11,6 @@
         <img class={"fit-"+fit} src={"/api/images/"+photo.UUID} alt={photo.Alt || "No description provided."} />
         <figcaption class="round-corners">
             <span>{photo.Title}</span>
-            <section class="actions">
-                <IconButton on:click={handleLike} disableBackground hoverable={false}>
-                    {#if liked}
-                    <HeartFill16 fill='white' />
-                    {:else}
-                    <Heart16 fill='white' />
-                    {/if}
-                </IconButton>
-            </section>
         </figcaption>
     </figure>
 </a>

@@ -219,6 +219,15 @@ export async function getPhoto(photoId) {
     return getSingleRow("SELECT * FROM Photos WHERE PhotoID = ?", [photoId], "replica");
 }
 
+export async function getPhotoFavorites(photoId) {
+    if (DEV_MODE) return 0;
+    return getSingleValue("SELECT COUNT(*) FROM Favorites WHERE PhotoID = ?", [photoId], "replica")
+        .catch(err => {
+            console.log(err);
+            return 0;
+        });
+}
+
 export async function getPhotoCreatorId(photoId) {
     if (DEV_MODE) return placeholders.userId;
     return getSingleValue("SELECT UserID FROM Photos WHERE PhotoID = ?", [photoId], "replica");
@@ -262,7 +271,15 @@ export async function unfavoritePhoto(userId, photoId) {
 }
 
 export async function isFavorite(userId, photoId) {
-    return getSingleValue("SELECT COUNT(*) FROM Favorites WHERE UserID = ? AND PhotoID = ?", [userId, photoId], "replica");
+    // so scuffed
+    return getSingleValue("SELECT EXISTS(SELECT * FROM Favorites WHERE UserID = ? AND PhotoID = ?)", [userId, photoId], "replica")
+        .then(res => {
+            return res > 0;
+        })
+        .catch(err => {
+            console.log(err);
+            return false;
+        });
 }
 
 export async function postComment(userId, photoId, content) {

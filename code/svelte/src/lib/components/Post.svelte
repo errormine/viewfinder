@@ -1,11 +1,35 @@
 <script>
+    import { invalidateAll } from '$app/navigation';
     import UserPortrait from '$lib/components/UserPortrait.svelte';
     import IconButton from '$lib/components/IconButton.svelte';
-    import { Heart16, Comment16 } from 'svelte-octicons';
+    import { Heart16, HeartFill16, Comment16 } from 'svelte-octicons';
 
     export let post = {};
 
     let userLink = "/user/"+post.creator.Username;
+
+    function favoritePhoto() {
+        fetch(`/api/favorite/${post.photo.PhotoID}`, {
+            method: 'POST'
+        })
+        .then(response => {
+            console.log(response);
+            if (response.ok) {
+                invalidateAll();
+            }
+        });
+    }
+
+    function unfavoritePhoto() {
+        fetch(`/api/favorite/${post.photo.PhotoID}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (response.ok) {
+                invalidateAll();
+            }
+        });
+    }
 </script>
 
 <article class="post round-corners ">
@@ -22,9 +46,15 @@
     <footer class="flex space-between align-center">
         <h2>{post.photo.Title}</h2>
         <section class="flex">
-            <IconButton disableBackground>
-                <Heart16 />
-            </IconButton>
+            {#if post.photo.isFavorite}
+                <IconButton on:click={unfavoritePhoto} disableBackground>
+                    <HeartFill16 />
+                </IconButton>
+            {:else}
+                <IconButton on:click={favoritePhoto} disableBackground>
+                    <Heart16 />
+                </IconButton>
+            {/if}
             <IconButton disableBackground>
                 <Comment16 />
             </IconButton>

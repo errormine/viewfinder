@@ -1,3 +1,4 @@
+import { redirect } from '@sveltejs/kit';
 import * as db from '$lib/server/mariadb';
 
 /** @type {import('./$types').PageServerLoad} */

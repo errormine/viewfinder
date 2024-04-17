@@ -374,9 +374,13 @@ export async function getRecentPosts(userId, amount = 10) {
 
     for (let photo of photos) {
         let creator = await getSingleRow("SELECT * FROM user WHERE id = ?", [photo.UserID], "replica");
+
         posts.push({
             creator: creator,
-            photo: photo
+            photo: {
+                ...photo,
+                isFavorite: await isFavorite(userId, photo.PhotoID)
+            }
         });
     }
 

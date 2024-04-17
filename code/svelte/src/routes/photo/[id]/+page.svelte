@@ -123,15 +123,13 @@
 
 <style>
     .image-viewer {
-        background: var(--gradient-black);
         min-height: 24rem;
         max-height: 32rem;
+        height: 32rem;
+        background: var(--gradient-black);
+        grid-template-rows: 100%; /* This is a hack to make the image viewer take up the full height of the grid on chrome */
     }
 
-    .image-viewer {
-        display: grid;
-    }
-    
     .image-viewer img {
         width: auto;
         max-width: 100%;

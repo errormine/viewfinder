@@ -5,12 +5,27 @@
 	import UserPortrait from '$lib/components/UserPortrait.svelte';
     import AlbumGrid from '$lib/components/AlbumGrid.svelte';
     import Comment from '$lib/components/Comment.svelte';
-    import { Download24, Heart24, HeartFill16, HeartFill24, SortDesc16 } from 'svelte-octicons';
+    import { Download24, Heart24, HeartFill16, HeartFill24, SortDesc16, Trash16, Trash24 } from 'svelte-octicons';
     import { onMount } from 'svelte';
     import { invalidateAll } from '$app/navigation';
 
     /** @type {import('./$types').PageData} */
     export let data;
+
+    function deletePhoto() {
+        confirm('Are you sure you want to delete this photo? This cannot be undone.')
+            .then((confirmed) => {
+                if (!confirmed) return;
+                fetch(`/api/photo/${data.photo.PhotoID}`, {
+                    method: 'DELETE'
+                })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = '/';
+                    }
+                });
+            });
+    }
 
     function favoritePhoto() {
         fetch(`/api/favorite/${data.photo.PhotoID}`, {
@@ -73,7 +88,7 @@
         <img src="/api/images/{data.photo.UUID}" alt="">
         <section class="aside-right">
             <ActionBar>
-                {#if data.isFavorite}
+                {#if data.loggedIn && data.isFavorite}
                     <IconButton on:click={unfavoritePhoto} disableBackground hoverable={false}>
                         <HeartFill24 fill={"white"}/>
                     </IconButton>
@@ -85,6 +100,11 @@
                 <IconButton disableBackground hoverable={false}>
                     <Download24 fill={"white"}/>
                 </IconButton>
+                {#if data.loggedIn && data.creator.username == data.user.username}
+                    <IconButton on:click={deletePhoto} disableBackground hoverable={false}>
+                        <Trash24 fill={"white"}/>
+                    </IconButton>
+                {/if}
             </ActionBar>
         </section>
     </section>

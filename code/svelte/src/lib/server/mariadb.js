@@ -311,7 +311,14 @@ export async function uploadPhoto(userId, UUID, metadata) {
         });
 }
 
-export async function deletePhoto(photoId) {
+export async function deletePhoto(userId, photoId) {
+    // Check if user owns photo
+    let ownerId = await getSingleValue("SELECT UserID FROM Photos WHERE PhotoID = ?", [photoId]);
+
+    if (ownerId !== userId) {
+       throw new Error("User does not own photo");
+    }
+
     return performQuery("DELETE FROM Photos WHERE PhotoID = ?", [photoId]);
 }
 

@@ -10,11 +10,11 @@
     //let timestamp = new Date(comment.Timestamp - offset * 60 * 1000);
 </script>
 
-<article id={comment.CommentID} class="comment">
+<article class="comment">
     <section>
         <UserPortrait username={comment.creator.Username} src={comment.creator.ProfilePicture} size={3} />
     </section>
-    <section class="content">
+    <section id={comment.CommentID} class="content">
         <header>
             <h3><a href={"/user/"+comment.creator.Username}>@{comment.creator.Username}</a></h3>
             <p>{ago(new Date(comment.Timestamp))}</p>

@@ -64,7 +64,6 @@
 
 <style>
     .post {
-        max-width: 26rem;
         overflow: hidden;
         border: 1px solid var(--color-gray);
     }

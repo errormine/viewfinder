@@ -387,7 +387,7 @@ export async function getRecentUploads(userId, amount = 10) {
 
 export async function getRecentComments(userId, amount = 25) {
     try {
-        let comments = await performQuery("SELECT * FROM Comments WHERE UserID IN (SELECT UserID FROM Follows WHERE FollowerID = ?) ORDER BY Timestamp DESC LIMIT ?", [userId, amount], "replica");
+        let comments = await performQuery("SELECT * FROM Comments WHERE PhotoID IN (SELECT PhotoID FROM Photos WHERE UserID = ?) ORDER BY Timestamp DESC LIMIT ?", [userId, amount], "replica");
 
         for (let comment of comments) {
             let creator = await getSingleRow("SELECT * FROM user WHERE id = ?", [comment.UserID], "replica");
@@ -404,7 +404,7 @@ export async function getRecentComments(userId, amount = 25) {
 
 export async function getRecentFavorites(userId, amount = 25) {
     try {
-        let favorites = await performQuery("SELECT * FROM Favorites WHERE PhotoID IN (SELECT PhotoID FROM Favorites WHERE UserID = ?) ORDER BY Timestamp DESC LIMIT ?", [userId, amount], "replica")
+        let favorites = await performQuery("SELECT * FROM Favorites WHERE PhotoID IN (SELECT PhotoID FROM Photos WHERE UserID = ?) ORDER BY Timestamp DESC LIMIT ?", [userId, amount], "replica");
         
         for (let favorite of favorites) {
             let creator = await getSingleRow("SELECT * FROM user WHERE id = ?", [favorite.UserID], "replica");

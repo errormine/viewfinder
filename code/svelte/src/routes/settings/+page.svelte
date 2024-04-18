@@ -3,6 +3,27 @@
     import Switch from '$lib/components/Switch.svelte';
     /** @type {import('./$types').PageData} */
     export let data;
+
+    console.log(data);
+
+    let accountForm;
+    let profileForm;
+
+    function saveChanges(form) {
+        return async (event) => {
+            event.preventDefault();
+            const formData = new FormData(form);
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: formData
+            });
+            if (response.ok) {
+                alert('Changes saved');
+            } else {
+                alert('Failed to save changes');
+            }
+        };
+    }
 </script>
 
 <main class="content-grid">
@@ -22,7 +43,7 @@
             <section class="settings-main">
                 <section id="account">
                     <h3>Account</h3>
-                    <form action="/api/edit/account" method="POST">
+                    <form action="/api/edit/account" method="POST" bind:this={accountForm}>
                         <label for="displayName">Display Name</label>
                         <input type="text" id="displayName" name="displayName" value="{data.user.displayName}">
 
@@ -33,27 +54,27 @@
                         <input type="email" id="email" name="email" value="{data.user.email}">
 
                         <footer>
-                            <Button type="submit" align={'right'}>Save</Button>
+                            <Button type="submit" align={'right'} on:click={saveChanges(accountForm)}>Save</Button>
                         </footer>
                     </form>
                 </section>
                 <section id="profile">
                     <h3>Profile</h3>
-                    <form action="">
+                    <form action="/api/edit/profile" bind:this={profileForm}>
                         <label for="website">Website</label>
-                        <input type="text" id="website" name="website" value="{data.user.website}">
+                        <input type="text" id="website" name="website" value="{data.user.website}" placeholder="example.com">
                         
                         <label for="location">Location</label>
-                        <input type="text" id="location" name="location" value="{data.user.location}">
+                        <input type="text" id="location" name="location" value="{data.user.location}" placeholder="Nowhere, USA">
 
                         <label for="contact">Contact Email</label>
-                        <input type="email" id="contact" name="contact" value="{data.user.email}">
+                        <input type="email" id="contact" name="contact" value="{data.user.contact}" placeholder="user@example.com">
 
                         <label for="show-buttons">Show buttons on profile</label>
                         <Switch id ="show-buttons" name="show-buttons"/>
 
                         <footer>
-                            <Button type="submit" align={'right'}>Save</Button>
+                            <Button type="submit" align={'right'} on:click={saveChanges(profileForm)}>Save</Button>
                         </footer>
                     </form>
                 </section>

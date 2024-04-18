@@ -241,11 +241,6 @@ select {
     box-shadow: none;
 }
 
-/* temporary */
-input[type="email"]:invalid {
-    box-shadow: 0 0 0 2px red;
-}
-
 /* HEADER FUNCTIONS */
 .user-portrait + .profile-actions {
     opacity: 0;

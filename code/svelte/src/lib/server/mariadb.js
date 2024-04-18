@@ -149,6 +149,10 @@ export async function updateBio(userId, bio) {
     return performQuery("UPDATE user SET Bio = ? WHERE id = ?", [bio, userId]);
 }
 
+export async function updateProfile(userId, website, location, contact) {
+    return performQuery("UPDATE user SET Website = ?, Location = ?, Contact = ? WHERE id = ?", [website, location, contact, userId]);
+}
+
 // User Profile PHOTOS
 export async function getPhotos(userId) {
     if (DEV_MODE) return placeholders.photos;

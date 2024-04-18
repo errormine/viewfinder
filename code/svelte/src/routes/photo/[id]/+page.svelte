@@ -73,11 +73,23 @@
         }
     };
 
+    let image;
+
     onMount(() => {
         commentBox.addEventListener('keydown', (event) => {
             if (event.key === 'Enter' && !event.shiftKey) {
                 event.preventDefault();
                 postComment();
+            }
+        });
+
+        // Zoom into the image when clicked
+        image.addEventListener('click', () => {
+            image.classList.toggle('fullscreen');
+            if (document.fullscreenElement == null) {
+                image.requestFullscreen();
+            } else {
+                document.exitFullscreen();
             }
         });
     });
@@ -88,7 +100,7 @@
 </svelte:head>
 <main class="content-grid">
     <section class="image-viewer full-width">
-        <img src="/api/images/{data.photo.UUID}" alt="">
+        <img bind:this={image} src="/api/images/{data.photo.UUID}" alt="">
         <section class="aside-right">
             <ActionBar>
                 {#if data.loggedIn && data.isFavorite}
@@ -188,6 +200,14 @@
         max-width: 100%;
         max-height: 100%;
         margin: auto;
+    }
+
+    .image-viewer img:hover {
+        cursor: zoom-in;
+    }
+
+    :global(.image-viewer img.fullscreen) {
+        cursor: zoom-out !important;
     }
 
     .aside-right {

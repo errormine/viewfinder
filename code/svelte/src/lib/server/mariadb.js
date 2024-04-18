@@ -223,6 +223,10 @@ export async function getPhoto(photoId) {
     return getSingleRow("SELECT * FROM Photos WHERE PhotoID = ?", [photoId], "replica");
 }
 
+export async function getPhotoUUID(photoId) {
+    return getSingleValue("SELECT UUID FROM Photos WHERE PhotoID = ?", [photoId], "replica");
+}
+
 export async function getPhotoFavorites(photoId) {
     if (DEV_MODE) return 0;
     return getSingleValue("SELECT COUNT(*) FROM Favorites WHERE PhotoID = ?", [photoId], "replica")

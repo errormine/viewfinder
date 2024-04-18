@@ -1,5 +1,7 @@
 import * as db from '$lib/server/mariadb';
 import { lucia } from '$lib/server/auth';
+import { minioClient } from '$lib/server/minio';
+import { S3_BUCKET_NAME } from '$env/static/private';
 
 /** @type {import('./$types').RequestHandler} */
 export async function DELETE({ params, request, cookies }) {
@@ -9,10 +11,17 @@ export async function DELETE({ params, request, cookies }) {
 
     if (!params.id) return new Response(JSON.stringify({ error: "Invalid request."}), { status: 400 });
 
+    let UUID = await db.getPhotoUUID(params.id);
+    if (!UUID) return new Response(JSON.stringify({ error: "Photo not found."}), { status: 404 });
+
     return db.deletePhoto(user.id, params.id)
         .then(res => {
             console.log(res);
-            return new Response(JSON.stringify({ message: "Photo deleted."}), { status: 200 });
+            return minioClient.removeObject(S3_BUCKET_NAME, UUID)
+                .then(() => {
+                    console.log("Object removed from min.io")
+                    return new Response(JSON.stringify({ success: "Photo deleted."}), { status: 200 });
+                });
         })
         .catch(err => {
             console.log(err);

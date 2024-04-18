@@ -5,8 +5,9 @@
     import { KebabHorizontal16 } from 'svelte-octicons';
 
     export let comment;
-    let offset = new Date(comment.Timestamp).getTimezoneOffset();
-    let timestamp = new Date(comment.Timestamp - offset * 60 * 1000);
+    // I don't know if this is necessary
+    //let offset = new Date(comment.Timestamp).getTimezoneOffset();
+    //let timestamp = new Date(comment.Timestamp - offset * 60 * 1000);
 </script>
 
 <article id={comment.CommentID} class="comment">
@@ -16,7 +17,7 @@
     <section class="content">
         <header>
             <h3><a href={"/user/"+comment.creator.Username}>@{comment.creator.Username}</a></h3>
-            <p>{ago(new Date(timestamp))}</p>
+            <p>{ago(new Date(comment.Timestamp))}</p>
         </header>
         {#if comment.Content.length > 196}
             <input type="checkbox" id="ch" class="hidden">

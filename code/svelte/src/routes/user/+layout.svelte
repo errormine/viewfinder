@@ -38,6 +38,7 @@
 
 <svelte:head>
     <link rel="stylesheet" href="/styles/user-profile.css">
+    <title>{data.displayName} - Viewfinder</title>
 </svelte:head>
 
 <main class="content-grid">

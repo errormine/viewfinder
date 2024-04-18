@@ -7,6 +7,9 @@
     export let data;
 </script>
 
+<svelte:head>
+    <title>{data.displayName}'s favorites</title>
+</svelte:head>
 <section id="user-favorites">
     <header>
         <h3>Favorites</h3>

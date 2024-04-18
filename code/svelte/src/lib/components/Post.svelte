@@ -96,7 +96,7 @@
     }
     
     .post img {
-        max-height: 60vh;
+        max-height: 80vh;
         object-fit: cover;
     }
 

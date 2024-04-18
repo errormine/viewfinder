@@ -5,6 +5,9 @@
     export let data;
 </script>
 
+<svelte:head>
+    <title>{data.album.Name}</title>
+</svelte:head>
 <main class="content-grid">
     <section class="album">
         <header class="album-info round-corners margin-bottom-1">

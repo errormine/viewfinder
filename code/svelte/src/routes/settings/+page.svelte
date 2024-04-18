@@ -26,6 +26,9 @@
     }
 </script>
 
+<svelte:head>
+    <title>Settings</title>
+</svelte:head>
 <main class="content-grid">
     <section class="content">
         <h2>Settings</h2>

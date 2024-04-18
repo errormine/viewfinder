@@ -3,6 +3,9 @@
     export let data;
 </script>
 
+<svelte:head>
+    <title>Viewfinder</title>
+</svelte:head>
 <main style={"background: url(/api/images/"+data.featuredImage.photo.UUID+") no-repeat center / cover;"}>
     <section>
         <h2><a href={"/photo/"+data.featuredImage.photo.PhotoID}>{data.featuredImage.photo.Title}</a></h2>

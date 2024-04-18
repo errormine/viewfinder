@@ -7,6 +7,9 @@
     export let data;
 </script>
 
+<svelte:head>
+    <title>Explore</title>
+</svelte:head>
 <main>
     <section class="explore-page">
         <header class="flex space-between">

@@ -83,6 +83,9 @@
     });
 </script>
 
+<svelte:head>
+    <title>{data.photo.Title}</title>
+</svelte:head>
 <main class="content-grid">
     <section class="image-viewer full-width">
         <img src="/api/images/{data.photo.UUID}" alt="">

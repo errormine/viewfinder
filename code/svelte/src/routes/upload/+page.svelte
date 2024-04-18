@@ -29,6 +29,15 @@
         imageOnClick({ currentTarget: previewURL });
     }
 
+    function removeSelectedImage() {
+        images.splice(selectedImageIndex, 1);
+        document.querySelector('#title').value = '';
+        document.querySelector('#description').value = '';
+        document.querySelector('#albumId').value = -1;
+        isImageSelected = false;
+        document.querySelector('#image-previews button.selected').remove();
+    }
+
     // Image previews
     let imageOnClick = (e) => {
         let imgData = images.find(i => i._preview === e.currentTarget);
@@ -147,6 +156,9 @@
     })
 </script>
 
+<svelte:head>
+    <title>Upload Images</title>
+</svelte:head>
 <dialog bind:this={albumDialog} class="create-album-dialog round-corners">
     <section>
         <header class="flex space-between align-center margin-bottom-1">
@@ -208,6 +220,8 @@
                     <label for="tags">Tags</label>
                     <input type="text" id="tags" name="tags" />
                     -->
+
+                    <Button on:click={removeSelectedImage} align="center" color="gray">Remove image</Button>
                 </form>
             </aside>
             <section id="upload-actions" class="flex space-between">

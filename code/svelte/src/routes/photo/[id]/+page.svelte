@@ -13,18 +13,17 @@
     export let data;
 
     function deletePhoto() {
-        confirm('Are you sure you want to delete this photo? This cannot be undone.')
-            .then((confirmed) => {
-                if (!confirmed) return;
-                fetch(`/api/photo/${data.photo.PhotoID}`, {
-                    method: 'DELETE'
-                })
-                .then(response => {
-                    if (response.ok) {
-                        window.location.href = '/';
-                    }
-                });
-            });
+        let confirmed = confirm('Are you sure you want to delete this photo? This cannot be undone.');
+        if (!confirmed) return;
+
+        fetch(`/api/photo/${data.photo.PhotoID}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.href = '/';
+            }
+        });
     }
 
     function favoritePhoto() {

@@ -20,6 +20,7 @@ sudo sed -i "20s/.*/port=${DBPORT}/" /etc/mysql/mariadb.conf.d/50-server.cnf
 sudo sed -i 's/^bind-address\s*=.*/bind-address = 0.0.0.0/' /etc/mysql/mariadb.conf.d/50-server.cnf
 
 # Enable MASTER and binary logging
+# https://mariadb.com/kb/en/setting-up-replication/
 echo "server-id = 1" | sudo tee -a /etc/mysql/mariadb.conf.d/50-server.cnf
 echo "log_bin = /var/log/mysql/mariadb-bin" | sudo tee -a /etc/mysql/mariadb.conf.d/50-server.cnf
 echo "binlog_do_db = team02m_db" | sudo tee -a /etc/mysql/mariadb.conf.d/50-server.cnf
@@ -38,7 +39,7 @@ sudo mariadb -e "FLUSH PRIVILEGES;"
 # Create a replication user using secret (vault) 
 sudo mariadb -e "CREATE USER 'replicator'@'${IPRANGE}' IDENTIFIED BY 'password';"
 sudo mariadb -e "SET PASSWORD FOR 'replicator'@'${IPRANGE}' = PASSWORD('${DBPASSREPLICA}');"
-sudo mariadb -e "GRANT REPLICATION SLAVE ON team02m_db.* TO 'replicator'@'${IPRANGE}';"
+sudo mariadb -e "GRANT REPLICATION SLAVE ON *.* TO 'replicator'@'${IPRANGE}';"
 sudo mariadb -e "FLUSH PRIVILEGES;"
 
 # Restart MariaDB service

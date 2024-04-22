@@ -12,7 +12,7 @@
     --color-primary-dark: #664892;
     --gradient-primary: linear-gradient(var(--color-primary), var(--color-primary-dark));
 
-    --color-white-gradient: linear-gradient(white, rgb(237, 237, 237));
+    --gradient-white: linear-gradient(white, rgb(237, 237, 237));
     --transparent-white-gradient: linear-gradient(rgba(255, 255, 255, 0.8), rgba(237, 237, 237, 0.8));
     --color-off-white: #F5F5F5;
 
@@ -22,6 +22,7 @@
     --color-dark-gray: #7A7A7A;
 
     --gradient-gray: linear-gradient(var(--color-off-white), var(--color-darkish-gray));
+    --gradient-dark-gray: linear-gradient(var(--color-light-gray), var(--color-gray));
 
     --gradient-black: linear-gradient(#363636, black);
     --transparent-black-gradient: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
@@ -33,9 +34,8 @@
     /* BORDERS AND SHADOWS */
     --inner-shadow: inset 0px 1px 4px rgba(0, 0, 0, 0.25);
     --inner-shadow-small: inset 0px 1px 2px rgba(0, 0, 0, 0.25);
-    --bold-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-    --small-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.251);
-
+    --bold-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.25);
+    --small-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
 html {
@@ -81,6 +81,7 @@ h6 { font-size: 1.2rem; }
 p {
     font-size: 1rem;
     margin-bottom: 1rem;
+    line-height: 1.3;
 }
 
 small { font-size: 0.833rem; }
@@ -115,6 +116,10 @@ hr {
 
 strong {
     font-weight: 700;
+}
+
+i {
+    font-style: italic;
 }
 
 /* Dialog elements */
@@ -194,6 +199,14 @@ dialog::backdrop {
     align-items: center;
 }
 
+.gap-05 {
+    gap: 0.5rem;
+}
+
+.gap-1 {
+    gap: 1rem;
+}
+
 /* FORM ELEMENTS */
 label {
     margin-bottom: 0.5rem;
@@ -214,7 +227,7 @@ select {
 
 textarea {
     width: 100%;
-    padding: 0.3rem;
+    padding: 0.3rem 0.6rem;
     resize: none;
 }
 
@@ -227,11 +240,6 @@ input[type="text"], input[type="email"], input[type="password"] {
 select {
     background: var(--gradient-gray);
     box-shadow: none;
-}
-
-/* temporary */
-input[type="email"]:invalid {
-    box-shadow: 0 0 0 2px red;
 }
 
 /* HEADER FUNCTIONS */
@@ -277,7 +285,7 @@ input[type="email"]:invalid {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 .margin-0 {

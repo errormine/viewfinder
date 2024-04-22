@@ -7,6 +7,9 @@
     export let data;
 </script>
 
+<svelte:head>
+    <title>{data.displayName}'s photos</title>
+</svelte:head>
 <section id="photo-gallery">
     <header>
         <h3>Photo Gallery</h3>

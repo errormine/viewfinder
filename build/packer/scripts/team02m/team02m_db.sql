@@ -30,6 +30,7 @@ CREATE TABLE Photos (
     Description TEXT,
     Timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+CREATE FULLTEXT INDEX search ON Photos (Title, Description);
 
 CREATE TABLE Albums (
     AlbumID INT AUTO_INCREMENT PRIMARY KEY,

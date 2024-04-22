@@ -22,6 +22,7 @@ export async function load({ url }) {
     let stems = Array.from(new Set([...porterStemmed, ...lancasterStemmed]));
 
     return {
+        query: searchQuery,
         results: await db.searchPhotos(tokens.join(' '), stems),
     };
 };

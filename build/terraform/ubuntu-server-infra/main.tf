@@ -13,7 +13,7 @@ resource "random_shuffle" "datadisk" {
 }
 
 resource "random_shuffle" "nodename" {
-  input        = ["NODENAME3","NODENAME4"]
+  input        = ["NODENAME4"]
   result_count = 1
 }
 
@@ -40,7 +40,7 @@ data "vault_generic_secret" "target_node" {
 }
 
 resource "proxmox_vm_qemu" "vanilla_server" {
-  count           = var.frontend-numberofvms
+  count           = 0
   name            = "${var.frontend-id}-vm${count.index}.service.consul"
   desc            = "Vanilla Ubuntu 20.04"
   target_node     = "${data.vault_generic_secret.target_node.data[random_shuffle.nodename.result[0]]}"

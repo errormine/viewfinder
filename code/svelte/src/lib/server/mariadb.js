@@ -1,7 +1,10 @@
 import mariadb from 'mariadb';
-import { NO_DB, DB_HOST, DB_REPLICA, DB_PORT, DB_USER, DB_PASS } from '$env/static/private';
+import * as placeholders from '$lib/server/db-placeholders';
+import { NO_DB, DB_HOST, DB_PORT, DB_USER, DB_PASS } from '$env/static/private';
+import { DB_REPLICA, READ_FROM_REPLICA } from '$env/static/private';
 
 console.log(`DB_HOST: ${DB_HOST}, DB_USER: ${DB_USER}`);
+console.log(`USING REPLICA: ${READ_FROM_REPLICA}`); 
 
 /*
 Make sure the database has correct privileges before connecting.
@@ -25,71 +28,13 @@ const pool = mariadb.createPool({
     database: "team02m_db"
 });
 
-const replicaPool = mariadb.createPool({
-    host: DB_REPLICA,
-    port: DB_PORT,
-    user: DB_USER,
-    password: DB_PASS,
-    database: "team02m_db"
-});
-
 export let DEV_MODE = process.env.NODE_ENV === 'development' && NO_DB === 'true';
-export let placeholders = {
-    displayName: "Placeholder User",
-    username: "placeholder",
-    userId: 1,
-    website: "https://example.com",
-    contact: "contact@example.com",
-    bio: "This is a test user. They do not exist.",
-    location: "Chicago, IL",
-    joinDate: "2021-01-01",
-    photos: [
-        {
-            PhotoID: 0,
-            Title: "Test Photo 1 really long n a m e a a a  aaa!!!",
-            UUID: "placeholder.png",
-            Description: "This is a test photo."
-        }
-    ],
-    albums: [
-        {
-            AlbumID: 0,
-            Name: "Test Album 1",
-            Description: "This is a test album 1.",
-            Thumbnail: "placeholder.png",
-            Count: 2
-        }
-    ]
-}
-
-export async function testConnection() {
-    if (DEV_MODE) {
-        return false;
-    }
-
-    let conn = await pool.getConnection();
-
-    return conn.query("SELECT 1 as val")
-        .then(rows => {
-            console.log("DB Connection test successful!");
-            console.log(`DB_HOST: ${import.meta.env.VITE_DB_HOST}, DB_USER: ${import.meta.env.VITE_DB_USER}`);
-            return true;
-        })
-        .catch(err => {
-            console.log(err);
-            return false;
-        });
-}
 
 export async function performQuery(query, param, from = "primary") {
     let conn;
 
     try {
-        if (from === "primary" || DEV_MODE) {
-            conn = await pool.getConnection();
-        } else if (from === "replica") {
-            conn = await replicaPool.getConnection();
-        }
+        conn = await pool.getConnection();
 
         return conn.query(query, param)
             .then(rows => {
@@ -200,13 +145,12 @@ export async function getUserAlbums(userId) {
     return performQuery("SELECT * FROM Albums WHERE UserID = ?", [userId], "replica");
 }
 
-export async function getUserAlbums(userId) {
-    if (DEV_MODE) return placeholders.albums;
-    return performQuery("SELECT * FROM Albums WHERE UserID = ?", [userId]);
-}
-
 export async function updateBio(userId, bio) {
     return performQuery("UPDATE user SET Bio = ? WHERE id = ?", [bio, userId]);
+}
+
+export async function updateProfile(userId, website, location, contact) {
+    return performQuery("UPDATE user SET Website = ?, Location = ?, Contact = ? WHERE id = ?", [website, location, contact, userId]);
 }
 
 // User Profile PHOTOS
@@ -224,7 +168,21 @@ export async function getRecentPhotos(userId, amount = 4) {
 // User Profile ALBUMS
 export async function getAlbums(userId) {
     if (DEV_MODE) return placeholders.albums;
-    return performQuery("SELECT * FROM Albums WHERE UserID = ?", [userId], "replica");
+    try {
+        let albums = await performQuery("SELECT * FROM Albums WHERE UserID = ?", [userId], "replica");
+
+        for (let album of albums) {
+            let photoId = await getSingleValue("SELECT PhotoID FROM AlbumJunc WHERE AlbumID = ?", [album.AlbumID], "replica");
+            let count = await getSingleValue("SELECT COUNT(*) FROM AlbumJunc WHERE AlbumID = ?", [album.AlbumID], "replica");
+            album.Thumbnail = await getSingleValue("SELECT UUID FROM Photos WHERE PhotoID = ?", [photoId], "replica");
+            album.Count = count;
+        }
+
+        return albums;
+    } catch (err) {
+        console.log(err);
+        return [];
+    }
 }
 
 // User Profile FAVORITES
@@ -243,7 +201,9 @@ export async function unfollowUser(userId, followerId) {
 }
 
 export async function isFollowing(userId, followerId) {
-    return getSingleValue("SELECT COUNT(*) FROM Follows WHERE UserID = ? AND FollowerID = ?", [userId, followerId], "replica");
+    let following = await getSingleValue("SELECT COUNT(*) FROM Follows WHERE UserID = ? AND FollowerID = ?", [userId, followerId], "replica");
+
+    return following > 0;
 }
 
 // View album page
@@ -257,21 +217,23 @@ export async function getAlbumPhotos(albumId) {
     return performQuery("SELECT * FROM Photos WHERE PhotoID IN (SELECT PhotoID FROM AlbumJunc WHERE AlbumID = ?)", [albumId], "replica");
 }
 
-// View album page
-export async function getAlbum(albumId) {
-    if (DEV_MODE) return placeholders.albums[0];
-    return getSingleRow("SELECT * FROM Albums WHERE AlbumID = ?", [albumId]);
-}
-
-export async function getAlbumPhotos(albumId) {
-    if (DEV_MODE) return placeholders.photos;
-    return performQuery("SELECT * FROM Photos WHERE PhotoID IN (SELECT PhotoID FROM AlbumJunc WHERE AlbumID = ?)", [albumId]);
-}
-
 // View photo page
 export async function getPhoto(photoId) {
     if (DEV_MODE) return placeholders.photos[0];
     return getSingleRow("SELECT * FROM Photos WHERE PhotoID = ?", [photoId], "replica");
+}
+
+export async function getPhotoUUID(photoId) {
+    return getSingleValue("SELECT UUID FROM Photos WHERE PhotoID = ?", [photoId], "replica");
+}
+
+export async function getPhotoFavorites(photoId) {
+    if (DEV_MODE) return 0;
+    return getSingleValue("SELECT COUNT(*) FROM Favorites WHERE PhotoID = ?", [photoId], "replica")
+        .catch(err => {
+            console.log(err);
+            return 0;
+        });
 }
 
 export async function getPhotoCreatorId(photoId) {
@@ -281,14 +243,30 @@ export async function getPhotoCreatorId(photoId) {
 
 export async function getAlbumsByPhoto(photoId) {
     if (DEV_MODE) return placeholders.albums;
-    return performQuery("SELECT * FROM Albums WHERE AlbumID IN (SELECT AlbumID FROM AlbumJunc WHERE PhotoID = ?)", [photoId], "replica")
-        .then(rows => {
-            return rows;
-        })
-        .catch(err => {
-            console.log(err);
-            return [];
-        });
+
+    // VERY HACK BUT NO THUMBNAIL IN ALBUM SCHEMA SO...
+    try {
+        let albums = await performQuery("SELECT * FROM Albums WHERE AlbumID IN (SELECT AlbumID FROM AlbumJunc WHERE PhotoID = ?)", [photoId], "replica");
+    
+        for (let album of albums) {
+            let photoId = await getSingleValue("SELECT PhotoID FROM AlbumJunc WHERE AlbumID = ?", [album.AlbumID], "replica");
+            album.Thumbnail = await getSingleValue("SELECT UUID FROM Photos WHERE PhotoID = ?", [photoId], "replica");
+        }
+
+        return albums;
+    } catch (err) {
+        console.log(err);
+        return [];
+    }
+}
+
+// Front page
+export async function getFeaturedImage() {
+    if (DEV_MODE) return posts[0];
+    let photo = await getSingleRow("SELECT * FROM Photos ORDER BY RAND() LIMIT 1", [], "replica");
+    let creator = await getSingleRow("SELECT * FROM user WHERE id = ?", [photo.UserID], "replica");
+
+    return {photo, creator};
 }
 
 // Photo interactions
@@ -301,7 +279,29 @@ export async function unfavoritePhoto(userId, photoId) {
 }
 
 export async function isFavorite(userId, photoId) {
-    return getSingleValue("SELECT COUNT(*) FROM Favorites WHERE UserID = ? AND PhotoID = ?", [userId, photoId], "replica");
+    // so scuffed
+    return getSingleValue("SELECT EXISTS(SELECT * FROM Favorites WHERE UserID = ? AND PhotoID = ?)", [userId, photoId], "replica")
+        .then(res => {
+            return res > 0;
+        })
+        .catch(err => {
+            console.log(err);
+            return false;
+        });
+}
+
+export async function postComment(userId, photoId, content) {
+    return performQuery("INSERT INTO Comments (UserID, PhotoID, Content) VALUES (?, ?, ?)", [userId, photoId, content]);
+}
+
+export async function getComments(photoId) {
+    let comments = await performQuery("SELECT * FROM Comments WHERE PhotoID = ? ORDER BY Timestamp DESC", [photoId], "replica");
+
+    for (let comment of comments) {
+        comment.creator = await getSingleRow("SELECT * FROM user WHERE id = ?", [comment.UserID], "replica");
+    }
+
+    return comments;
 }
 
 // Photo upload
@@ -315,7 +315,14 @@ export async function uploadPhoto(userId, UUID, metadata) {
         });
 }
 
-export async function deletePhoto(photoId) {
+export async function deletePhoto(userId, photoId) {
+    // Check if user owns photo
+    let ownerId = await getSingleValue("SELECT UserID FROM Photos WHERE PhotoID = ?", [photoId]);
+
+    if (ownerId !== userId) {
+       throw new Error("User does not own photo");
+    }
+
     return performQuery("DELETE FROM Photos WHERE PhotoID = ?", [photoId]);
 }
 
@@ -345,25 +352,80 @@ export async function searchTitles(term) {
 export async function searchPhotos(searchTokens, stems) {
     if (DEV_MODE) return placeholders.photos;
 
-    // Natural language search first (hopefully gives most relevant results)
-    let results = await performQuery("SELECT * FROM Photos WHERE MATCH (Title, Description) AGAINST (?) LIMIT 10", [searchTokens], "replica");
+    try {
+        // Natural language search first (hopefully gives most relevant results)
+        let results = await performQuery("SELECT * FROM Photos WHERE MATCH (Title, Description) AGAINST (?) LIMIT 10", [searchTokens], "replica");
 
-    // Stemmed queries to find more matches. quite possibly very slow
-    for (let root of stems) {
-        let result = await performQuery("SELECT * FROM Photos WHERE MATCH (Title, Description) AGAINST (CONCAT(?, '*') IN BOOLEAN MODE) LIMIT 10", [root], "replica");
-        
-        for (let row of result) {
-            if (!results.some(r => r.PhotoID === row.PhotoID)) {
-                results.push(row);
+        // Stemmed queries to find more matches. quite possibly very slow
+        for (let root of stems) {
+            let result = await performQuery("SELECT * FROM Photos WHERE MATCH (Title, Description) AGAINST (CONCAT(?, '*') IN BOOLEAN MODE) LIMIT 10", [root], "replica");
+            console.log(result);
+            
+            for (let row of result) {
+                if (!results.some(r => r.PhotoID === row.PhotoID)) {
+                    results.push(row);
+                }
             }
         }
-    }
 
-    return results;
+        return results;
+    } catch (err) {
+        console.log(err);
+        return [];
+    }
 }
 
 // Explore page
 export async function getSuggestedPhotos(page = 0) {
     if (DEV_MODE) return placeholders.photos;
     return performQuery("SELECT * FROM Photos ORDER BY Timestamp DESC LIMIT 25 OFFSET ?", [(page) * 25], "replica");
+}
+
+// Feed page
+export async function getRecentUploads(userId, amount = 10) {
+    if (DEV_MODE) return placeholders.posts;
+    let photos = await performQuery("SELECT * FROM Photos WHERE UserID IN (SELECT UserID FROM Follows WHERE FollowerID = ?) ORDER BY Timestamp DESC LIMIT ?", [userId, amount], "replica");
+
+    for (let photo of photos) {
+        let creator = await getSingleRow("SELECT * FROM user WHERE id = ?", [photo.UserID], "replica");
+        photo.creator = creator;
+        photo.isFavorite = await isFavorite(userId, photo.PhotoID);
+        photo.type = "photo";
+    }
+
+    return photos;
+}
+
+export async function getRecentComments(userId, amount = 25) {
+    try {
+        let comments = await performQuery("SELECT * FROM Comments WHERE PhotoID IN (SELECT PhotoID FROM Photos WHERE UserID = ?) ORDER BY Timestamp DESC LIMIT ?", [userId, amount], "replica");
+
+        for (let comment of comments) {
+            let creator = await getSingleRow("SELECT * FROM user WHERE id = ?", [comment.UserID], "replica");
+            comment.creator = creator;
+            comment.Title = await getSingleValue("SELECT Title FROM Photos WHERE PhotoID = ?", [comment.PhotoID], "replica");
+            comment.type = "comment";
+        }
+        return comments;
+    } catch(err) {
+        console.log(err);
+        return [];
+    }
+}
+
+export async function getRecentFavorites(userId, amount = 25) {
+    try {
+        let favorites = await performQuery("SELECT * FROM Favorites WHERE PhotoID IN (SELECT PhotoID FROM Photos WHERE UserID = ?) ORDER BY Timestamp DESC LIMIT ?", [userId, amount], "replica");
+        
+        for (let favorite of favorites) {
+            let creator = await getSingleRow("SELECT * FROM user WHERE id = ?", [favorite.UserID], "replica");
+            favorite.creator = creator;
+            favorite.Title = await getSingleValue("SELECT Title FROM Photos WHERE PhotoID = ?", [favorite.PhotoID], "replica");
+            favorite.type = "favorite";
+        }
+        return favorites;
+    } catch(err) {
+        console.log(err);
+        return [];
+    };
 }

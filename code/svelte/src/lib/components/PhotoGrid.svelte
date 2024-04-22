@@ -21,7 +21,7 @@
 
 <style>
     .image-grid {
-        display: grid;
+        display: flex;
         grid-template-columns: repeat(3, 1fr);
         gap: 0.5rem;
     }

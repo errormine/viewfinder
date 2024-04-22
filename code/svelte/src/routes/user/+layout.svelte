@@ -1,5 +1,11 @@
 <script>
     import { page } from '$app/stores';
+    import { onMount } from 'svelte';
+    import { invalidateAll } from '$app/navigation';
+    import Button from '$lib/components/Button.svelte';
+    import IconButton from '$lib/components/IconButton.svelte';
+    import { KebabHorizontal16 } from 'svelte-octicons';
+
     /** @type {import('./$types').LayoutData} */
     export let data;
 
@@ -7,18 +13,39 @@
     export let photosHref = `${baseHref}/photos`;
     export let albumsHref = `${baseHref}/albums`;
     export let favoritesHref = `${baseHref}/favorites`;
-</script>
 
+    onMount(() => {
+        let followButton = document.querySelector('#follow-button');
+        if (!followButton) return;
+        followButton.addEventListener('click', () => {
+            let formData = new FormData();
+            formData.append('userId', data.userId);
+            formData.append('follow', !data.isFollowing);
+
+            fetch(`/api/follow`, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (response.ok) {
+                        invalidateAll();
+                        return response.json();
+                    }
+                });
+        });
+    });
+</script>
 
 <svelte:head>
     <link rel="stylesheet" href="/styles/user-profile.css">
+    <title>{data.displayName} - Viewfinder</title>
 </svelte:head>
 
 <main class="content-grid">
     <header class='hero full-width'>
         <section class='user-info'>
             <figure class='user-portrait'>
-                <img src="https://picsum.photos/200" alt="">
+                <img src={data.picture} alt="">
                 <figcaption>
                     <h2 class='user-display-name'>{ data.displayName }</h2>
                     <p class="user-handle font-weight-light">@{ data.username }</p>
@@ -32,20 +59,30 @@
         </section>
     </header>
     <nav class='profile-navigation full-width'>
-        <ul>
-            <li class:active={ $page.url.pathname === baseHref }>
-                <a href={ baseHref } >About</a>
-            </li>
-            <li class:active={ $page.url.pathname.includes(photosHref) }>
-                <a href={ photosHref }>Photos</a>
-            </li>
-            <li class:active={ $page.url.pathname.includes(albumsHref) }>
-                <a href={ albumsHref }>Albums</a>
-            </li>
-            <li class:active={ $page.url.pathname.includes(favoritesHref) }>
-                <a href={ favoritesHref }>Favorites</a>
-            </li>
-        </ul>
+        <section class="flex space-between">
+            <ul>
+                <li class:active={ $page.url.pathname === baseHref }>
+                    <a href={ baseHref } >About</a>
+                </li>
+                <li class:active={ $page.url.pathname.includes(photosHref) }>
+                    <a href={ photosHref }>Photos</a>
+                </li>
+                <li class:active={ $page.url.pathname.includes(albumsHref) }>
+                    <a href={ albumsHref }>Albums</a>
+                </li>
+                <li class:active={ $page.url.pathname.includes(favoritesHref) }>
+                    <a href={ favoritesHref }>Favorites</a>
+                </li>
+            </ul>
+            {#if data.loggedIn && data.username != data.user.username }
+                <section class="profile-actions flex align-center gap-05">
+                    <Button id="follow-button">{#if data.isFollowing}Unfollow{:else}Follow{/if}</Button>
+                    <IconButton shape="circle">
+                        <KebabHorizontal16 />
+                    </IconButton>
+                </section>
+            {/if}
+        </section>
     </nav>
     <section class="page-contents">
         <slot />
@@ -122,7 +159,7 @@
 
     .profile-navigation ul {
         display: flex;
-        flex-direction: row;
+        width: fit-content;
     }
     
     .profile-navigation ul li {
@@ -150,5 +187,6 @@
     .page-contents {
         padding: 1.5rem 4rem;
         background: white;
+        min-height: 50vh;
     }
 </style>

@@ -5,10 +5,10 @@ touch /home/vagrant/team02m-2024/code/svelte/.env
 echo "NO_DB=false" >> /home/vagrant/team02m-2024/code/svelte/.env
 echo "DB_HOST='team02m-db-vm0.service.consul'" >> /home/vagrant/team02m-2024/code/svelte/.env
 echo "DB_REPLICA='team02m-db-replica-vm0.service.consul'" >> /home/vagrant/team02m-2024/code/svelte/.env
+echo "READ_FROM_REPLICA=false" >> /home/vagrant/team02m-2024/code/svelte/.env
 echo "DB_PORT='${DBPORT}'" >> /home/vagrant/team02m-2024/code/svelte/.env
 echo "DB_PASS='${DBPASS}'" >> /home/vagrant/team02m-2024/code/svelte/.env
 echo "DB_USER='${DBUSER}'" >> /home/vagrant/team02m-2024/code/svelte/.env
-
 
 echo "MINIO_ENDPOINT='${MINIOENDPOINT}'" >> /home/vagrant/team02m-2024/code/svelte/.env
 echo "MINIO_ACCESS_KEY='${ACCESSKEY}'" >> /home/vagrant/team02m-2024/code/svelte/.env
@@ -28,9 +28,14 @@ sudo apt-get install -y nodejs
 sudo npm install -g express pm2
 cd /home/vagrant/team02m-2024/code/svelte/
 
-#Building the app
+# Building the app
 sudo -u vagrant npm install
 sudo -u vagrant npm run build
+# Error out if build fails
+if [ $? -ne 0 ]; then
+    echo "npm build failed"
+    exit 1
+fi
 sudo -u vagrant pm2 start build/index.js --name "webapp"
 
 # This creates your javascript application service file

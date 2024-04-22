@@ -34,6 +34,7 @@ consul-service-tag-contact-email = "dbaltrus@hawk.iit.edu" # Used as part of the
 frontend-template_to_clone = "team02m-web-template" # The name of the template to clone
 backend-template_to_clone  = "team02m-db-template" # The name of the template to clone
 lb-template_to_clone       = "team02m-lb-template" # The name of the template to clone
+replica-template_to_clone = "team02m-db-replica-template" # The name of the template to clone
 ###############################################################################
 # Customize instance hardware settings
 ###############################################################################

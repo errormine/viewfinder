@@ -1,9 +1,17 @@
+data "vault_generic_secret" "db-port" {
+  path = "secret/team02m-db-port"
+}
+
+data "vault_generic_secret" "db-pass-replica" {
+  path = "secret/team02m-db-pass-replica"
+}
+
 resource "proxmox_vm_qemu" "db-server-replica" {
-  count           = var.backend-numberofvms
+  count           = 1
   name            = "${var.replica-id}-vm${count.index}.service.consul"
   desc            = "MariaDB Ubuntu 20.04"
   target_node     = "${data.vault_generic_secret.target_node.data[random_shuffle.nodename.result[0]]}"
-  clone           = var.backend-template_to_clone
+  clone           = var.replica-template_to_clone
   os_type         = "cloud-init"
   memory          = var.backend-memory
   cores           = var.backend-cores
@@ -65,7 +73,10 @@ resource "proxmox_vm_qemu" "db-server-replica" {
       "sudo growpart /dev/vda 3",
       "sudo lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv",
       "sudo resize2fs /dev/ubuntu-vg/ubuntu-lv",      
-      "echo 'Your FQDN is: ' ; dig +answer -x ${self.default_ipv4_address} +short"
+      "echo 'Your FQDN is: ' ; dig +answer -x ${self.default_ipv4_address} +short",
+      "sudo mariadb -e \"CHANGE MASTER TO MASTER_HOST='team02m-db-vm0.service.consul', MASTER_USER='replicator', MASTER_PORT=${data.vault_generic_secret.db-port.data["DBPORT"]}, MASTER_PASSWORD='${data.vault_generic_secret.db-pass-replica.data["DBPASS"]}';\"",
+      "sudo mariadb -e \"START REPLICA;\"",
+      "sudo mariadb -e \"SHOW REPLICA STATUS;\"",
     ]
 
     connection {

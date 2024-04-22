@@ -35,6 +35,9 @@ export class MariaDBAdapter {
                 username: databaseUser.Username,
                 displayName: databaseUser.DisplayName,
                 picture: databaseUser.ProfilePicture,
+                website: databaseUser.Website,
+                location: databaseUser.Location,
+                contact: databaseUser.Contact,
             }
         } : null;
         
